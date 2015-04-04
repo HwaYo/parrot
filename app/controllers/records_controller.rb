@@ -21,8 +21,14 @@ class RecordsController < ApplicationController
     @record = Record.find(params[:id])
   end
 
+  def bookmark_json
+    @record = Record.find(params[:id])
+    puts @record.bookmark
+    render json: @record.bookmark
+  end
+
 private
   def record_params
-    params.permit(:file, :note)
+    params.permit(:file, :note, :bookmark)
   end
 end

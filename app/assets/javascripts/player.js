@@ -23,17 +23,12 @@ $(document).on('ready page:load' ,function(){
   });
 
   wavesurfer.on('ready', function () {
-    if (localStorage.regions) {
-      loadRegions(JSON.parse(localStorage.regions));
-    } else {
-      wavesurfer.util.ajax({
-        responseType: 'json',
-        url: 'http://www.wavesurfer.fm/example/annotation/annotations.json'
-      }).on('success', function (data) {
-        loadRegions(data);
-        saveRegions();
-      });
-   }
+    wavesurfer.util.ajax({
+      responseType: 'json',
+      url: $("#waveform-player").data('id')+'/bookmark_json',
+    }).on('success', function (data) {
+      loadRegions(data);
+    });
   });
   wavesurfer.on('region-click', function (region, e) {
     e.stopPropagation();
@@ -41,8 +36,9 @@ $(document).on('ready page:load' ,function(){
           e.shiftKey ? region.playLoop() : region.play();
         });
   wavesurfer.on('region-click', editAnnotation);
-  wavesurfer.on('region-updated', saveRegions);
-  wavesurfer.on('region-removed', saveRegions);
+  // Call ajax when updated
+  // wavesurfer.on('region-updated', saveRegions);
+  // wavesurfer.on('region-removed', saveRegions);
   wavesurfer.on('region-in', showNote);
 
   wavesurfer.on('region-play', function (region) {
@@ -83,19 +79,6 @@ $(document).on('ready page:load' ,function(){
     playButton.style.display = '';
     pauseButton.style.display = 'none';
   });
-
-  function saveRegions() {
-    localStorage.regions = JSON.stringify(
-      Object.keys(wavesurfer.regions.list).map(function (id) {
-        var region = wavesurfer.regions.list[id];
-        return {
-          start: region.start,
-          end: region.end,
-          data: region.data
-        };
-      })
-      );
-  }
 
 
 /**

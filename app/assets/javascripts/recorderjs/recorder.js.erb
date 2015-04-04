@@ -1,6 +1,7 @@
 (function(window){
 
   var WORKER_PATH = '<%= asset_path("recorderjs/recorderWorker.js") %>';
+  
 
   var Recorder = function(source, cfg){
     var config = cfg || {};
@@ -27,6 +28,8 @@
       for (var channel = 0; channel < numChannels; channel++){
           buffer.push(e.inputBuffer.getChannelData(channel));
       }
+      App.runningTime++;
+      // console.log(runningTime);
       worker.postMessage({
         command: 'record',
         buffer: buffer
@@ -56,6 +59,11 @@
     this.getBuffer = function(cb) {
       currCallback = cb || config.callback;
       worker.postMessage({ command: 'getBuffer' })
+    }
+
+    this.getRunningTime = function(cb) {
+      currCallback = cb || config.callback;
+      worker.postMessage({ command: 'getRunningTime' })
     }
 
     this.exportWAV = function(cb, type){

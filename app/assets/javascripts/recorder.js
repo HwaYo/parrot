@@ -1,8 +1,17 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
 
+
+// [{start: Float, end:Float, data:{note:String}}]
+(function(){
+
+}());
 var audio_context;
 var chunk_recorder;
+var bookmarks = [];
+
+var time;
+
 
 var RecorderBuffer = function (input) {
   // double buffering
@@ -39,6 +48,9 @@ ChunkRecorder.prototype = {
   pause: function () {
     var recorder = this.recorder_buffer.get_current_buffer();
     recorder.stop();
+    console.log('paused');
+    timechecker = audio_context.currentTime;
+    time = audio_context.currentTime;
   },
   stop: function (callback) {
     this._store_chunk(this.recorder_buffer.get_current_buffer(), callback);
@@ -124,7 +136,6 @@ var audio_init = function () {
   microphone.on('deviceError', function(code) {
     console.warn('Device error: ' + code);
   });
-
   var started = false;
   var recording = false;
   $("#record").on('click', function () {
@@ -135,6 +146,7 @@ var audio_init = function () {
       microphone.togglePlay();
       $('#pause-record').show();
       $('#record').hide();
+      chunk_recorder.record();
     }
     else {
       microphone.start();
@@ -168,6 +180,7 @@ var audio_init = function () {
         var fd = new FormData();
         fd.append('file', chunk_recorder.chunks[0], 'record.wav');
         fd.append('note', $('#note-area').val());
+        fd.append('bookmark', JSON.stringify(bookmarks) );
         $.ajax({
             type: 'POST',
             url: '/records',
@@ -183,9 +196,29 @@ var audio_init = function () {
   }.bind(this));
 };
 
-$(document).on('ready page:load', function () {
-  audio_init();
+function makeBookmarkDic(){
+  bookmarkDic = { 1:"중요", 2:"안중요", 3:"듣지마" };
+  return bookmarkDic;
+}
 
+
+$(document).on('ready page:load', function () {
+
+  audio_init();
+  bookmarkdic = makeBookmarkDic();
+  $("[data-bookmark]").on('click', function(){
+    var bookmarkval = $(this).data('bookmark');
+    var bookmark = {
+      start : (App.runningTime/10),
+      end : (App.runningTime/10) + 1,
+      data : { bookmark_id : bookmarkval }
+    }
+    bookmarks.push(bookmark);
+
+    var note = $('#note-area');
+    note.val(note.val()+"\n["+ (App.runningTime / 10) + "초 " + bookmarkdic[bookmarkval] +"]\n");
+  });
+  
   $('.recorder-component').show();
   $('.player-component').hide();
 });

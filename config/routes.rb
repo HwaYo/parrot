@@ -5,5 +5,9 @@ Rails.application.routes.draw do
   get 'auth/failure', to: redirect('/')
   get "signout", to: "sessions#destroy"
 
-  resources :records, only: [:new, :create, :show, :index]
+  resources :records, only: [:new, :create, :show, :index] do
+    member do
+      get 'bookmark_json'
+    end
+  end
 end

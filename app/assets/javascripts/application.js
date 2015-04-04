@@ -19,4 +19,5 @@
 //= require wavesurfer.microphone.min
 //= stub player
 //= stub recorder
+//= require initialize
 //= require_tree .
