@@ -1,0 +1,23 @@
+<script>
+
+$(document).on('ready page:load' ,function(){
+
+  var wavesurfer = Object.create(WaveSurfer);
+  console.dir(document.querySelector('#wave'));
+
+  wavesurfer.init({
+    container: document.querySelector('#wave'),
+    waveColor: 'violet',
+    progressColor: 'purple'
+  });
+
+  wavesurfer.on('ready', function () {
+    wavesurfer.play();
+  });
+
+  wavesurfer.load('test.mp3');
+
+} );
+
+</script>
+<div id='wave'></div>
