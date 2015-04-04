@@ -33,7 +33,6 @@ var ChunkRecorder = function (input) {
 ChunkRecorder.prototype = {
   constructor: ChunkRecorder,
   record: function () {
-    console.log("start" + this);
     var recorder = this.recorder_buffer.get_current_buffer();
     recorder.record();
   },
@@ -41,9 +40,8 @@ ChunkRecorder.prototype = {
     var recorder = this.recorder_buffer.get_current_buffer();
     recorder.stop();
   },
-  stop: function () {
-    console.log(this);
-    this._store_chunk(this.recorder_buffer.get_current_buffer());
+  stop: function (callback) {
+    this._store_chunk(this.recorder_buffer.get_current_buffer(), callback);
   },
   clear: function () {
     this.recorder_buffer.get_current_buffer().clear();
@@ -54,9 +52,7 @@ ChunkRecorder.prototype = {
     return objectURL;
   },
   _swap: function () {
-    console.log('try swapping.');
     if (!this.lock) {
-      console.log('swapped.');
       this.lock = true;
       var recording = this.recorder_buffer.get_current_buffer();
       var swapped = this.recorder_buffer.swap_buffer();
@@ -67,7 +63,7 @@ ChunkRecorder.prototype = {
       setTimeout(this._swap, 200);
     }
   },
-  _store_chunk: function (recording) {
+  _store_chunk: function (recording, callback) {
     recording.stop();
     recording.exportWAV(function (b) {
       console.log(this.chunks.length + ': New chunk');
@@ -75,6 +71,11 @@ ChunkRecorder.prototype = {
       recording.clear();
 
       this.lock = false;
+
+      console.log(callback);
+      if (callback) {
+        callback(null, b);
+      }
     }.bind(this));
   }
 };
@@ -96,7 +97,7 @@ var audio_init = function () {
   var wavesurfer = Object.create(WaveSurfer);
 
   wavesurfer.init({
-    container     : '#waveform',
+    container     : '#waveform-recorder',
     interact      : false,
     cursorWidth   : 0
   });
@@ -116,36 +117,60 @@ var audio_init = function () {
     console.log('Recorder initialised.');
 
     chunk_recorder.record();
+    $('#pause-record').show();
+    $('#record').hide();
   });
 
   microphone.on('deviceError', function(code) {
-      console.warn('Device error: ' + code);
+    console.warn('Device error: ' + code);
   });
 
-  $("#record-btn").on('click', function () {
-    microphone.start();
+  var started = false;
+  var recording = false;
+  $("#record").on('click', function () {
+    recording = true;
+
+    if (started) {
+      microphone.togglePlay();
+      $('#pause-record').show();
+      $('#record').hide();
+    }
+    else {
+      microphone.start();
+      started = !started;
+    }
   }.bind(this));
 
-  $("#stop-btn").on('click', function () {
+  $("#pause-record").on('click', function () {
+    recording = false;
     microphone.togglePlay();
-    chunk_recorder.stop();
+    chunk_recorder.pause();
+    $('#record').show();
+    $('#pause-record').hide();
   }.bind(this));
 
-  $("#save-btn").on('click', function (){
-    var fd = new FormData();
-    fd.append('data', chunk_recorder.chunks[0]);
-    $.ajax({
-        type: 'POST',
-        url: '/records',
-        data: fd,
-        processData: false,
-        contentType: false
-    }).done(function(data) {
-      alert(data);
-    });
+  $("#save-record").on('click', function (){
+    if(started && !recording) {
+      chunk_recorder.stop(function (err, blob) {
+        var fd = new FormData();
+        fd.append('data', chunk_recorder.chunks[0]);
+        $.ajax({
+            type: 'POST',
+            url: '/records',
+            data: fd,
+            processData: false,
+            contentType: false
+        }).done(function(data) {
+          alert(data);
+        });
+      }.bind(this));
+    }
   }.bind(this));
 };
 
 $(document).on('ready page:load', function () {
   audio_init();
+
+  $('.recorder-component').show();
+  $('.player-component').hide();
 });

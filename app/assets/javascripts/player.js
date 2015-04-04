@@ -1,10 +1,8 @@
-<script>
-
 $(document).on('ready page:load' ,function(){
   var wavesurfer = Object.create(WaveSurfer);
 
   wavesurfer.init({
-    container: '#waveform',
+    container: '#waveform-player',
     height: 150,
     scrollParent: true,
     normalize: true,
@@ -14,9 +12,9 @@ $(document).on('ready page:load' ,function(){
 
   wavesurfer.util.ajax({
     responseType: 'json',
-    url: 'test.json'
+    url: '/test.json'
   }).on('success', function (data) {
-    wavesurfer.load('test.mp3', data);
+    wavesurfer.load('/test.mp3', data);
   });
 
   wavesurfer.enableDragSelection({
@@ -251,9 +249,9 @@ var GLOBAL_ACTIONS = {
 
 document.addEventListener('keydown', function (e) {
   var map = {
-          32: 'play',       // space
-          37: 'back',       // left
-          39: 'forth'       // right
+          // 32: 'play',       // space
+          // 37: 'back',       // left
+          // 39: 'forth'       // right
         };
         var action = map[e.keyCode];
         if (action in GLOBAL_ACTIONS) {
@@ -319,80 +317,3 @@ GLOBAL_ACTIONS['export'] = function () {
 };
 
 } );
-
-
-
-</script>
-<div id='wave'></div>
-
-
-<div class="fluid-container">
-  <div id="demo">
-    <p id="subtitle" class="text-center text-info">&nbsp;</p>
-
-    <div id="wave-timeline"></div>
-
-    <div id="waveform">
-      <!-- Here be waveform -->
-    </div>
-
-    <div class="row">
-      <div class="col-md-9" style="height:300px">
-      </div>
-      <div class="col-md-3" style="height:300px">
-      </div>
-    </div>
-
-
-    <div class="row" style="margin: 30px 0">
-      <div class="col-sm-8">
-        <p>
-          Click on a region to enter an annotation.<br />
-          Shift-click plays a region in a loop.
-        </p>
-      </div>
-
-      <div class="col-sm-2">
-        <button class="btn btn-primary btn-block" data-action="play">
-          <span id="play">
-            <i class="glyphicon glyphicon-play"></i>
-            Play
-          </span>
-
-          <span id="pause" style="display: none">
-            <i class="glyphicon glyphicon-pause"></i>
-            Pause
-          </span>
-        </button>
-      </div>
-
-      <div class="col-sm-2">
-        <button class="btn btn-info btn-block" data-action="export" title="Export annotations to JSON">
-          <i class="glyphicon glyphicon-file"></i>
-          Export
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <form role="form" name="edit" style="opacity: 0; transition: opacity 300ms linear; margin: 30px 0;">
-    <div class="form-group">
-      <label for="start">Start</label>
-      <input class="form-control" id="start" name="start" />
-    </div>
-
-    <div class="form-group">
-      <label for="end">End</label>
-      <input class="form-control" id="end" name="end" />
-    </div>
-
-    <div class="form-group">
-      <label for="note">Note</label>
-      <textarea id="note" class="form-control" rows="3" name="note"></textarea>
-    </div>
-
-    <button type="submit" class="btn btn-success btn-block">Save</button>
-    <center><i>or</i></center>
-    <button type="button" class="btn btn-danger btn-block" data-action="delete-region">Delete</button>
-  </form>
-</div>

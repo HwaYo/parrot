@@ -4,6 +4,7 @@
   <title>Markup</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= content_for(:header) %>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -31,34 +32,13 @@
       </div>
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-center">
-          <li>
-            <button class="btn btn-link btn-lg" data-action="play">
-              <span id="play">
-                <i class="glyphicon glyphicon-play"></i>
-              </span>
-            </button>
-          </li>
-          <li>
-            <button class="btn btn-link btn-lg" data-action="play">
-              <span id="play">
-                <i class="glyphicon glyphicon-pause"></i>
-              </span>
-            </button>
-          </li>
-          <li>
-            <button class="btn btn-link btn-lg" data-action="play">
-              <span id="play">
-                <i class="glyphicon glyphicon-stop"></i>
-              </span>
-            </button>
-          </li>
+          <%= content_for(:navbar_button) %>
         </ul>
       </div>
     </div>
   </nav>
   <div id="dim" class="modal-backdrop fade in" style="display: none;"></div>
 </header>
-
 
 <%= yield %>
 

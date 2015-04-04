@@ -83,6 +83,7 @@
 }
 
 #waveform {
+    margin-bottom: 30px;
     position: relative;
 }
 
@@ -112,4 +113,12 @@
 
 .navbar-collapse{
     text-align: center;
+}
+
+textarea {
+    resize: none;
+}
+
+label {
+    display: none;
 }
