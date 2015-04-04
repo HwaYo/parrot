@@ -43,6 +43,10 @@ group :development, :test do
   gem 'dotenv-rails', '~> 2.0.1'
 end
 
+group :production do
+  gem 'rails_12factor', '~> 0.0.3'
+end
+
 gem 'omniauth-facebook', '~> 2.0.1'
 gem 'bootstrap-sass', '~> 3.3.3'
 gem 'fog', '~> 1.29.0'
