@@ -83,6 +83,7 @@
 }
 
 #waveform {
+    margin-bottom: 30px;
     position: relative;
 }
 
@@ -105,11 +106,19 @@
 }
 
 .navbar-center{
-    float: none;
+    float: none !important;
     margin: 0;
     display: inline-block;
 }
 
 .navbar-collapse{
-    text-align:center;
+    text-align: center;
+}
+
+textarea {
+    resize: none;
+}
+
+label {
+    display: none;
 }

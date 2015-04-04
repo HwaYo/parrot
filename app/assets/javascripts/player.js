@@ -2,7 +2,7 @@ $(document).on('ready page:load' ,function(){
   var wavesurfer = Object.create(WaveSurfer);
 
   wavesurfer.init({
-    container: '#waveform',
+    container: '#waveform-player',
     height: 150,
     scrollParent: true,
     normalize: true,
@@ -12,9 +12,9 @@ $(document).on('ready page:load' ,function(){
 
   wavesurfer.util.ajax({
     responseType: 'json',
-    url: 'test.json'
+    url: '/test.json'
   }).on('success', function (data) {
-    wavesurfer.load('test.mp3', data);
+    wavesurfer.load('/test.mp3', data);
   });
 
   wavesurfer.enableDragSelection({
@@ -249,9 +249,9 @@ var GLOBAL_ACTIONS = {
 
 document.addEventListener('keydown', function (e) {
   var map = {
-          32: 'play',       // space
-          37: 'back',       // left
-          39: 'forth'       // right
+          // 32: 'play',       // space
+          // 37: 'back',       // left
+          // 39: 'forth'       // right
         };
         var action = map[e.keyCode];
         if (action in GLOBAL_ACTIONS) {

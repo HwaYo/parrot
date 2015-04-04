@@ -1,0 +1,47 @@
+.bookmark-list {
+    height: 500px;
+    overflow-y: auto;
+}
+
+/* Sidebar Styles */
+
+.bookmark-list ul {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.bookmark-list ul li {
+    text-indent: 20px;
+    line-height: 40px;
+}
+
+.bookmark-list ul li span {
+    float: right;
+}
+
+.bookmark-list ul li a {
+    display: block;
+    text-decoration: none;
+    color: #000;
+}
+
+.bookmark-list ul li a:hover {
+    text-decoration: none;
+    color: #fff;
+}
+
+.bookmark-list ul li a:active,
+.bookmark-list ul li a:focus {
+    text-decoration: none;
+}
+
+.bookmark-list ul > .sidebar-brand {
+    height: 65px;
+    font-size: 18px;
+    line-height: 60px;
+}
