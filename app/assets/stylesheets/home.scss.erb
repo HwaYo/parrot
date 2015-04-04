@@ -1,0 +1,89 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#cover {
+  background: url("<%= asset_path('background.jpg') %>");
+  background-size: cover;
+  background-position: center center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: 0;
+}
+
+#fb-link{
+  width: 220px;
+  display: block;
+  margin-left: 260px;
+
+  .fb-join {
+    background-color: transparent;
+    border: 1px solid #3f3f3f;
+    width: 210px;
+    height: 50px;
+    margin-top:20px;
+    cursor: pointer;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px;
+
+    .fb-join-image {
+      position: absolute;
+      margin-left: 25px;
+      margin-top: 11px;
+      width: 13px;
+    }
+    .fb-join-text {
+      position: absolute;
+      margin-top: 15px;
+      margin-left: 60px;
+      color: #3f3f3f;
+    }
+  }
+}
+.content {
+  border-radius: 10px;
+  color: white;
+  width: 760px;
+  height: 400px;
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  margin-left: -380px;
+  margin-top: -230px;
+  text-align: center;
+  padding: 20px;
+  .main_text {
+      margin-top: 130px;
+  }
+  color: #3f3f3f !important;
+}
+
+.fb-black {
+  width: 13px;
+}
+
+.content-wrapper {
+  position: relative;
+  z-index: 10000;
+}
+
+.lead-text{
+  padding: 0 0 10px 0;
+  font-size:20px;
+}
+.profile-image{
+  width: 40px;
+  margin-top: 5px;
+}
+
+.dropdown-toggle{
+  padding:0 !important;
+}
