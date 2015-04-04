@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3 record-item">
+    <%= link_to record_path(record) do %>
+      <div class="record-created-at">
+        <%= record.created_at.to_s(:db) %>
+      </div>
+      <div class="record-title">
+        <%= record.title %>
+      </div>
+      <div class="record-note truncate">
+        <%= record.note.try(:*, 100).try(:truncate, 400) %>
+      </div>
+    <% end %>
+  </div>
+</div>
