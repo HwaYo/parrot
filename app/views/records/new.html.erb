@@ -23,14 +23,21 @@
 </li>
 <% end %>
 
-<div class="row recorder-component">
-  <div class="col-md-12">
-    <div id="waveform-recorder">
-      <wave style="position: absolute; z-index: 2; overflow: hidden; width: 0px; display: block; box-sizing: border-box; border-right-style: solid; border-right-width: 0px; border-right-color: rgb(51, 51, 51);">
-        <canvas width="0" height="128" style="width: 0px;"></canvas>
-      </wave>
+<div class="container-fluid">
+  <div class="row recorder-component">
+    <div class="col-md-12">
+      <div id="waveform-recorder">
+        <wave style="position: absolute; z-index: 2; overflow: hidden; width: 0px; display: block; box-sizing: border-box; border-right-style: solid; border-right-width: 0px; border-right-color: rgb(51, 51, 51);">
+          <canvas width="0" height="128" style="width: 0px;"></canvas>
+        </wave>
+      </div>
     </div>
+  </div>
+
+
+  <div class="row">
+    <%= render partial: 'note' %>
+    <%= render partial: 'bookmark' %>
   </div>
 </div>
 
-<%= render partial: 'note' %>

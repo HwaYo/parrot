@@ -15,21 +15,26 @@
 </li>
 <% end %>
 
-<div class="row player-component">
-  <div id='wave'></div>
+<div class="container-fluid">
+  <div class="row player-component">
+    <div id='wave'></div>
 
-  <div class="container-fluid">
-    <p id="subtitle" class="text-center text-info">&nbsp;</p>
+    <div class="container-fluid">
+      <p id="subtitle" class="text-center text-info">&nbsp;</p>
 
-    <div id="wave-timeline"></div>
+      <div id="wave-timeline"></div>
 
-    <div id="waveform-player">
-      <!-- Here be waveform -->
+      <div id="waveform-player">
+        <!-- Here be waveform -->
+      </div>
     </div>
   </div>
-</div>
 
-<%= render partial: 'note' %>
+  <div class="row">
+    <%= render partial: 'note' %>
+    <%= render partial: 'bookmark' %>
+  </div>
+</div>
 <!--
 
     <form role="form" name="edit" style="opacity: 0; transition: opacity 300ms linear; margin: 30px 0;">

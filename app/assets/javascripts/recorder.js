@@ -1,6 +1,8 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
 
+
+// [{start: Float, end:Float, data:{note:String}}]
 var audio_context;
 var chunk_recorder;
 
