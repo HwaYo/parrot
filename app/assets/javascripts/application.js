@@ -14,4 +14,6 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap-sprockets
+//= require wavesurfer.min
+//= require wavesurfer.microphone.min
 //= require_tree .
