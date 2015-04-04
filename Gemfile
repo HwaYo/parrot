@@ -40,8 +40,12 @@ group :development, :test do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-
-  gem 'omniauth-facebook', '~> 2.0.1'
+  gem 'dotenv-rails', '~> 2.0.1'
 end
 
+gem 'omniauth-facebook', '~> 2.0.1'
 gem 'bootstrap-sass', '~> 3.3.3'
+gem 'fog', '~> 1.29.0'
+gem 'carrierwave', '~> 0.10.0'
+gem 'blockuijs-rails',  :git => 'git://github.com/rusanu/blockuijs-rails.git'
+

@@ -131,6 +131,7 @@ var audio_init = function () {
     recording = true;
 
     if (started) {
+      chunk_recorder.record();
       microphone.togglePlay();
       $('#pause-record').show();
       $('#record').hide();
@@ -151,9 +152,22 @@ var audio_init = function () {
 
   $("#save-record").on('click', function (){
     if(started && !recording) {
+      $.blockUI({
+        css: {
+          border: 'none',
+          padding: '15px',
+          backgroundColor: '#000',
+          '-webkit-border-radius': '10px',
+          '-moz-border-radius': '10px',
+          opacity: .5,
+          color: '#fff'
+        }
+      });
+
       chunk_recorder.stop(function (err, blob) {
         var fd = new FormData();
-        fd.append('data', chunk_recorder.chunks[0]);
+        fd.append('file', chunk_recorder.chunks[0], 'record.wav');
+        fd.append('note', $('#note-area').val());
         $.ajax({
             type: 'POST',
             url: '/records',
@@ -161,7 +175,8 @@ var audio_init = function () {
             processData: false,
             contentType: false
         }).done(function(data) {
-          alert(data);
+          var result = data;
+          location.href = data.href;
         });
       }.bind(this));
     }

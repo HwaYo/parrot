@@ -14,7 +14,8 @@ $(document).on('ready page:load' ,function(){
     responseType: 'json',
     url: '/test.json'
   }).on('success', function (data) {
-    wavesurfer.load('/test.mp3', data);
+    var url = $("#waveform-player").data("url");
+    wavesurfer.load(url, data);
   });
 
   wavesurfer.enableDragSelection({

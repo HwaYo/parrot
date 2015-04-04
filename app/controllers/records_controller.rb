@@ -1,16 +1,24 @@
 class RecordsController < ApplicationController
   def new
+    @record = current_user.records.new
   end
 
   def create
-    directory = "public/upload"
-    name = "#{Time.now.strftime('%Y%m%d%H%M%S')}.wav"
-    path = File.join(directory, name)
+    record = current_user.records.new(record_params)
+    record.title = "#{Time.now.strftime('%Y%m%d%H%M%S')}"
+    record.save!
 
-    File.open(path, "wb") { |f| f.write(params[:data].read) }
-    render plain: "Saved as #{name}."
+    render json: {
+      href: record_path(record)
+    }
   end
 
   def show
+    @record = Record.find(params[:id])
+  end
+
+private
+  def record_params
+    params.permit(:file, :note)
   end
 end
