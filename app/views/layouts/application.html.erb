@@ -1,14 +1,95 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Parrot</title>
+  <title>Markup</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+<header id="wrapper" class="toggled">
+  <nav id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+        <li class="sidebar-brand">
+            <a>
+                Parrot
+            </a>
+        </li>
+        <li>
+            <a>새 녹음본 만들기</a>
+        </li>
+        <li>
+            <a>내 녹음 리스트</a>
+        </li>
+    </ul>
+  </nav>
+  <nav class="navbar navbar-default nav-custom">
+    <div class="container-fluid">
+    <!-- <div class="container"> -->
+      <div class="navbar-header">
+        <a id="menu-toggle" class="navbar-brand" href="#">
+          <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+        </a>
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="" class="navbar-audio-title">컴퓨터개론 수업 2015.4.30</a>
+          </li>
+        </ul>
+
+      </div>
+      <nav class="collapse navbar-collapse bs-navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xap1/v/t1.0-1/p320x320/10665800_393477774146403_8736472695599779754_n.jpg?oh=fd1953b0ee6e331975bc28bf1d065fee&oe=5573561E&__gda__=1438315035_379b62081deb7db93238c48634ec0b19"/>
+          </li>
+          <li><a href="http://expo.getbootstrap.com" onclick="ga('send', 'event', 'Navbar', 'Community links', 'Expo');">JongBeen Han</a></li>
+        </ul>
+      </nav>
+    </div>
+  </nav>
+  <div id="dim" class="modal-backdrop fade in" style="display: none;"></div>
+</header>
+
 
 <%= yield %>
 
 </body>
 </html>
+
+
+<!--  -->
+
+<div class="container-fluid">
+<!-- <div class="container"> -->
+  <div class="row">
+    <div class="col-md-10">.col-md-1</div>
+    <div class="col-md-2 bookmark-list">
+      <ul>
+          <li style="background: red;">
+              <a>중요</a>
+              <span>edit</span>
+          </li>
+          <li style="background: blue;">
+              <a>안중요</a>
+              <span>edit</span>
+          </li>
+          <li style="background: green;">
+              <a>듣지마</a>
+          </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<script>
+$("#dim").on('click', function() {
+  $("#wrapper").toggleClass("toggled");
+  $("#dim").hide(true);
+});
+
+$("#menu-toggle").on('click', function(e) {
+  $("#wrapper").toggleClass("toggled");
+  $("#dim").show(true);
+});
+</script>
