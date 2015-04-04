@@ -50,7 +50,7 @@ group :production do
 end
 
 gem 'omniauth-facebook', '~> 2.0.1'
-gem 'bootstrap-sass', '~> 3.3.3'
+gem 'bootstrap-sass', '~> 3.3.4.1'
 gem 'fog', '~> 1.29.0'
 gem 'carrierwave', '~> 0.10.0'
 gem 'blockuijs-rails',  :git => 'git://github.com/rusanu/blockuijs-rails.git'
