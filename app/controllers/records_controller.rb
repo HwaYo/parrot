@@ -10,4 +10,7 @@ class RecordsController < ApplicationController
     File.open(path, "wb") { |f| f.write(params[:data].read) }
     render plain: "Saved as #{name}."
   end
+
+  def show
+  end
 end
