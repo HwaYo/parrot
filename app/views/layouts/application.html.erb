@@ -14,11 +14,17 @@
         <li class="sidebar-brand">
             <a>Parrot</a>
         </li>
-        <li>
-            <a>새 녹음본 만들기</a>
+        <li class="sidebar-item">
+          <%= link_to new_record_path do %>
+            <span class="glyphicon glyphicon-plus sidebar-icon" aria-hidden="true"></span>
+            새 녹음본 만들기
+          <% end %>
         </li>
-        <li>
-            <a>내 녹음 리스트</a>
+        <li class="sidebar-item">
+          <%= link_to records_path do %>
+            <span class="glyphicon glyphicon-list-alt sidebar-icon" aria-hidden="true"></span>
+            내 녹음 리스트
+          <% end %>
         </li>
     </ul>
   </nav>
