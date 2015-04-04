@@ -36,6 +36,8 @@ function record(inputBuffer){
   recLength += inputBuffer[0].length;
 }
 
+
+
 function exportWAV(type){
   var buffers = [];
   for (var channel = 0; channel < numChannels; channel++){
@@ -145,3 +147,5 @@ function encodeWAV(samples){
 
   return view;
 }
+
+

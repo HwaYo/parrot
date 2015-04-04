@@ -12,10 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.blockUI
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require wavesurfer.min
 //= require wavesurfer.microphone.min
 //= stub player
 //= stub recorder
+//= require initialize
 //= require_tree .

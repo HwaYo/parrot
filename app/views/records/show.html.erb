@@ -3,31 +3,29 @@
 <% end %>
 
 <% content_for :navbar_button do %>
-<li class="player-component">
-  <button class="btn btn-link btn-lg" data-action="play">
-    <span id="play">
-      <i class="glyphicon glyphicon-play"></i>
-    </span>
-    <span id="pause" style="display: none;">
-      <i class="glyphicon glyphicon-pause"></i>
-    </span>
-  </button>
-</li>
+  <li class="player-component">
+    <button class="btn btn-link btn-lg" data-action="play">
+      <span id="play">
+        <i class="glyphicon glyphicon-play"></i>
+      </span>
+      <span id="pause" style="display: none;">
+        <i class="glyphicon glyphicon-pause"></i>
+      </span>
+    </button>
+  </li>
 <% end %>
 
 <div class="container-fluid">
+
+  <div class="page-header">
+    <h1><%= @record.title %></h1>
+  </div>
+
   <div class="row player-component">
     <div id='wave'></div>
-
-    <div class="container-fluid">
-      <p id="subtitle" class="text-center text-info">&nbsp;</p>
-
-      <div id="wave-timeline"></div>
-
-      <div id="waveform-player">
-        <!-- Here be waveform -->
-      </div>
-    </div>
+    <p id="subtitle" class="text-center text-info">&nbsp;</p>
+    <div id="wave-timeline"></div>
+    <div id="waveform-player" data-id="<%= @record.id %>" data-url="<%= @record.file.url %>"></div>
   </div>
 
   <div class="row">
