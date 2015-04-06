@@ -10,13 +10,8 @@ $(document).on('ready page:load' ,function(){
     backend: 'AudioElement'
   });
 
-  wavesurfer.util.ajax({
-    responseType: 'json',
-    url: '/test.json'
-  }).on('success', function (data) {
-    var url = $("#waveform-player").data("url");
-    wavesurfer.load(url, data);
-  });
+  var record_url = $("#waveform-player").data("url");
+  wavesurfer.load(record_url);
 
   wavesurfer.enableDragSelection({
     color: randomColor(0.1)
