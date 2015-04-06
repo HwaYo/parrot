@@ -3,20 +3,24 @@
 <% end %>
 
 <% content_for :navbar_button do %>
-  <li class="recorder-component">
+  <li class="recorder-component record">
     <button class="btn btn-link btn-lg">
-      <span id="record">
+      <span>
         <i class="glyphicon glyphicon-record"></i>
-      </span>
-      <span id="pause-record" style="display: none;">
-        <i class="glyphicon glyphicon-pause"></i>
       </span>
     </button>
   </li>
 
-  <li class="recorder-component">
+  <li class="recorder-component pause">
     <button class="btn btn-link btn-lg">
-      <span id="save-record" style="disable">
+      <span>
+        <i class="glyphicon glyphicon-pause"></i>
+      </span>
+    </button>
+  </li>
+  <li class="recorder-component save">
+    <button class="btn btn-link btn-lg">
+      <span>
         <i class="glyphicon glyphicon-floppy-disk"></i>
       </span>
     </button>

@@ -29,7 +29,6 @@
           buffer.push(e.inputBuffer.getChannelData(channel));
       }
       App.runningTime++;
-      // console.log(runningTime);
       worker.postMessage({
         command: 'record',
         buffer: buffer

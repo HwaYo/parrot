@@ -48,7 +48,6 @@ ChunkRecorder.prototype = {
   pause: function () {
     var recorder = this.recorder_buffer.get_current_buffer();
     recorder.stop();
-    console.log('paused');
     timechecker = audio_context.currentTime;
     time = audio_context.currentTime;
   },
@@ -78,13 +77,11 @@ ChunkRecorder.prototype = {
   _store_chunk: function (recording, callback) {
     recording.stop();
     recording.exportWAV(function (b) {
-      console.log(this.chunks.length + ': New chunk');
       this.chunks.push(b);
       recording.clear();
 
       this.lock = false;
 
-      console.log(callback);
       if (callback) {
         callback(null, b);
       }
@@ -100,8 +97,6 @@ var audio_init = function () {
     window.URL = window.URL || window.webkitURL;
 
     audio_context = new AudioContext;
-    console.log('Audio context set up.');
-    console.log('navigator.getUserMedia ' + (navigator.getUserMedia ? 'available.' : 'not present!'));
   } catch (e) {
     alert('No web audio support in this browser!');
   }
@@ -121,12 +116,9 @@ var audio_init = function () {
   });
 
   microphone.on('deviceReady', function(stream) {
-    console.log('Device ready!', stream);
     var input = audio_context.createMediaStreamSource(stream);
-    console.log('Media stream created.');
 
     chunk_recorder = new ChunkRecorder(input);
-    console.log('Recorder initialised.');
 
     chunk_recorder.record();
     $('#pause-record').show();
@@ -138,14 +130,13 @@ var audio_init = function () {
   });
   var started = false;
   var recording = false;
-  $("#record").on('click', function () {
+  $(".recorder-component.record").on('click', function () {
     recording = true;
+    $('.recorder-component.pause, .recorder-component.save').show();
+    $(".recorder-component.record").hide();
 
     if (started) {
-      chunk_recorder.record();
       microphone.togglePlay();
-      $('#pause-record').show();
-      $('#record').hide();
       chunk_recorder.record();
     }
     else {
@@ -154,15 +145,15 @@ var audio_init = function () {
     }
   }.bind(this));
 
-  $("#pause-record").on('click', function () {
+  $(".recorder-component.pause").on('click', function () {
     recording = false;
     microphone.togglePlay();
     chunk_recorder.pause();
-    $('#record').show();
-    $('#pause-record').hide();
+    $(".recorder-component.pause").hide();
+    $(".recorder-component.record").show();
   }.bind(this));
 
-  $("#save-record").on('click', function (){
+  $(".recorder-component.save").on('click', function (){
     if(started && !recording) {
       $.blockUI({
         css: {
@@ -220,5 +211,6 @@ $(document).on('ready page:load', function () {
   });
   
   $('.recorder-component').show();
+  $('.recorder-component.pause, .recorder-component.save').hide();
   $('.player-component').hide();
 });

@@ -79,6 +79,9 @@ $(document).on('ready page:load' ,function(){
     playButton.style.display = '';
     pauseButton.style.display = 'none';
   });
+  wavesurfer.on('finish', function(){
+    wavesurfer.stop();
+  });
 
 
 /**
