@@ -17,8 +17,20 @@
 
 <div class="container-fluid">
 
-  <div class="page-header">
-    <h1><%= @record.title %></h1>
+  <div class="page-header clearfix">
+    <h1><%= @record.title %>
+      <div class="speed-group btn-group btn-group-lg pull-right" data-toggle="buttons">
+        <label class="btn btn-default active">
+          <input type="radio" data-speed="1.0" autocomplete="off" checked>1.0x
+        </label>
+        <label class="btn btn-default">
+          <input type="radio" data-speed="1.5" autocomplete="off">1.5x
+        </label>
+        <label class="btn btn-default">
+          <input type="radio" data-speed="2.0" autocomplete="off">2.0x
+        </label>
+      </div>
+    </h1>
   </div>
 
   <div class="player-component">
