@@ -44,7 +44,8 @@ class RecordsController < ApplicationController
 
   def destroy
     @record = Record.find(params[:id])
-    @record.destroy!
+    @record.deleted = true;
+    @record.save!
     redirect_to records_path
   end
 

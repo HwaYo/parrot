@@ -2,6 +2,9 @@
   <div class="col-md-6 col-md-offset-3 record-item-container">
     <div class="record-item">
       <%= link_to record_path(record) do %>
+        <% if !record.deleted then %>
+          <% next %>
+        <% end %>
         <div class="record-created-at">
           <%= record.created_at.to_s(:db) %>
         </div>
@@ -11,11 +14,11 @@
         <div class="record-note">
           <%= record.note.try(:truncate, 500) %>
         </div>
+        <div style="position:absolute">
+          <%= link_to "" , record_path(record), class: "record-btn btn-record-trash", method: :delete, data: {confirm: "정말로 삭제하시겠습니까?"} %>
+          <div class="record-btn btn-record-edit" data-post="<%= record.id %>" data-toggle="modal" data-target="#edit-modal"></div>
+        </div>
       <% end %>
-      <div style="position:absolute">
-        <%= link_to "" , record_path(record), class: "record-btn btn-record-trash", method: :delete, data: {confirm: "정말로 삭제하시겠습니까?"} %>
-        <div class="record-btn btn-record-edit" data-post="<%= record.id %>" data-toggle="modal" data-target="#edit-modal"></div>
-      </div>
     </div>
   </div>
 </div>
