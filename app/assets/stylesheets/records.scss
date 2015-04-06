@@ -1,40 +1,39 @@
 /*
 * header
 */
-.record-header {
-  margin: 30px 0px;
-  padding: 0 !important;
+.page-header {
+  margin: 20px 0 0 0 !important;
+  padding-bottom: 20px;
 }
 
 /*
 * item
 */
+
+.record-item-container:hover {
+  background-color: black;
+  border-radius: 5px;
+  opacity: 0.7;
+
+
+  .record-title {
+    color: white;
+  }
+
+  .record-created-at {
+    color: white;
+  }
+
+  .record-note {
+    color: white;
+  }
+}
+
 .record-item {
   border-bottom: 1px solid #eeeeee;
-  padding: 0 0 30px 0 !important;
-  margin-bottom: 30px;
-}
+  padding: 20px 0 30px 0 !important;
 
-.record-item > div{
-  /*margin-bottom: 3px;*/
-}
-.record-created-at {
-  color: #cccccc;
-}
-
-.record-title {
-  font-weight: bold;
-  font-size: 1.5em;
-}
-
-.record-note {
-  height: 63px;
-  max-height: 63px;
-}
-
-.record-item {
   a {
-    color: inherit;
     text-decoration: none;
   }
 
@@ -43,7 +42,26 @@
   }
 }
 
-.truncate {
+.record-item:hover {
+  border-bottom: 0;
+}
+
+.record-title {
+  font-size: 16px;
+  color: #4a4a4a;
+  margin: 5px 0px;
+}
+
+.record-created-at {
+  font-size: 11px;
+  color: #cccccc;
+}
+
+.record-note {
+  font-size: 12px;
+  color: #878787;
+  height: 64px;
+  max-height: 64px;
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
