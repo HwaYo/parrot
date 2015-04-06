@@ -1,7 +1,7 @@
 <div class="col-md-3 bookmark-list">
   <div class="list-group">
-    <a href="#" class="list-group-item list-group-item-success" data-bookmark="1">중요</a>
-    <a href="#" class="list-group-item list-group-item-info" data-bookmark="1">안중요</a>
-    <a href="#" class="list-group-item list-group-item-warning" data-bookmark="3">듣지마</a>
+    <% bookmarks.each do |bookmark| %>
+      <a href="#" class="list-group-item" data-bookmark=<%= bookmark.id %> style="background-color: <%= bookmark.color %>"><%= bookmark.name %></a>
+    <% end %>
   </div>
 </div>

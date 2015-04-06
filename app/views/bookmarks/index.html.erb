@@ -1,0 +1,61 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <div>
+        <h3 class="page-header">My bookmark list 
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bookmark-create-modal">
+          생성하기
+          </button>
+        </h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-md-offset-3">
+    <%= render @bookmarks %>
+  </div>
+</div>
+
+<div class="modal fade" id="bookmark-modify-modal" tabindex="-1" role="dialog" aria-labelledby="bookmark-modify-modal-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="bookmark-modify-modal-label">책깔피 수정하기</h4>
+      </div>
+      <div class="modal-form">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="bookmark-create-modal" tabindex="-1" role="dialog" aria-labelledby="bookmark-create-modal-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="bookmark-create-modal-label">책깔피 만들기</h4>
+      </div>
+      <div class="modal-form">
+        <%= form_for :bookmark do |f| %>
+          <div class="modal-body">
+            <div class="form-group">
+              <%= f.label :name, "책깔피 이름" %>
+              <%= f.text_field :name, class: "form-control"%>
+            </div>
+            <div class="form-group">
+              <%= f.label :color, "책깔피 색" %>
+              <%= f.text_field :color, class: "form-control"%>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+            <%= f.submit "생성하기", class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+

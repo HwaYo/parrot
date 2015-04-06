@@ -196,16 +196,9 @@ var audio_init = function () {
   }.bind(this));
 };
 
-function makeBookmarkDic(){
-  bookmarkDic = { 1:"중요", 2:"안중요", 3:"듣지마" };
-  return bookmarkDic;
-}
-
-
 $(document).on('ready page:load', function () {
 
   audio_init();
-  bookmarkdic = makeBookmarkDic();
   $("[data-bookmark]").on('click', function(){
     var bookmarkval = $(this).data('bookmark');
     var bookmark = {
@@ -216,7 +209,7 @@ $(document).on('ready page:load', function () {
     bookmarks.push(bookmark);
 
     var note = $('#note-area');
-    note.val(note.val()+"\n["+ (App.runningTime / 10) + "초 " + bookmarkdic[bookmarkval] +"]\n");
+    note.val(note.val()+"\n["+ (App.runningTime / 10) + "초 " + $(this).text() +"]\n");
   });
   
   $('.recorder-component').show();

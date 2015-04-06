@@ -1,0 +1,16 @@
+<%= form_for @bookmark, url: bookmark_path(@bookmark) do |f| %>
+  <div class="modal-body">
+    <div class="form-group">
+      <%= f.label :name, "책깔피 이름" %>
+      <%= f.text_field :name, class: "form-control"%>
+    </div>
+    <div class="form-group">
+      <%= f.label :color, "책깔피 색" %>
+      <%= f.text_field :color, class: "form-control"%>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+    <%= f.submit "수정하기", class: "btn btn-primary" %>
+  </div>
+<% end %>

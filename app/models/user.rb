@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   has_many :records
+  has_many :bookmarks
 
   def self.create_with_omniauth(auth)
     create! do |user|
