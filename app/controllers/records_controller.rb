@@ -1,6 +1,6 @@
 class RecordsController < ApplicationController
   def index
-    @records = Record.order(created_at: :desc)
+    @records = Record.remaining.order(created_at: :desc)
   end
 
   def new
@@ -15,7 +15,7 @@ class RecordsController < ApplicationController
   def update
     @record = Record.find(params[:id])
 
-    if @record.update(record_params)
+    if @record.update(record_update_params)
       redirect_to records_path
     else
       render partial: "edit_modal", status: 500
@@ -51,6 +51,10 @@ class RecordsController < ApplicationController
 
 private
   def record_params
+    params.permit(:title, :file, :note, :bookmark)
+  end
+
+  def record_update_params
     params.require(:record).permit(:title, :file, :note, :bookmark)
   end
 end
