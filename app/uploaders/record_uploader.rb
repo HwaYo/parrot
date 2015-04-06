@@ -1,8 +1,6 @@
 # encoding: utf-8
 
 class RecordUploader < CarrierWave::Uploader::Base
-  storage :fog
-
   def filename
     "#{secure_token}.#{file.extension}" if original_filename.present?
   end
