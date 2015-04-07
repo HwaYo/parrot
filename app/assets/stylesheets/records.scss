@@ -80,3 +80,25 @@
     font-size: 16px;
   }
 }
+
+#note-area {
+  font-family: ProximaNovaRegular, Helvetica, Arial, sans-serif;
+  font-size: 22px;
+  line-height: 30px;
+
+  margin-top: 50px;
+
+  p {
+    line-height: 1.7em;
+  }
+
+  h3 {
+    font-size: 36px;
+  }
+}
+
+#note-area:focus,
+#note-area:active {
+  outline:0px !important;
+  -webkit-appearance:none;
+}
