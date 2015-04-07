@@ -136,3 +136,25 @@ UAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxNS0wNC0wNlQwMjoyODo0Mi0wNDowMOoA6+4AAAAldEVY
 dGRhdGU6bW9kaWZ5ADIwMTUtMDQtMDZUMDI6Mjg6NDItMDQ6MDCbXVNSAAAAAElFTkSuQmCC") -0px -0px no-repeat;
   background-size: 24px 24px;
 }
+
+#note-area {
+  font-family: ProximaNovaRegular, Helvetica, Arial, sans-serif;
+  font-size: 22px;
+  line-height: 30px;
+
+  margin-top: 50px;
+
+  p {
+    line-height: 1.7em;
+  }
+
+  h3 {
+    font-size: 36px;
+  }
+}
+
+#note-area:focus,
+#note-area:active {
+  outline:0px !important;
+  -webkit-appearance:none;
+}

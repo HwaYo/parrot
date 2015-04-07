@@ -1,10 +1,9 @@
-
-
-
-  <div class="col-md-9">
-    <div class="form-group">
-      <textarea id="note-area" class="form-control" placeholder="여기에 노트를 작성하세요" rows="8" name="note" style="height: 500px;"><%= @record.note %></textarea>
+<div class="col-md-6 col-md-offset-3">
+  <div class="form-group">
+    <div id="note-area">
+      <%= @record.note %>
     </div>
-
   </div>
+</div>
 
+<script>var editor = new MediumEditor('#note-area');</script>
