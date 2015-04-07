@@ -169,9 +169,9 @@ var audio_init = function () {
 
       chunk_recorder.stop(function (err, blob) {
         var fd = new FormData();
-        fd.append('file', chunk_recorder.chunks[0], 'record.wav');
-        fd.append('note', $('#note-area').val());
-        fd.append('bookmark', JSON.stringify(bookmarks) );
+        fd.append('record[file]', chunk_recorder.chunks[0], 'record.wav');
+        fd.append('record[note]', $('#note-area').val());
+        fd.append('record[bookmark]', JSON.stringify(bookmarks) );
         $.ajax({
             type: 'POST',
             url: '/records',
