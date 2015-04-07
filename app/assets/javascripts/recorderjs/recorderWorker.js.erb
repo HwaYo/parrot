@@ -1,3 +1,5 @@
+importScripts('<%= asset_path("recorderjs/libmp3lame.min.js") %>');
+
 var recLength = 0,
   recBuffers = [],
   sampleRate,
@@ -13,6 +15,9 @@ this.onmessage = function(e){
       break;
     case 'exportWAV':
       exportWAV(e.data.type);
+      break;
+    case 'exportMP3':
+      exportMP3(e.data.type, e.data.config);
       break;
     case 'getBuffer':
       getBuffer();
@@ -36,8 +41,6 @@ function record(inputBuffer){
   recLength += inputBuffer[0].length;
 }
 
-
-
 function exportWAV(type){
   var buffers = [];
   for (var channel = 0; channel < numChannels; channel++){
@@ -48,17 +51,49 @@ function exportWAV(type){
   } else {
       var interleaved = buffers[0];
   }
+
   var dataview = encodeWAV(interleaved);
   var audioBlob = new Blob([dataview], { type: type });
 
   this.postMessage(audioBlob);
 }
 
-function getBuffer(){
+function exportMP3(type, config){
+  var config = config || {};
+  var buffers = _getBufferImpl();
+
+  mp3codec = Lame.init();
+
+  Lame.set_mode(mp3codec, config.mode || Lame.JOINT_STEREO);
+  Lame.set_num_channels(mp3codec, config.channels || 2);
+  Lame.set_num_samples(mp3codec, config.samples || -1);
+  Lame.set_in_samplerate(mp3codec, config.samplerate || 44100);
+  Lame.set_out_samplerate(mp3codec, config.samplerate || 44100);
+  Lame.set_bitrate(mp3codec, config.bitrate || 128);
+
+  Lame.init_params(mp3codec);
+
+  if (numChannels === 2) {
+    var mp3data = Lame.encode_buffer_ieee_float(mp3codec, buffers[0], buffers[1]);
+  }
+  else {
+    var mp3data = Lame.encode_buffer_ieee_float(mp3codec, buffers[0], buffers[0]);
+  }
+  audioBlob = new Blob([mp3data.data], { type: "audio/mp3" });
+
+  this.postMessage(audioBlob);
+}
+
+function _getBufferImpl() {
   var buffers = [];
   for (var channel = 0; channel < numChannels; channel++){
     buffers.push(mergeBuffers(recBuffers[channel], recLength));
   }
+  return buffers;
+}
+
+function getBuffer(){
+  var buffers = _getBufferImpl();
   this.postMessage(buffers);
 }
 
