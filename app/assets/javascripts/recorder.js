@@ -76,7 +76,7 @@ ChunkRecorder.prototype = {
   },
   _store_chunk: function (recording, callback) {
     recording.stop();
-    recording.exportWAV(function (b) {
+    recording.exportMP3(function (b) {
       this.chunks.push(b);
       recording.clear();
 
@@ -169,7 +169,7 @@ var audio_init = function () {
 
       chunk_recorder.stop(function (err, blob) {
         var fd = new FormData();
-        fd.append('file', chunk_recorder.chunks[0], 'record.wav');
+        fd.append('file', chunk_recorder.chunks[0], 'record.mp3');
         fd.append('note', $('#note-area').val());
         fd.append('bookmark', JSON.stringify(bookmarks) );
         $.ajax({
@@ -209,7 +209,7 @@ $(document).on('ready page:load', function () {
     var note = $('#note-area');
     note.val(note.val()+"\n["+ (App.runningTime / 10) + "초 " + bookmarkdic[bookmarkval] +"]\n");
   });
-  
+
   $('.recorder-component').show();
   $('.recorder-component.pause, .recorder-component.save').hide();
   $('.player-component').hide();

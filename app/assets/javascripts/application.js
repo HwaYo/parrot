@@ -19,6 +19,8 @@
 //= require wavesurfer.microphone.min
 //= stub player
 //= stub recorder
+//= stub recorderjs/recorderWorker
+//= stub recorderjs/libmp3lame.min
 //= require initialize
 //= require_tree .
 
