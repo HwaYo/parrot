@@ -1,5 +1,9 @@
 class HomeController < ApplicationController
   def index
-    render layout: "home_application"
+    if current_user
+      redirect_to records_path
+    else
+      render layout: "home_application"
+    end
   end
 end
