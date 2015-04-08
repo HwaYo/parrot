@@ -1,19 +1,50 @@
-<div class="container-fluid">
+<div class="container">
   <div class="row">
-    <div class="col-md-6 col-md-offset-3">
       <div>
-        <h3 class="page-header">My bookmark list 
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bookmark-create-modal">
-          생성하기
+        <h3>My bookmark list 
+        <button id="new-bookmark" type="button" class="btn btn-sm btn-success pull-right" >
+          책갈피 만들기
           </button>
         </h3>
       </div>
-    </div>
   </div>
-  <div class="col-md-6 col-md-offset-3">
-    <%= render @bookmarks %>
+  <div class="row">
+    <%= form_for :bookmark, html: { id: 'new-bookmark-form', class: "form-inline new-bookmark close"} do |f| %>
+      <div class="col-md-8">
+        <div class="form-group name">
+          <%= f.label :name, class: "hidden" %>
+          <%= f.text_field :name, class: "form-control", placeholder: "책갈피 이름을 입력해 주세요."%>
+        </div>
+        <div class="form-group color">
+
+          <div class="btn-group open" id="btn-group-palette">
+          <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <span class="palette palette-black palette-preview"></span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-palette" role="menu">
+            <li>
+              <span class="palette palette-default palette-black" data-color="black"></span><span class="palette palette-default palette-green" data-color="green"></span><span class="palette palette-default palette-blue" data-color="blue"></span><span class="palette palette-default palette-red" data-color="red"></span><span class="palette palette-default palette-yellow" data-color="yellow"></span><span class="palette palette-default palette-orange" data-color="orange"></span></li>
+          </ul>
+        </div>
+
+          <%= f.label :color, class: "hidden" %>
+          <%= f.text_field :color, class: "hidden"%>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="pull-right">
+          <button id="close-new-bookmark-form" class="btn btn-default" type="button">Cancel</button>
+          <%= f.submit "생성하기", class: "btn btn-primary" %>
+        </div>
+      </div>
+    <% end %>
+      <ul class="list-group">
+        <%= render @bookmarks %>
+      </ul>
   </div>
 </div>
+
+
 
 <div class="modal fade" id="bookmark-modify-modal" tabindex="-1" role="dialog" aria-labelledby="bookmark-modify-modal-label" aria-hidden="true">
   <div class="modal-dialog">

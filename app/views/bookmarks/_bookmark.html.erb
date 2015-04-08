@@ -1,14 +1,13 @@
-<div class="col-md-4 text-center bookmark-item" style="background-color: <%= bookmark.color %>">
-  <div class="bookmark-normal">
+<li class="list-group-item">
+  <span class="bookmark" style="background-color: <%= bookmark.color %>; color: white; padding: 5px 20; box-shadow: inset 0 -1px 0 rgba(0,0,0,0.12);">
+    <span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>
     <%= bookmark.name %>
-  </div>
-  <div class="bookmark-modify" style="display: none;">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bookmark-modify-modal" data-bookmark-id="<%= bookmark.id %>">
-      수정하기
-    </button>
-    <%= link_to '삭제하기', bookmark_path(bookmark),
-              method: :delete,
-              data: { confirm: '삭제하시겠습니까?' }, class: 'btn btn-danger' %>
-  </div>
-</div>
-
+  </span>
+    
+  <span class="bookmark-action">
+    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+    <%= link_to '', bookmark_path(bookmark),
+          method: :delete,
+          data: { confirm: '삭제하시겠습니까?' }, class: 'glyphicon glyphicon-trash' %>
+  </span>
+</li>
