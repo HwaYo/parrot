@@ -14,9 +14,13 @@
         <div class="record-note">
           <%= record.note.try(:truncate, 500) %>
         </div>
-        <div style="position:absolute">
-          <%= link_to "" , record_path(record), class: "record-btn btn-record-trash", method: :delete, data: {confirm: "정말로 삭제하시겠습니까?"} %>
-          <div class="record-btn btn-record-edit" data-post="<%= record.id %>" data-toggle="modal" data-target="#edit-modal"></div>
+        <div class="record-btn-container">
+          <div class="record-btn" data-post="<%= record.id %>" data-toggle="modal" data-target="#edit-modal">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+          </div>
+          <%= link_to record_path(record), class: "record-btn", method: :delete, data: {confirm: "정말로 삭제하시겠습니까?"} do %>
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+          <% end %>
         </div>
       <% end %>
     </div>
