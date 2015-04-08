@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   resources :bookmarks
 
-  resources :records, only: [:new, :create, :show, :index] do
+  resources :records do
     member do
       get 'bookmark_json'
     end

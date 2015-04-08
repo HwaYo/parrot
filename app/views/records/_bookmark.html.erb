@@ -1,4 +1,15 @@
-<div class="col-md-3 bookmark-list">
+<div class="col-md-2 bookmark-list">
+  <div class="speed-group btn-group" data-toggle="buttons">
+    <label class="btn btn-default active">
+      <input type="radio" data-speed="1.0" autocomplete="off" checked>1.0x
+    </label>
+    <label class="btn btn-default">
+      <input type="radio" data-speed="1.5" autocomplete="off">1.5x
+    </label>
+    <label class="btn btn-default">
+      <input type="radio" data-speed="2.0" autocomplete="off">2.0x
+    </label>
+  </div>
   <div class="list-group">
     <% bookmarks.each do |bookmark| %>
       <a href="#" class="list-group-item" data-bookmark=<%= bookmark.id %> style="background-color: <%= bookmark.color %>"><%= bookmark.name %></a>

@@ -1,15 +1,38 @@
 <div class="row">
-  <div class="col-md-6 col-md-offset-3 record-item">
-    <%= link_to record_path(record) do %>
-      <div class="record-created-at">
-        <%= record.created_at.to_s(:db) %>
+  <div class="col-md-6 col-md-offset-3 record-item-container">
+    <div class="record-item">
+      <%= link_to record_path(record) do %>
+        <% if record.deleted then %>
+          <% next %>
+        <% end %>
+        <div class="record-created-at">
+          <%= record.created_at.to_s(:db) %>
+        </div>
+        <div>
+          <h4 class="record-title"><%= record.title %></h4>
+        </div>
+        <div class="record-note">
+          <%= record.note.try(:truncate, 500) %>
+        </div>
+        <div style="position:absolute">
+          <%= link_to "" , record_path(record), class: "record-btn btn-record-trash", method: :delete, data: {confirm: "정말로 삭제하시겠습니까?"} %>
+          <div class="record-btn btn-record-edit" data-post="<%= record.id %>" data-toggle="modal" data-target="#edit-modal"></div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- product record -->
+<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="edit-modal-label" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="edit-modal-label">녹음본 수정하기</h4>
       </div>
-      <div class="record-title">
-        <%= record.title %>
+      <div class="modal-body">
       </div>
-      <div class="record-note truncate">
-        <%= record.note.try(:truncate, 400) %>
-      </div>
-    <% end %>
+    </div>
   </div>
 </div>
