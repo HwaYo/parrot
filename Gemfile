@@ -48,6 +48,7 @@ group :development, :test do
   gem 'guard-rspec', '~> 4.5.0'
   gem 'capybara', '~> 2.4.4'
   gem 'database_cleaner', '~> 1.4.1'
+  gem 'selenium-webdriver', '~> 2.45.0'
 end
 
 group :production do
