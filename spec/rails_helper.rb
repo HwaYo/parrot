@@ -3,6 +3,8 @@ ENV['RAILS_ENV'] ||= 'test'
 require 'spec_helper'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
+require 'capybara/rspec'
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -41,18 +43,14 @@ RSpec.configure do |config|
     DatabaseCleaner.start
     example.run
     DatabaseCleaner.clean
-
     Capybara.reset_sessions!
-    # clear warden test session
-    Warden.test_reset!
   end
 
   config.use_transactional_fixtures = false
-
-  config.include Warden::Test::Helpers
-  Warden.test_mode!
-
   config.infer_spec_type_from_file_location!
+
+  OmniAuth.config.test_mode = true
+  OmniAuth.config.add_mock(:facebook, {:uid => '1234512345'})
 
   # Type `CAPYBARA_DRIVER=selenium bundle exec rspec acceptance` for acceptance testing
   Capybara.default_driver = ENV.fetch('CAPYBARA_DRIVER', :rack_test).to_sym
