@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe 'Account signing in/out process', type: :feature do
   def sign_in!
-    visit "/"
-    click_link "페이스북으로 시작하기"
+    visit "/auth/facebook"
   end
 
   it "signs me in" do
-    sign_in!
+    visit "/"
+    click_link "페이스북으로 시작하기"
     expect(page).to have_content("My record list")
   end
 

@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Record management process', type: :feature do
   def sign_in!
-    visit "/"
-    click_link "페이스북으로 시작하기"
+    visit "/auth/facebook"
   end
 
   before :each do
