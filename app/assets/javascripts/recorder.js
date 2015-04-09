@@ -114,7 +114,7 @@ var audio_init = function () {
   microphone.init({
       wavesurfer: wavesurfer,
       bufferSize: 4096,
-      windowSize: 4096 * 10 * 2
+      windowSize: 4096 * 10
   });
 
   microphone.on('deviceReady', function(stream) {
