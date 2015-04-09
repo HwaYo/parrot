@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Account signing in/out process', type: :feature do
-  def sign_in!
-    visit "/auth/facebook"
-  end
-
   it "signs me in" do
     visit "/"
     click_link "페이스북으로 시작하기"

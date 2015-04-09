@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Record creation process', type: :feature do
-  def sign_in!
-    visit "/auth/facebook"
-  end
-
   it 'shows a new record page' do
     sign_in!
     find('#menu-toggle').click

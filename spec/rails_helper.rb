@@ -1,6 +1,7 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
 require 'spec_helper'
+require 'acceptance_helper'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 require 'capybara/rspec'
@@ -31,6 +32,9 @@ RSpec.configure do |config|
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   # config.include FactoryGirl::Syntax::Methods
   FactoryGirl.lint
+
+  # Acceptance Helper Mixin
+  config.include AcceptanceHelper
 
   # Type `CAPYBARA_DRIVER=selenium bundle exec rspec acceptance` for acceptance testing
   Capybara.default_driver = ENV.fetch('CAPYBARA_DRIVER', :rack_test).to_sym

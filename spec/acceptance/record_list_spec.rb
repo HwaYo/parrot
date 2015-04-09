@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Record management process', type: :feature do
-  def sign_in!
-    visit "/auth/facebook"
-  end
-
   before :each do
     @record = FactoryGirl.create(:record)
     sign_in!
