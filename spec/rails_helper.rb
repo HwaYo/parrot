@@ -29,13 +29,15 @@ ActiveRecord::Migration.maintain_test_schema!
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.include FactoryGirl::Syntax::Methods
+  FactoryGirl.lint
 
+  # Type `CAPYBARA_DRIVER=selenium bundle exec rspec acceptance` for acceptance testing
+  Capybara.default_driver = ENV.fetch('CAPYBARA_DRIVER', :rack_test).to_sym
+
+  config.use_transactional_fixtures = false
   config.before(:suite) do
-    if Capybara.current_driver == :rack_test
-      DatabaseCleaner.strategy = :transaction
-    else
-      DatabaseCleaner.strategy = :truncation
-    end
+    DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with(:truncation)
   end
 
@@ -46,12 +48,8 @@ RSpec.configure do |config|
     Capybara.reset_sessions!
   end
 
-  config.use_transactional_fixtures = false
   config.infer_spec_type_from_file_location!
 
   OmniAuth.config.test_mode = true
   OmniAuth.config.add_mock(:facebook, {:uid => '1234512345'})
-
-  # Type `CAPYBARA_DRIVER=selenium bundle exec rspec acceptance` for acceptance testing
-  Capybara.default_driver = ENV.fetch('CAPYBARA_DRIVER', :rack_test).to_sym
 end
