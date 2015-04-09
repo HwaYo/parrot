@@ -12,7 +12,7 @@
           <h4 class="record-title"><%= record.title %></h4>
         </div>
         <div class="record-note">
-          <%= record.note.try(:truncate, 500) %>
+          <%= strip_tags record.note.try(:truncate, 500) %>
         </div>
         <div class="record-btn-container">
           <div class="record-btn" data-post="<%= record.id %>" data-toggle="modal" data-target="#edit-modal">

@@ -1,9 +1,11 @@
 <div class="col-md-12">
   <div class="form-group">
     <div id="note-area">
-      <%= @record.note %>
+      <%= @record.note.try(:html_safe) %>
     </div>
   </div>
 </div>
 
-<script>var editor = new MediumEditor('#note-area');</script>
+<script>
+  var editor = new MediumEditor('#note-area');
+</script>

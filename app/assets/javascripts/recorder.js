@@ -109,10 +109,12 @@ var audio_init = function () {
     cursorWidth   : 0
   });
 
-  var microphone = Object.create(WaveSurfer.Microphone);
+  var microphone = Object.create(WaveSurfer.MicrophoneStream);
 
   microphone.init({
-      wavesurfer: wavesurfer
+      wavesurfer: wavesurfer,
+      bufferSize: 4096,
+      windowSize: 4096 * 10 * 2
   });
 
   microphone.on('deviceReady', function(stream) {
@@ -170,7 +172,7 @@ var audio_init = function () {
       chunk_recorder.stop(function (err, blob) {
         var fd = new FormData();
         fd.append('record[file]', chunk_recorder.chunks[0], 'record.wav');
-        fd.append('record[note]', $('#note-area').val());
+        fd.append('record[note]', $('#note-area').html());
         fd.append('record[bookmark]', JSON.stringify(bookmarks) );
         $.ajax({
             type: 'POST',
@@ -209,7 +211,7 @@ $(document).on('ready page:load', function () {
     var note = $('#note-area');
     note.val(note.val()+"\n["+ (App.runningTime / 10) + "초 " + bookmarkdic[bookmarkval] +"]\n");
   });
-  
+
   $('.recorder-component').show();
   $('.recorder-component.pause, .recorder-component.save').hide();
   $('.player-component').hide();
