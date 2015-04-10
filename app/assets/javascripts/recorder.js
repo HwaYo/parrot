@@ -109,10 +109,12 @@ var audio_init = function () {
     cursorWidth   : 0
   });
 
-  var microphone = Object.create(WaveSurfer.Microphone);
+  var microphone = Object.create(WaveSurfer.MicrophoneStream);
 
   microphone.init({
-      wavesurfer: wavesurfer
+      wavesurfer: wavesurfer,
+      bufferSize: 4096,
+      windowSize: 4096 * 10
   });
 
   microphone.on('deviceReady', function(stream) {
@@ -170,7 +172,7 @@ var audio_init = function () {
       chunk_recorder.stop(function (err, blob) {
         var fd = new FormData();
         fd.append('record[file]', chunk_recorder.chunks[0], 'record.wav');
-        fd.append('record[note]', $('#note-area').val());
+        fd.append('record[note]', $('#note-area').html());
         fd.append('record[bookmark]', JSON.stringify(bookmarks) );
         $.ajax({
             type: 'POST',
@@ -192,24 +194,54 @@ function makeBookmarkDic(){
   return bookmarkDic;
 }
 
+function bookmarkTag(params){
+  var bookmarkElement = document.createElement('a');
+  bookmarkElement.setAttribute("class","bookmark-tag");
+  bookmarkElement.setAttribute("href","#");
+  bookmarkElement.setAttribute("contenteditable","false");
+  bookmarkElement.setAttribute("data-start",params.start);
+  bookmarkElement.setAttribute("data-end",params.end);
+  bookmarkElement.innerText = params.start+"초-"+params.data;
+  return bookmarkElement;
+}
+
 
 $(document).on('ready page:load', function () {
 
   audio_init();
   bookmarkdic = makeBookmarkDic();
   $("[data-bookmark]").on('click', function(){
+
     var bookmarkval = $(this).data('bookmark');
     var bookmark = {
-      start : (App.runningTime/10),
-      end : (App.runningTime/10) + 1,
-      data : { bookmark_id : bookmarkval }
+      start : (App.runningTime/10) - 0.5,
+      end : (App.runningTime/10) + 0.5,
+      data : bookmarkval,
     }
     bookmarks.push(bookmark);
 
     var note = $('#note-area');
-    note.val(note.val()+"\n["+ (App.runningTime / 10) + "초 " + bookmarkdic[bookmarkval] +"]\n");
+
+    var bookmarkElement = bookmarkTag(bookmark);
+    var p = document.createElement('p');
+    p.innerHTML = '<br>';
+
+    note.append($(bookmarkElement))
+        .append($(p));
+
+    // Setting Focus to the end of text.
+    var range = document.createRange();
+    var sel = document.getSelection();
+    range.setStartAfter(bookmarkElement,0);
+    range.collapse(true);
+    sel.removeAllRanges();
+    sel.addRange(range);
+
+    note.focus();
+
+    console.dir(document.createRange());
   });
-  
+
   $('.recorder-component').show();
   $('.recorder-component.pause, .recorder-component.save').hide();
   $('.player-component').hide();

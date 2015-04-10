@@ -5,10 +5,8 @@ function bindSpeedEvent(wavesurfer){
   });
 }
 
-
+var wavesurfer = Object.create(WaveSurfer);
 $(document).on('ready page:load' ,function(){
-  var wavesurfer = Object.create(WaveSurfer);
-
 
   var GLOBAL_ACTIONS = {
     'play': function () {
@@ -52,10 +50,6 @@ $(document).on('ready page:load' ,function(){
   var record_url = $("#waveform-player").data("url");
   wavesurfer.load(record_url);
 
-  wavesurfer.enableDragSelection({
-    color: randomColor(0.1)
-  });
-
   wavesurfer.on('ready', function () {
     wavesurfer.util.ajax({
       responseType: 'json',
@@ -68,7 +62,7 @@ $(document).on('ready page:load' ,function(){
     e.stopPropagation();
     e.shiftKey ? region.playLoop() : region.play();
   });
-  wavesurfer.on('region-click', editAnnotation);
+  // wavesurfer.on('region-click', editAnnotation);
   // wavesurfer.on('region-updated', saveRegions);
   // wavesurfer.on('region-removed', saveRegions);
   wavesurfer.on('region-in', showNote);
@@ -97,6 +91,11 @@ $(document).on('ready page:load' ,function(){
       wavesurfer: wavesurfer,
       container: "#wave-timeline"
     });
+  });
+
+  $('.bookmark-tag').on('click', function() {
+    console.log(this);
+    wavesurfer.play($(this).data('start'), $(this).data('end'));
   });
 
 

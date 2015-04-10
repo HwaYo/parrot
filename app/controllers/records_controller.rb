@@ -38,13 +38,12 @@ class RecordsController < ApplicationController
 
   def bookmark_json
     @record = Record.find(params[:id])
-    puts @record.bookmark
     render json: @record.bookmark
   end
 
   def destroy
     @record = Record.find(params[:id])
-    @record.deleted = true;
+    @record.deleted = true
     @record.save!
     redirect_to records_path
   end
