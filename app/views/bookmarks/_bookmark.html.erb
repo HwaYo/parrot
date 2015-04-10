@@ -1,13 +1,17 @@
 <li class="list-group-item">
-  <span class="bookmark" style="background-color: <%= bookmark.color %>; color: white; padding: 5px 20; box-shadow: inset 0 -1px 0 rgba(0,0,0,0.12);">
-    <span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>
-    <%= bookmark.name %>
-  </span>
-    
-  <span class="bookmark-action">
-    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-    <%= link_to '', bookmark_path(bookmark),
-          method: :delete,
-          data: { confirm: '삭제하시겠습니까?' }, class: 'glyphicon glyphicon-trash' %>
-  </span>
+  <div class="viewer">
+    <span class="bookmark" style="background-color: <%= bookmark.color %>;">
+      <span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>
+      <%= bookmark.name %>
+    </span>
+      
+    <span class="pull-right">
+      <a class="glyphicon glyphicon-edit" href="#" data-bookmark-id="<%= bookmark.id %>"></a>
+      <%= link_to '', bookmark_path(bookmark),
+            method: :delete,
+            data: { confirm: '삭제하시겠습니까?' }, class: 'glyphicon glyphicon-trash' %>
+    </span>
+  </div>
+  <div class="modify">
+  </div>
 </li>

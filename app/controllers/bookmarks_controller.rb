@@ -15,13 +15,13 @@ class BookmarksController < ApplicationController
     if @bookmark.update(bookmark_params)
       redirect_to bookmarks_path
     else
-      render partial: "edit_modal", status: 500
+      render partial: "edit", status: 500
     end
   end
 
   def edit
     @bookmark = Bookmark.find(params[:id])
-    render partial: "edit_modal"
+    render partial: "edit"
   end
 
   def destroy
