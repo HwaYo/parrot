@@ -99,6 +99,11 @@ $(document).on('ready page:load' ,function(){
     });
   });
 
+  $('.bookmark-tag').on('click', function() {
+    console.log(this);
+    wavesurfer.play($(this).data('start'), $(this).data('end'));
+  });
+
 
   /* Toggle play/pause buttons. */
   var playButton = document.querySelector('#play');
