@@ -10,85 +10,6 @@ var audio_context;
 var chunk_recorder;
 var bookmarks = [];
 
-var time;
-
-
-var RecorderBuffer = function (input) {
-  // double buffering
-  this.buffer = [];
-  this.current_buffer_index = 0;
-  this.buffer.push(new Recorder(input));
-  this.buffer.push(new Recorder(input));
-};
-
-RecorderBuffer.prototype = {
-  constructor: RecorderBuffer,
-  get_current_buffer: function () {
-    return this.buffer[this.current_buffer_index];
-  },
-  swap_buffer: function () {
-    this.current_buffer_index = 1 - this.current_buffer_index;
-    return this.get_current_buffer();
-  }
-};
-
-var ChunkRecorder = function (input) {
-  // TEMP: need a lock for each recorder and ensure working order.
-  this.lock = false;
-  this.recorder_buffer = new RecorderBuffer(input);
-  this.chunks = [];
-};
-
-ChunkRecorder.prototype = {
-  constructor: ChunkRecorder,
-  record: function () {
-    var recorder = this.recorder_buffer.get_current_buffer();
-    recorder.record();
-  },
-  pause: function () {
-    var recorder = this.recorder_buffer.get_current_buffer();
-    recorder.stop();
-    timechecker = audio_context.currentTime;
-    time = audio_context.currentTime;
-  },
-  stop: function (callback) {
-    this._store_chunk(this.recorder_buffer.get_current_buffer(), callback);
-  },
-  clear: function () {
-    this.recorder_buffer.get_current_buffer().clear();
-  },
-  get_recorded_url: function () {
-    var recorded_wav = this.chunks[0];
-    var objectURL = URL.createObjectURL(recorded_wav);
-    return objectURL;
-  },
-  _swap: function () {
-    if (!this.lock) {
-      this.lock = true;
-      var recording = this.recorder_buffer.get_current_buffer();
-      var swapped = this.recorder_buffer.swap_buffer();
-
-      this._store_chunk(recording);
-      swapped.record();
-    } else {
-      setTimeout(this._swap, 200);
-    }
-  },
-  _store_chunk: function (recording, callback) {
-    recording.stop();
-    recording.exportWAV(function (b) {
-      this.chunks.push(b);
-      recording.clear();
-
-      this.lock = false;
-
-      if (callback) {
-        callback(null, b);
-      }
-    }.bind(this));
-  }
-};
-
 var audio_init = function () {
   try {
     // webkit shim
@@ -112,13 +33,21 @@ var audio_init = function () {
   var microphone = Object.create(WaveSurfer.Microphone);
 
   microphone.init({
-      wavesurfer: wavesurfer
+    wavesurfer: wavesurfer
   });
 
   microphone.on('deviceReady', function(stream) {
     var input = audio_context.createMediaStreamSource(stream);
 
-    chunk_recorder = new ChunkRecorder(input);
+    chunk_recorder = new ChunkRecorder(function () {
+      return new Recorder(input);
+    }, {
+      encoding_method: function (recorder, callback) {
+        recorder.exportWAV(function (blob) {
+          callback(null, blob);
+        });
+      }
+    });
 
     chunk_recorder.record();
     $('#pause-record').show();
@@ -169,7 +98,7 @@ var audio_init = function () {
 
       chunk_recorder.stop(function (err, blob) {
         var fd = new FormData();
-        fd.append('record[file]', chunk_recorder.chunks[0], 'record.wav');
+        fd.append('record[file]', blob, 'record.wav');
         fd.append('record[note]', $('#note-area').val());
         fd.append('record[bookmark]', JSON.stringify(bookmarks) );
         $.ajax({
@@ -209,7 +138,7 @@ $(document).on('ready page:load', function () {
     var note = $('#note-area');
     note.val(note.val()+"\n["+ (App.runningTime / 10) + "초 " + bookmarkdic[bookmarkval] +"]\n");
   });
-  
+
   $('.recorder-component').show();
   $('.recorder-component.pause, .recorder-component.save').hide();
   $('.player-component').hide();
