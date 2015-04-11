@@ -1,5 +1,5 @@
 <div class="col-md-4 bookmark-list">
-  
+
   <div class="panel panel-success">
     <div class="panel-heading">
       <h3 class="panel-title">BookMark List
@@ -8,34 +8,33 @@
             <i class="glyphicon glyphicon-plus"></i>
           </span>
         </button>
-        
       </h3>
-      
     </div>
     <div class="list-group">
-        <a href="#" class="list-group-item" data-bookmark="1">
-          <span class="glyphicon bookmark-bullet" style="background-color: red;"></span>
-          중요
-        </a>
-        <a href="#" class="list-group-item" data-bookmark="2">
-          <span class="glyphicon bookmark-bullet" style="background-color: blue;"></span>
-          안중요
-        </a>
-        <a href="#" class="list-group-item" data-bookmark="3">
-          <span class="glyphicon bookmark-bullet" style="background-color: green;"></span>
-          듣지마
-        </a>
-      </div>
+      <a href="#" class="list-group-item" data-bookmark="1">
+        <span class="glyphicon bookmark-bullet" style="background-color: red;"></span>
+        중요
+      </a>
+      <a href="#" class="list-group-item" data-bookmark="2">
+        <span class="glyphicon bookmark-bullet" style="background-color: blue;"></span>
+        안중요
+      </a>
+      <a href="#" class="list-group-item" data-bookmark="3">
+        <span class="glyphicon bookmark-bullet" style="background-color: green;"></span>
+        듣지마
+      </a>
+    </div>
   </div>
-    <div class="panel panel-success">    
-  </div>  
+
+  <div class="panel panel-success"></div>  
+
   <div class="panel panel-success">
     <div class="panel-heading">
       <h3 class="panel-title">Audio Controller</h3>
     </div>
     <div class="list-group">
-        <div class="paly-controller list-group-item">
-        <button class="controll-btn">
+      <div class="paly-controller list-group-item">
+        <button id="backward-btn"class="controll-btn">
           <div>
             <span>
               <i class="glyphicon glyphicon-backward"></i>
@@ -45,10 +44,10 @@
             Previous
           </div>
         </button>
-        <button class="controll-btn">
-          <div>
+        <button class="controll-btn" data-action="play">
+          <div data-play>
             <div>
-              <span id="play">
+              <span>
                 <i class="glyphicon glyphicon-play"></i>
               </span>
             </div>
@@ -57,9 +56,9 @@
             </div>
           </div>
 
-          <div style="display: none;">
+          <div data-pause style="display: none;">
             <div>
-              <span id="play">
+              <span>
                 <i class="glyphicon glyphicon-pause"></i>
               </span>
             </div>
@@ -68,7 +67,7 @@
             </div>
           </div>
         </button>
-        <button class="controll-btn">
+        <button id="forward-btn" class="controll-btn">
           <div>
             <span>
               <i class="glyphicon glyphicon-forward"></i>
@@ -104,11 +103,5 @@
         </button>
       </div>
     </div>
-      </div>
-    <div class="panel-body">
-      
-  </div>
-
-  
   </div>
 </div>
