@@ -29,7 +29,6 @@
 .record-item-container:hover {
   background-color: rgba(0, 0, 0, 0.05);
   border-radius: 5px;
-
 }
 
 .record-item {
@@ -121,4 +120,47 @@
 #note-area:active {
   outline:0px !important;
   -webkit-appearance:none;
+}
+.list-group-item {
+  padding: 30px 15px;
+}
+
+.bookmark-bullet {
+  /*border-radius: 50%;*/
+  width: 10px !important;
+  height: 10px !important;
+  margin-right: 10px;
+
+}
+
+
+.speed-controller, .paly-controller {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.6);
+
+  b {
+    font-size: 25px;
+  }
+
+  .controll-btn {
+    width: 66px;
+    padding: 10px;
+    font-size: 18px;
+    vertical-align: middle;
+    background-color: transparent;
+    border: 0px;
+  }
+
+  .controll-btn:hover {
+    color: black;
+  }
+  .cotroll-btn-description {
+    font-size: 12px;
+  }
+}
+
+.bookmark-add-btn {
+  vertical-align: middle;
+  background-color: transparent;
+  border: 0px;
 }

@@ -1,8 +1,23 @@
 function bindSpeedEvent(wavesurfer){
-  $('.speed-group').on('click', function(e){
-    var speed = $(e.target).find("input[type='radio']").data('speed');
-    wavesurfer.setPlaybackRate(speed);
+  $('#speed-up-btn').on('click', function() {
+    setSpeed(0.1);
   });
+
+  $('#speed-down-btn').on('click', function() {
+    setSpeed(-0.1);
+  });
+
+  function setSpeed(variationPpeed) {
+    var MIN_SPEED = 0.5,
+        MAX_SPEED = 2.0,
+        currentSpeed = parseFloat(parseFloat($('#speed-info').html()).toFixed(1)),
+        resultSpeed = currentSpeed + variationPpeed;
+
+    if(resultSpeed >= MIN_SPEED && resultSpeed <= MAX_SPEED) {
+      $('#speed-info').html(resultSpeed.toFixed(1));
+      wavesurfer.setPlaybackRate(resultSpeed);
+    }
+  }
 }
 
 var wavesurfer = Object.create(WaveSurfer);
@@ -40,7 +55,7 @@ $(document).on('ready page:load' ,function(){
 
   wavesurfer.init({
     container: '#waveform-player',
-    height: 150,
+    height: 50,
     scrollParent: true,
     normalize: true,
     minimap: true,
