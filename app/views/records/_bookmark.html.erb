@@ -1,22 +1,100 @@
-<div class="col-md-2 bookmark-list">
-  <div class="speed-group btn-group" data-toggle="buttons">
-    <label class="btn btn-default active">
-      <input type="radio" data-speed="1.0" autocomplete="off" checked>1.0x
-    </label>
-    <label class="btn btn-default">
-      <input type="radio" data-speed="1.5" autocomplete="off">1.5x
-    </label>
-    <label class="btn btn-default">
-      <input type="radio" data-speed="2.0" autocomplete="off">2.0x
-    </label>
+<div class="col-md-2 bookmark-list pull-right">
+
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <h3 class="panel-title">BookMark List
+        <button class="bookmark-add-btn pull-right">
+          <span>
+            <i class="glyphicon glyphicon-plus"></i>
+          </span>
+        </button>
+      </h3>
+    </div>
+    <div class="list-group">
+      <% bookmarks.each do |bookmark| %>
+        <a href="#" class="list-group-item" data-bookmark=<%= bookmark.id %>><span class="glyphicon bookmark-bullet" style="background-color: <%= bookmark.color %>"></span><%= bookmark.name %></a>
+      <% end %>
+    </div>
   </div>
-  <div class="list-group">
-  <a href="#" class="list-group-item"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
-    <% bookmarks.each do |bookmark| %>
-      <a href="#" class="list-group-item" data-bookmark=<%= bookmark.id %> style="background-color: <%= bookmark.color %>"><%= bookmark.name %></a>
-    <% end %>
-    <a href="#" class="list-group-item list-group-item-success" data-bookmark="1">중요</a>
-    <a href="#" class="list-group-item list-group-item-info" data-bookmark="2">안중요</a>
-    <a href="#" class="list-group-item list-group-item-warning" data-bookmark="3">듣지마</a>
+
+  <div class="player-component">
+    <div class="panel panel-success"></div>
+
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <h3 class="panel-title">Audio Controller</h3>
+      </div>
+      <div class="list-group">
+        <div class="paly-controller list-group-item">
+          <button id="backward-btn"class="controll-btn">
+            <div>
+              <span>
+                <i class="glyphicon glyphicon-backward"></i>
+              </span>
+            </div>
+            <div class="cotroll-btn-description">
+              Previous
+            </div>
+          </button>
+          <button class="controll-btn" data-action="play">
+            <div data-play>
+              <div>
+                <span>
+                  <i class="glyphicon glyphicon-play"></i>
+                </span>
+              </div>
+              <div class="cotroll-btn-description">
+                Play
+              </div>
+            </div>
+
+            <div data-pause style="display: none;">
+              <div>
+                <span>
+                  <i class="glyphicon glyphicon-pause"></i>
+                </span>
+              </div>
+              <div class="cotroll-btn-description">
+                Pause
+              </div>
+            </div>
+          </button>
+          <button id="forward-btn" class="controll-btn">
+            <div>
+              <span>
+                <i class="glyphicon glyphicon-forward"></i>
+              </span>
+            </div>
+            <div class="cotroll-btn-description">
+              Next
+            </div>
+          </button>
+        </div>
+
+        <div class="speed-controller list-group-item">
+          <button id="speed-down-btn" class="controll-btn">
+             <div>
+                <span>
+                  <i class="glyphicon glyphicon-backward"></i>
+                </span>
+              </div>
+              <div class="cotroll-btn-description">
+                down
+              </div>
+          </button>
+          <b><span id="speed-info">1.0</span>x</b>
+          <button id="speed-up-btn" class="controll-btn">
+            <div>
+              <span>
+                <i class="glyphicon glyphicon-forward"></i>
+              </span>
+            </div>
+            <div class="cotroll-btn-description">
+              up
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
