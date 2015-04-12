@@ -161,6 +161,8 @@ wavesurfer = {
 $(document).on('ready page:load' ,function(){
   wavesurfer.init();
   player.init();
+
+  var editor = new MediumEditor('#note-area');
 });
 
 
