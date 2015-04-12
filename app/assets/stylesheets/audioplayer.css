@@ -1,14 +1,11 @@
 #pButton{
-	height:60px; 
+	height:60px;
 	width: 60px;
 	border: none;
 	background-size: 50% 50%;
 	background-position: center;
   float: left;
 }
-.play{background: url('./play.png') no-repeat;}
-.pause{background: url('./pause.png') no-repeat;}
-.tag{background: url('./tag.png') no-repeat;}
 
 #timeline{
   width: 800px;
@@ -18,7 +15,7 @@
   float: left;
   border-radius: 15px;
 }
- 
+
 #playhead{
   width: 18px;
   height: 18px;
@@ -29,8 +26,8 @@
 
 .tooltip-target { position: relative; }
 
-.tooltip-content { 
-     display: none; 
+.tooltip-content {
+     display: none;
      position: absolute;
      left: 50%;
      top: -10px;

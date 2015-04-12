@@ -42,6 +42,14 @@ group :development, :test do
 
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
+
+  # Testing
+  gem 'rspec-rails', '~> 3.2.1'
+  gem 'guard-rspec', '~> 4.5.0'
+  gem 'capybara', '~> 2.4.4'
+  gem 'database_cleaner', '~> 1.4.1'
+  gem 'selenium-webdriver', '~> 2.45.0'
+  gem 'factory_girl_rails', '~> 4.5.0'
 end
 
 group :production do
@@ -54,4 +62,3 @@ gem 'bootstrap-sass', '~> 3.3.4.1'
 gem 'fog', '~> 1.29.0'
 gem 'carrierwave', '~> 0.10.0'
 gem 'blockuijs-rails',  :git => 'git://github.com/rusanu/blockuijs-rails.git'
-
