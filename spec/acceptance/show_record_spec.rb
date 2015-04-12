@@ -9,10 +9,10 @@ RSpec.describe 'Record play process', type: :feature do
   end
 
   it "plays a recorded voice", js: true do
-    find('#play').click
+    all('[data-play]').first.click
 
-    expect(page).to have_selector('#play', visible: false)
-    expect(page).to have_selector('#pause', visible: true)
+    expect(page).to have_selector('[data-play]', visible: false)
+    expect(page).to have_selector('[data-pause]', visible: true)
   end
 
   it "shows a written note" do
