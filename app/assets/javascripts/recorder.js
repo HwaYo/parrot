@@ -106,7 +106,8 @@ var audio_init = function () {
   wavesurfer.init({
     container     : '#waveform-recorder',
     interact      : false,
-    cursorWidth   : 0
+    cursorWidth   : 0,
+    height: 100
   });
 
   var microphone = Object.create(WaveSurfer.MicrophoneStream);
