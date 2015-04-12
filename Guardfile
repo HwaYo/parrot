@@ -8,7 +8,7 @@ guard :rspec, cmd: "bundle exec rspec" do
   rspec = dsl.rspec
   watch(rspec.spec_helper) { rspec.spec_dir }
   watch(rspec.spec_support) { rspec.spec_dir }
-  watch(rspec.spec_files)
+  watch(%r{^spec/unit/(.+)_spec\.rb$})
 
   # Ruby files
   ruby = dsl.ruby
@@ -22,8 +22,7 @@ guard :rspec, cmd: "bundle exec rspec" do
   watch(rails.controllers) do |m|
     [
       rspec.spec.("routing/#{m[1]}_routing"),
-      rspec.spec.("controllers/#{m[1]}_controller"),
-      rspec.spec.("acceptance/#{m[1]}")
+      rspec.spec.("controllers/#{m[1]}_controller")
     ]
   end
 
@@ -34,10 +33,4 @@ guard :rspec, cmd: "bundle exec rspec" do
 
   # Capybara features specs
   watch(rails.view_dirs)     { |m| rspec.spec.("features/#{m[1]}") }
-
-  # Turnip features and steps
-  watch(%r{^spec/acceptance/(.+)\.feature$})
-  watch(%r{^spec/acceptance/steps/(.+)_steps\.rb$}) do |m|
-    Dir[File.join("**/#{m[1]}.feature")][0] || "spec/acceptance"
-  end
 end

@@ -15,8 +15,9 @@ RSpec.describe 'Record creation process', type: :feature do
     end
 
     # requires "always permit" for microphone sharing @ about:permissions
-    it "records audio", js: true do
-      skip "microphone permission required"
+    it "records audio" do
+      selenium_required!
+
       find('.recorder-component.record').click
 
       # http://stackoverflow.com/questions/8801845/how-to-make-capybara-check-for-visibility-after-some-js-has-run
@@ -28,7 +29,7 @@ RSpec.describe 'Record creation process', type: :feature do
       expect(page).to have_selector('.recorder-component.save', visible: true)
       find('.recorder-component.save').click
 
-      sleep 10
+      sleep 3
 
       record = Record.last
       expect(current_path).to eq(record_path(record))

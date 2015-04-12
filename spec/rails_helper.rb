@@ -36,6 +36,9 @@ RSpec.configure do |config|
   # Acceptance Helper Mixin
   config.include AcceptanceHelper
 
+  Capybara.register_driver :selenium do |app|
+    Capybara::Selenium::Driver.new(app, :browser => :firefox, :profile => 'default')
+  end
   # Type `CAPYBARA_DRIVER=selenium bundle exec rspec acceptance` for acceptance testing
   Capybara.default_driver = ENV.fetch('CAPYBARA_DRIVER', :rack_test).to_sym
 

@@ -10,15 +10,19 @@ RSpec.describe 'Record management process', type: :feature do
     expect(page).to have_content('test record')
   end
 
-  it 'allows delete a record', js: true do
+  it 'allows delete a record' do
+    selenium_required!
+
     find('[data-method=delete]').click
     page.driver.browser.switch_to.alert.accept
 
     expect(page).not_to have_selector('.record-item-container')
   end
 
-  it "allows modify a record title", js: true do
+  it "allows modify a record title" do
+    selenium_required!
     skip "See https://github.com/HwaYo/parrot/issues/61"
+
     find('[data-target=#edit-modal]').click
   end
 end

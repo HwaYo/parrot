@@ -8,7 +8,9 @@ RSpec.describe 'Record play process', type: :feature do
     visit record_path(@record)
   end
 
-  it "plays a recorded voice", js: true do
+  it "plays a recorded voice" do
+    selenium_required!
+
     all('[data-play]').first.click
 
     expect(page).to have_selector('[data-play]', visible: false)
