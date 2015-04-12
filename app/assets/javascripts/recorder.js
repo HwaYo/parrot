@@ -119,20 +119,22 @@ var audio_init = function () {
   }.bind(this));
 };
 
-function makeBookmarkDic(){
+function makeBookmarkDic() {
   bookmarkDic = { 1:"중요", 2:"안중요", 3:"듣지마" };
   return bookmarkDic;
 }
 
-function bookmarkTag(params){
-  var bookmarkElement = document.createElement('a');
-  bookmarkElement.setAttribute("class","bookmark-tag");
-  bookmarkElement.setAttribute("href","#");
-  bookmarkElement.setAttribute("contenteditable","false");
-  bookmarkElement.setAttribute("data-start",params.start);
-  bookmarkElement.setAttribute("data-end",params.end);
-  bookmarkElement.innerText = params.start+"초-"+params.data;
-  return bookmarkElement;
+function bookmarkTag(params) {
+  var bookmark = $('<a />')
+    .addClass('bookmark-tag')
+    .attr({
+      'href': '#',
+      'contenteditable': false,
+      'data-start': params.start,
+      'data-end': params.end
+    })
+    .text(params.start + "초 - " + params.data);
+  return bookmark;
 }
 
 $(document).on('ready page:load', function () {
@@ -160,7 +162,7 @@ $(document).on('ready page:load', function () {
     // Setting Focus to the end of text.
     var range = document.createRange();
     var sel = document.getSelection();
-    range.setStartAfter(bookmarkElement,0);
+    range.setStartAfter(bookmarkElement[0] ,0);
     range.collapse(true);
     sel.removeAllRanges();
     sel.addRange(range);
