@@ -39,11 +39,12 @@
       </div>
     </div>
   </div>
+</div>
 
-
+<div class="container">
   <div class="row">
     <%= render partial: 'note' %>
-    <%= render partial: 'bookmark' %>
+    <%= render partial: 'bookmark', locals: {bookmarks: @bookmarks} %>
   </div>
 </div>
 

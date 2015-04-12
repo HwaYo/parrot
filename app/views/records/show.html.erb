@@ -16,7 +16,16 @@
 <% end %>
 
 <div class="container-fluid">
+  <div class="player-component">
+    <div id='wave'></div>
+    <p id="subtitle" class="text-center text-info">&nbsp;</p>
+    <div id="wave-timeline"></div>
+    <div id="waveform-player" data-id="<%= @record.id %>" data-url="<%= @record.file.url %>"></div>
+  </div>
+</div>
 
+
+<!-- <div class="container">
   <div class="page-header clearfix">
     <h1><%= @record.title %>
       <div class="speed-group btn-group btn-group-lg pull-right" data-toggle="buttons">
@@ -32,17 +41,12 @@
       </div>
     </h1>
   </div>
+</div> -->
 
-  <div class="player-component">
-    <div id='wave'></div>
-    <p id="subtitle" class="text-center text-info">&nbsp;</p>
-    <div id="wave-timeline"></div>
-    <div id="waveform-player" data-id="<%= @record.id %>" data-url="<%= @record.file.url %>"></div>
-  </div>
-
+<div class="container-fluid">
   <div class="row">
     <%= render partial: 'note' %>
-    <%= render partial: 'bookmark' %>
+    <%= render partial: 'bookmark', locals: {bookmarks: @bookmarks} %>
   </div>
 </div>
 <!--

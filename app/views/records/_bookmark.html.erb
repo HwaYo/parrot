@@ -1,5 +1,20 @@
-<div class="col-md-3 bookmark-list">
+<div class="col-md-2 bookmark-list">
+  <div class="speed-group btn-group" data-toggle="buttons">
+    <label class="btn btn-default active">
+      <input type="radio" data-speed="1.0" autocomplete="off" checked>1.0x
+    </label>
+    <label class="btn btn-default">
+      <input type="radio" data-speed="1.5" autocomplete="off">1.5x
+    </label>
+    <label class="btn btn-default">
+      <input type="radio" data-speed="2.0" autocomplete="off">2.0x
+    </label>
+  </div>
   <div class="list-group">
+  <a href="#" class="list-group-item"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+    <% bookmarks.each do |bookmark| %>
+      <a href="#" class="list-group-item" data-bookmark=<%= bookmark.id %> style="background-color: <%= bookmark.color %>"><%= bookmark.name %></a>
+    <% end %>
     <a href="#" class="list-group-item list-group-item-success" data-bookmark="1">중요</a>
     <a href="#" class="list-group-item list-group-item-info" data-bookmark="2">안중요</a>
     <a href="#" class="list-group-item list-group-item-warning" data-bookmark="3">듣지마</a>

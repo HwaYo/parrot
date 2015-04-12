@@ -16,3 +16,50 @@
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+.navbar-default {
+  background-color: rgba(0, 0, 0, 0.6);
+
+  .navbar-brand {
+    color: white;
+  }
+
+  .navbar-brand:hover {
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  .btn-link {
+    color: white;
+  }
+
+  .btn-link:hover {
+    color: rgba(255, 255, 255, 0.65);
+  }
+}
+
+.navbar-icon {
+  position: relative;
+  top: 3px;
+}
+
+.dropdown.open {
+  .dropdown-toggle {
+    background-color: rgba(0, 0, 0, 0.2) !important;
+  }
+}
+
+nav {
+  button:focus,
+  button:active {
+    outline:0px !important;
+    -webkit-appearance:none;
+
+    span {
+      color: white;
+    }
+  }
+}
+
+.main-container {
+  padding-top: 70px;
+}

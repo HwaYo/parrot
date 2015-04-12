@@ -29,7 +29,6 @@
 .record-item-container:hover {
   background-color: rgba(0, 0, 0, 0.05);
   border-radius: 5px;
-
 }
 
 .record-item {
@@ -75,8 +74,32 @@
   top: 20px;
   right: 20px;
 
+  
   .glyphicon {
     color: rgba(0, 0, 0, 0.6);
     font-size: 16px;
   }
+}
+
+
+#note-area {
+  font-family: ProximaNovaRegular, Helvetica, Arial, sans-serif;
+  font-size: 22px;
+  line-height: 30px;
+
+  margin-top: 50px;
+
+  p {
+    line-height: 1.7em;
+  }
+
+  h3 {
+    font-size: 36px;
+  }
+}
+
+#note-area:focus,
+#note-area:active {
+  outline:0px !important;
+  -webkit-appearance:none;
 }
