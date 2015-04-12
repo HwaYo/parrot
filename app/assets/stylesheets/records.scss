@@ -29,7 +29,6 @@
 .record-item-container:hover {
   background-color: rgba(0, 0, 0, 0.05);
   border-radius: 5px;
-
 }
 
 .record-item {
@@ -70,6 +69,12 @@
   text-overflow: ellipsis;
 }
 
+#note-area:focus,
+#note-area:active {
+  outline:0px !important;
+  -webkit-appearance:none;
+}
+
 .record-btn-container {
   position:absolute;
   top: 20px;
@@ -79,4 +84,74 @@
     color: rgba(0, 0, 0, 0.6);
     font-size: 16px;
   }
+}
+
+
+#note-area {
+  font-family: ProximaNovaRegular, Helvetica, Arial, sans-serif;
+  font-size: 22px;
+  line-height: 30px;
+
+  p {
+    line-height: 1.7em;
+  }
+
+  h3 {
+    font-size: 36px;
+  }
+}
+
+#note-area:focus,
+#note-area:active {
+  outline:0px !important;
+  -webkit-appearance:none;
+}
+
+.list-group-item {
+  padding: 30px 15px;
+}
+
+.bookmark-bullet {
+  /*border-radius: 50%;*/
+  width: 10px !important;
+  height: 10px !important;
+  margin-right: 10px;
+
+}
+
+.note-component {
+  margin-top: 145px;
+}
+
+.speed-controller, .paly-controller {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.6);
+
+  b {
+    width: 30%;
+    font-size: 20px;
+  }
+
+  .controll-btn {
+    width: 30%;
+    padding: 5px;
+    font-size: 18px;
+    vertical-align: middle;
+    background-color: transparent;
+    border: 0px;
+    outline: none;
+  }
+
+  .controll-btn:hover {
+    color: black;
+  }
+  .cotroll-btn-description {
+    font-size: 12px;
+  }
+}
+
+.bookmark-add-btn {
+  vertical-align: middle;
+  background-color: transparent;
+  border: 0px;
 }

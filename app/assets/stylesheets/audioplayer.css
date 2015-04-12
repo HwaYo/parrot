@@ -33,9 +33,18 @@
      display: none; 
      position: absolute;
      left: 50%;
-     top: -10px; // set this whatever you want
+     top: -10px;
 }
 
 .tooltip-target:hover .tooltip-content {
     display: block;
+}
+
+.wave-component {
+  width: 100%;
+  position: fixed;
+  background-color: white;
+  z-index: 3;
+  padding-top: 20px;
+  padding-bottom: 30px;
 }

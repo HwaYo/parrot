@@ -2,7 +2,7 @@
   <div class="col-md-6 col-md-offset-3 record-item-container">
     <div class="record-item">
       <%= link_to record_path(record) do %>
-        <% if record.deleted then %>
+        <% if record.deleted %>
           <% next %>
         <% end %>
         <div class="record-created-at">
@@ -12,7 +12,7 @@
           <h4 class="record-title"><%= record.title %></h4>
         </div>
         <div class="record-note">
-          <%= record.note.try(:truncate, 500) %>
+          <%= strip_tags record.note.try(:truncate, 500) %>
         </div>
         <div class="record-btn-container">
           <div class="record-btn" data-post="<%= record.id %>" data-toggle="modal" data-target="#edit-modal">

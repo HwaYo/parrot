@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="row header">
+      <div>
+        <h3>My bookmark list 
+        <button id="open-new-bookmark" type="button" class="btn btn-sm btn-success pull-right" >
+          책갈피 만들기
+          </button>
+        </h3>
+      </div>
+  </div>
+  <div class="row">
+    <%= form_for :bookmark, html: {id: "new-bookmark-form", class: "form-inline bookmark-form hide"} do |f| %>
+      <div class="form-group name">
+        <%= f.label :name, class: "hidden" %>
+        <%= f.text_field :name, class: "form-control", placeholder: "책갈피 이름을 입력해 주세요."%>
+      </div>
+
+      <div class="form-group color">
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <span class="palette palette-preview"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li>
+              <span class="palette color-1" data-color="#e11d21"></span><span class="palette color-2" data-color="#eb6420"></span><span class="palette color-3" data-color="#fbca04"></span><span class="palette color-4" data-color="#009800"></span><span class="palette color-5" data-color="#006b75"></span><span class="palette color-6" data-color="#207de5"></span><span class="palette color-7" data-color="#0052cc"></span>
+            </li>
+
+            <li>
+              <span class="palette color-8" data-color="#5319e7"></span><span class="palette color-9" data-color="#f7c6c7"></span><span class="palette color-10" data-color="#fad8c7"></span><span class="palette color-11" data-color="#fef2c0"></span><span class="palette color-12" data-color="#bfe5bf"></span><span class="palette color-13" data-color="#bfdadc"></span><span class="palette color-14" data-color="#c7def8"></span>
+
+            </li>
+          </ul>
+          <%= f.label :color, class: "hidden" %>
+          <%= f.text_field :color, class: "hidden", value: "#e11d21"%>
+        </div>
+      </div>
+      <div class="pull-right">
+        <button id="close-new-bookmark" class="btn btn-default" data-close-bookmark-form type="button">취소</button>
+        <%= f.submit "생성하기", class: "btn btn-primary" %>
+      </div>
+      
+      
+    <% end %>
+  </div>
+  <div class="row">
+    <ul class="list-group">
+      <%= render @bookmarks %>
+    </ul>
+  </div>
+</div>

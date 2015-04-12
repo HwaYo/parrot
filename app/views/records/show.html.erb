@@ -3,67 +3,29 @@
 <% end %>
 
 <% content_for :navbar_button do %>
-  <li class="player-component">
     <button class="btn btn-link btn-lg" data-action="play">
-      <span id="play">
+      <span data-play>
         <i class="glyphicon glyphicon-play"></i>
       </span>
-      <span id="pause" style="display: none;">
+      <span data-pause style="display: none;">
         <i class="glyphicon glyphicon-pause"></i>
       </span>
     </button>
   </li>
 <% end %>
 
-<div class="container-fluid">
-
-  <div class="page-header clearfix">
-    <h1><%= @record.title %>
-      <div class="speed-group btn-group btn-group-lg pull-right" data-toggle="buttons">
-        <label class="btn btn-default active">
-          <input type="radio" data-speed="1.0" autocomplete="off" checked>1.0x
-        </label>
-        <label class="btn btn-default">
-          <input type="radio" data-speed="1.5" autocomplete="off">1.5x
-        </label>
-        <label class="btn btn-default">
-          <input type="radio" data-speed="2.0" autocomplete="off">2.0x
-        </label>
-      </div>
-    </h1>
-  </div>
-
-  <div class="player-component">
+<div class="wave-component player-component">
     <div id='wave'></div>
     <p id="subtitle" class="text-center text-info">&nbsp;</p>
     <div id="wave-timeline"></div>
     <div id="waveform-player" data-id="<%= @record.id %>" data-url="<%= @record.file.url %>"></div>
-  </div>
+</div>
 
+<div class="container">
   <div class="row">
     <%= render partial: 'note' %>
-    <%= render partial: 'bookmark' %>
+    <%= render partial: 'bookmark', locals: {bookmarks: @bookmarks} %>
   </div>
 </div>
-<!--
 
-    <form role="form" name="edit" style="opacity: 0; transition: opacity 300ms linear; margin: 30px 0;">
-      <div class="form-group">
-        <label for="start">Start</label>
-        <input class="form-control" id="start" name="start" />
-      </div>
 
-      <div class="form-group">
-        <label for="end">End</label>
-        <input class="form-control" id="end" name="end" />
-      </div>
-
-      <div class="form-group">
-        <label for="note">Note</label>
-        <textarea id="note" class="form-control" rows="3" name="note"></textarea>
-      </div>
-
-      <button type="submit" class="btn btn-success btn-block">Save</button>
-      <center><i>or</i></center>
-      <button type="button" class="btn btn-danger btn-block" data-action="delete-region">Delete</button>
-    </form> -->

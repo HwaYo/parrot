@@ -5,6 +5,7 @@ class RecordsController < ApplicationController
 
   def new
     @record = current_user.records.new
+    @bookmarks = current_user.bookmarks
   end
 
   def edit
@@ -34,17 +35,17 @@ class RecordsController < ApplicationController
 
   def show
     @record = Record.find(params[:id])
+    @bookmarks = current_user.bookmarks
   end
 
   def bookmark_json
     @record = Record.find(params[:id])
-    puts @record.bookmark
     render json: @record.bookmark
   end
 
   def destroy
     @record = Record.find(params[:id])
-    @record.deleted = true;
+    @record.deleted = true
     @record.save!
     redirect_to records_path
   end
