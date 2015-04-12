@@ -5,6 +5,7 @@ class RecordsController < ApplicationController
 
   def new
     @record = current_user.records.new
+    @bookmarks = current_user.bookmarks
   end
 
   def edit
@@ -34,6 +35,7 @@ class RecordsController < ApplicationController
 
   def show
     @record = Record.find(params[:id])
+    @bookmarks = current_user.bookmarks
   end
 
   def bookmark_json

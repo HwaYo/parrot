@@ -11,23 +11,14 @@
       </h3>
     </div>
     <div class="list-group">
-      <a href="#" class="list-group-item" data-bookmark="1">
-        <span class="glyphicon bookmark-bullet" style="background-color: red;"></span>
-        중요
-      </a>
-      <a href="#" class="list-group-item" data-bookmark="2">
-        <span class="glyphicon bookmark-bullet" style="background-color: blue;"></span>
-        안중요
-      </a>
-      <a href="#" class="list-group-item" data-bookmark="3">
-        <span class="glyphicon bookmark-bullet" style="background-color: green;"></span>
-        듣지마
-      </a>
+      <% bookmarks.each do |bookmark| %>
+        <a href="#" class="list-group-item" data-bookmark=<%= bookmark.id %>><span class="glyphicon bookmark-bullet" style="background-color: <%= bookmark.color %>"></span><%= bookmark.name %></a>
+      <% end %>
     </div>
   </div>
 
   <div class="player-component">
-    <div class="panel panel-success"></div>  
+    <div class="panel panel-success"></div>
 
     <div class="panel panel-success">
       <div class="panel-heading">

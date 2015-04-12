@@ -206,11 +206,9 @@ function bookmarkTag(params){
   return bookmarkElement;
 }
 
-
 $(document).on('ready page:load', function () {
 
   audio_init();
-  bookmarkdic = makeBookmarkDic();
   $("[data-bookmark]").on('click', function(){
 
     var bookmarkval = $(this).data('bookmark');
@@ -239,8 +237,6 @@ $(document).on('ready page:load', function () {
     sel.addRange(range);
 
     note.focus();
-
-    console.dir(document.createRange());
   });
 
   $('.recorder-component').show();

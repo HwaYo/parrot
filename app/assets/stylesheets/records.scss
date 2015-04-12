@@ -69,21 +69,23 @@
   text-overflow: ellipsis;
 }
 
-.record-btn-container {
-  position:absolute;
-  top: 20px;
-  right: 20px;
-
 #note-area:focus,
 #note-area:active {
   outline:0px !important;
   -webkit-appearance:none;
 }
+
+.record-btn-container {
+  position:absolute;
+  top: 20px;
+  right: 20px;
+
   .glyphicon {
     color: rgba(0, 0, 0, 0.6);
     font-size: 16px;
   }
 }
+
 
 #note-area {
   font-family: ProximaNovaRegular, Helvetica, Arial, sans-serif;
@@ -104,6 +106,7 @@
   outline:0px !important;
   -webkit-appearance:none;
 }
+
 .list-group-item {
   padding: 30px 15px;
 }
@@ -119,7 +122,6 @@
 .note-component {
   margin-top: 145px;
 }
-
 
 .speed-controller, .paly-controller {
   text-align: center;
