@@ -9,7 +9,7 @@
       </div>
   </div>
   <div class="row">
-    <%= form_for :bookmark, html: {id: "new-bookmark-form", class: "form-inline bookmark-form"} do |f| %>
+    <%= form_for :bookmark, html: {id: "new-bookmark-form", class: "form-inline bookmark-form hide"} do |f| %>
       <div class="form-group name">
         <%= f.label :name, class: "hidden" %>
         <%= f.text_field :name, class: "form-control", placeholder: "책갈피 이름을 입력해 주세요."%>
