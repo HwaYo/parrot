@@ -5,7 +5,6 @@ RSpec.describe 'Record creation process', type: :feature do
     sign_in!
     find('#menu-toggle').click
     click_link '새 녹음본 만들기'
-
     expect(current_path).to eq(new_record_path)
   end
 
