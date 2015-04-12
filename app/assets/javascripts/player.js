@@ -159,7 +159,7 @@ wavesurfer = {
 }
 
 $(document).on('ready page:load' ,function(){
-  // wavesurfer.init();
+  wavesurfer.init();
   player.init();
 });
 
