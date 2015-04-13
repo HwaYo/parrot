@@ -1,36 +1,48 @@
-$(document).on('ready page:load', function () {
-  editModal.init();
-});
+if ( typeof (record) == typeof (undefined)) {
+    record = {};
+}
 
-var editModal = {
-  init: function(){
-    this.loadInitContent();
-    $("#edit-modal").on("shown.bs.modal", function(e) {
-      editModal.setValidationEvent();
-    });
+record = {
+  init: function() {
+    this.addEventListener();
   },
+  addEventListener: function() {
+    this.addEditRecordFormEvent();
+  },
+  addEditRecordFormEvent: function() {
+    var setValidationEvent = function() {
+      $('#edit-record-modal form').on('ajax:success', function(xhr, status, error){
+        location.reload();
+      }).on('ajax:error',function(xhr, status, error){
+        $('#edit-record-modal-content').html(status.responseText);
+        setValidationEvent();
+      });
+    };
 
-  loadInitContent: function(){
-    $(".btn-record-edit").on("click", function(e){
-      var link = $(e.target);
-      var postId = link.data('post');
+    $("#edit-record-modal").on("shown.bs.modal", function(e) {
+      setValidationEvent();
+    });
 
-      $.ajax({
-        url: "records/" + postId + "/edit"
-      }).success(function(html){
-        $('.modal-body').html(html);
+    $('[data-record-edit]').on("click", function(e){
+      e.preventDefault();
+
+      var recordId = $(this).data('record');
+          url = "records/" + recordId + "/edit";
+
+      record.request(url, function(html){
+        $('#edit-record-modal-content').html(html);
       });
     });
   },
-
-  setValidationEvent: function(){
-    $('#edit-modal form').on('ajax:success', function(xhr, status, error){
-      location.reload();
-    }).on('ajax:error',function(xhr, status, error){
-      $('.modal-body').html(status.responseText);
-      editModal.setValidationEvent();
+  request: function(url, callback) {
+    $.ajax({
+      url: url
+    }).success(function(result){
+      callback(result);
     });
   }
+};
 
-
-}
+$(document).on('ready page:load', function () {
+  record.init();
+});

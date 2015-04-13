@@ -6,7 +6,7 @@
     </span>
       
     <span class="pull-right">
-      <a class="glyphicon glyphicon-edit" href="#" data-bookmark-id="<%= bookmark.id %>"></a>
+      <a class="glyphicon glyphicon-edit" href="#" data-bookmark-edit data-bookmark-id="<%= bookmark.id %>"></a>
       <%= link_to '', bookmark_path(bookmark),
             method: :delete,
             data: { confirm: 'Are you sure you want to delete?' }, class: 'glyphicon glyphicon-trash' %>
