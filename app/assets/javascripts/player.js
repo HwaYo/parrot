@@ -121,6 +121,7 @@ wavesurfer = {
         responseType: 'json',
         url: $("#waveform-player").data('id')+'/bookmark_json',
       }).on('success', function (data) {
+        console.log(data);
         loadRegions(data);
       });
     });
