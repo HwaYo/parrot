@@ -9,7 +9,7 @@
       <a class="glyphicon glyphicon-edit" href="#" data-bookmark-id="<%= bookmark.id %>"></a>
       <%= link_to '', bookmark_path(bookmark),
             method: :delete,
-            data: { confirm: '삭제하시겠습니까?' }, class: 'glyphicon glyphicon-trash' %>
+            data: { confirm: 'Are you sure you want to delete?' }, class: 'glyphicon glyphicon-trash' %>
     </span>
   </div>
   <div class="modify">
