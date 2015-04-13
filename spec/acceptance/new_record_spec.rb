@@ -16,7 +16,7 @@ RSpec.describe 'Record creation process', type: :feature do
   it 'shows a new record page' do
     sign_in!
     find('#menu-toggle').click
-    click_link '새 녹음본 만들기'
+    click_link 'New Record'
     expect(current_path).to eq(new_record_path)
   end
 
