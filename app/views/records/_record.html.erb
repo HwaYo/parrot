@@ -14,11 +14,17 @@
         <div class="record-note">
           <%= strip_tags record.note.try(:truncate, 500) %>
         </div>
-        <div class="record-btn-container">
-          <div class="record-btn" data-post="<%= record.id %>" data-toggle="modal" data-target="#edit-modal">
+        <div class="record-edit-btn-container">
+          <div class="record-edit-btn" data-record="<%= record.id %>" data-record-edit data-toggle="modal" data-target="#edit-record-modal">
             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
           </div>
-          <%= link_to record_path(record), class: "record-btn", method: :delete, data: {confirm: "정말로 삭제하시겠습니까?"} do %>
+
+
+          <!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-post="<%= record.id %>" data-target="#edit-record-modal">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+          </button> -->
+
+          <%= link_to record_path(record), class: "record-edit-btn", method: :delete, data: {confirm: "Are you sure you want to delete?"} do %>
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
           <% end %>
         </div>
@@ -27,16 +33,6 @@
   </div>
 </div>
 
-<!-- product record -->
-<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="edit-modal-label" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="edit-modal-label">녹음본 수정하기</h4>
-      </div>
-      <div class="modal-body">
-      </div>
-    </div>
-  </div>
-</div>
+
+
+
