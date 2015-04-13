@@ -1,4 +1,6 @@
 <div class="col-md-12 note-component">
+  <h3 class="record-title"><%= @record.title %></h3>
+
   <div class="form-group">
     <div id="note-area">
       <%= @record.note.try(:html_safe) %>
