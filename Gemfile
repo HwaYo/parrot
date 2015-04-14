@@ -50,7 +50,7 @@ group :development, :test do
   gem 'database_cleaner', '~> 1.4.1'
   gem 'selenium-webdriver', '~> 2.45.0'
   gem 'factory_girl_rails', '~> 4.5.0'
-  gem "codeclimate-test-reporter", require: nil
+  gem 'codeclimate-test-reporter', '~> 0.4.7', require: nil
 end
 
 group :production do

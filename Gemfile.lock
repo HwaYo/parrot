@@ -391,7 +391,7 @@ DEPENDENCIES
   byebug
   capybara (~> 2.4.4)
   carrierwave (~> 0.10.0)
-  codeclimate-test-reporter
+  codeclimate-test-reporter (~> 0.4.7)
   database_cleaner (~> 1.4.1)
   dotenv-rails (~> 2.0.1)
   factory_girl_rails (~> 4.5.0)
