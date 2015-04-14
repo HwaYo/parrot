@@ -157,6 +157,7 @@ recorder = {
       sel.addRange(range);
 
       note.focus();
+      $(window).scrollTop($(document).height());
     });
   },
   makeBookmarkTag: function(bookmarkInfo) {
