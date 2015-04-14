@@ -6,10 +6,8 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 require 'capybara/rspec'
 
-require 'simplecov'
-SimpleCov.start do
-  add_filter '/spec/'
-end
+require "codeclimate-test-reporter"
+CodeClimate::TestReporter.start
 
 ActiveRecord::Migration.maintain_test_schema!
 
