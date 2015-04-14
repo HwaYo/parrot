@@ -38,6 +38,7 @@ bookmarkHandler = {
           note = $('#note-area'),
           bookmarkTag = bookmarkHandler.makeBookmarkTag(bookmarkInfo),
           newLine = $('<p/>');
+      note.attr('data-placeholder','');
       bookmarkHandler.bookmarks.push(bookmarkInfo);
 
       newLine.html('&nbsp;');

@@ -112,7 +112,7 @@ wavesurfer = {
         alpha || 1
         ] + ')';
     };
-    
+
     var loadRegions = function(regions) {
       var newRegion = {};
       regions.forEach(function (region) {
