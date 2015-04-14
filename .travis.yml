@@ -1,0 +1,10 @@
+language: ruby
+rvm:
+  - 2.2.0
+env:
+  - DB=travis_sqlite
+  - DB=travis_postgresql
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+script:
+  - bundle exec rspec spec
