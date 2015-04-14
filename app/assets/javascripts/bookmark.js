@@ -99,4 +99,26 @@ bookmarkHandler = {
 };
 
 $(document).on('ready page:load', function () {
+  var timer = {};
+  $('#note-area').on('keyup', function(event){
+    window.clearInterval(timer);
+    timer = window.setInterval(updateNote, 3000);
+  });
+  updateNote = function() {
+    window.clearInterval(timer);
+
+    var recordId = $('#waveform-player').data('id');
+    var formData = new FormData();
+    formData.append('record[note]', $('#note-area').html() );
+    
+    $.ajax({
+        type: 'PUT',
+        url: '/records/' + recordId,
+        data: formData,
+        processData: false,
+        contentType: false
+    }).done(function(data) {
+    });
+
+  }
 });
