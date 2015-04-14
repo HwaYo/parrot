@@ -6,7 +6,7 @@
 
 var audio_context;
 var chunk_recorder;
-var bookmarks = [];
+
 
 var audio_init = function () {
   try {
@@ -101,7 +101,7 @@ var audio_init = function () {
         var fd = new FormData();
         fd.append('record[file]', blob, 'record.wav');
         fd.append('record[note]', $('#note-area').html());
-        fd.append('record[bookmark]', JSON.stringify(bookmarks) );
+        fd.append('record[bookmark]', JSON.stringify(bookmarkHandler.bookmarks) );
         $.ajax({
             type: 'POST',
             url: '/records',
@@ -118,74 +118,9 @@ var audio_init = function () {
 };
 
 
-if ( typeof (recorder) == typeof (undefined)) {
-  recorder = {};
-}
-
-recorder = {
-  init: function() {
-    this.addEventListener();
-  },
-  addEventListener: function() {
-    this.addBookmarkTagEvent();
-  },
-  addBookmarkTagEvent: function() {
-    $("[data-bookmark]").on('click', function(e){
-      e.preventDefault();
-      var $bookmark = $(this),
-          bookmarkInfo = {
-            start : (App.runningTime/10),
-            end : (App.runningTime/10) + 0.5,
-            name : $bookmark.data('name'),
-            color : $bookmark.data('color')
-          },
-          note = $('#note-area'),
-          bookmarkTag = recorder.makeBookmarkTag(bookmarkInfo),
-          newLine = $('<p/>');
-
-      bookmarks.push(bookmarkInfo);
-
-      newLine.html('&nbsp;');
-      note.append(bookmarkTag);
-      note.append(newLine);
-
-      // Setting Focus to the end of text.
-      var range = document.createRange();
-      var sel = document.getSelection();
-      range.setStartAfter(bookmarkTag[0] ,0);
-      range.collapse(true);
-      sel.removeAllRanges();
-      sel.addRange(range);
-
-      $(window).scrollTop($(document).height());
-      note.focus();
-    });
-  },
-  makeBookmarkTag: function(bookmarkInfo) {
-    var bookmark = $('<p/>'),
-        content = $('<a/>')
-
-    content.addClass('bookmark-tag');
-    content.attr({
-      'href': '',
-      'contenteditable': false,
-      'data-start': bookmarkInfo.start,
-      'data-end': bookmarkInfo.end
-    });
-    content.text("[" + bookmarkInfo.start + "초] - " + bookmarkInfo.name);
-    content.css('color', bookmarkInfo.color);
-
-    bookmark.html(content);
-    return bookmark;
-  }
-};
-
-
-
 $(document).on('ready page:load', function () {
-
+  bookmarkHandler.init(true);
   audio_init();
-  recorder.init();
 
   $('.recorder-component').show();
   $('.recorder-component.pause, .recorder-component.save').hide();

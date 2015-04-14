@@ -342,12 +342,12 @@ WaveSurfer.Region = {
         }());
     },
 
-    // onDrag: function (delta) {
-    //     this.update({
-    //         start: this.start + delta,
-    //         end: this.end + delta
-    //     });
-    // },
+    onDrag: function (delta) {
+        // this.update({
+        //     start: this.start + delta,
+        //     end: this.end + delta
+        // });
+    },
 
     onResize: function (delta, direction) {
         if (direction == 'start') {
