@@ -25,7 +25,7 @@ class RecordsController < ApplicationController
 
   def create
     record = current_user.records.new(record_params)
-    record.title = "#{Time.now.strftime('%Y%m%d%H%M%S')}"
+    record.title = "#{Time.now.strftime('%Y년 %m월 %d일 %H시 %M분에 남긴 녹음본')}"
     record.save!
 
     render json: {
