@@ -12,7 +12,7 @@
     </div>
     <div class="list-group">
       <% bookmarks.each do |bookmark| %>
-        <a href="#" class="list-group-item" data-bookmark=<%= bookmark.id %>><span class="glyphicon bookmark-bullet" style="background-color: <%= bookmark.color %>"></span><%= bookmark.name %></a>
+        <a href="" class="list-group-item" data-bookmark data-name="<%= bookmark.name %>" data-color="<%= bookmark.color %>"><span class="glyphicon bookmark-bullet" style="background-color: <%= bookmark.color %>"></span><%= bookmark.name %></a>
       <% end %>
     </div>
   </div>

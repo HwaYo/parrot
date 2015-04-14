@@ -1,10 +1,10 @@
 // 음소거 : .toggleMute();
 
 if ( typeof (player) == typeof (undefined)) {
-    player = {};
+  player = {};
 }
 if ( typeof (wavesurfer) == typeof (undefined)) {
-    wavesurfer = {};
+  wavesurfer = {};
 }
 
 player = {
@@ -13,14 +13,15 @@ player = {
   },
 
   addEventListener: function() {
-    this.speedControll();
-    this.playControll();
+    var wavesurferObject = wavesurfer.object;
+    this.addSpeedControllEvent(wavesurferObject);
+    this.addPlayControllEvent(wavesurferObject);
+    this.addBookmarkTagEvent();
   },
 
-  playControll: function() {
-    var wavesurferObject = wavesurfer.object;
-
-    $('.bookmark-tag').on('click', function() {
+  addPlayControllEvent: function(wavesurferObject) {
+    $('.bookmark-tag').on('click', function(e) {
+      e.preventDefault();
       wavesurferObject.play($(this).data('start'));
       player.showPausebutton();
     });
@@ -38,9 +39,7 @@ player = {
     });
   },
 
-  speedControll: function() {
-    var wavesurferObject = wavesurfer.object;
-
+  addSpeedControllEvent: function(wavesurferObject) {
     $('#speed-up-btn').on('click', function() {
       setSpeed(1);
     });
@@ -63,6 +62,11 @@ player = {
         wavesurferObject.setPlaybackRate(realSpeed);
       }
     }
+  },
+  addBookmarkTagEvent: function() {
+    $("[data-bookmark]").on('click', function(e){
+      e.preventDefault();
+    });
   },
   showPlaybutton: function() {
     $('[data-play]').show();
@@ -125,8 +129,6 @@ wavesurfer = {
         loadRegions(data);
       });
     });
-
-    
   },
   region: function() {
     var wavesurferObject = this.object;
@@ -163,17 +165,3 @@ $(document).on('ready page:load' ,function(){
   wavesurfer.init();
   player.init();
 });
-
-
-
-
-  
-
-  
-
-  
-
-
-
-
-

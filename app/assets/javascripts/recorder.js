@@ -3,9 +3,7 @@
 
 
 // [{start: Float, end:Float, data:{note:String}}]
-(function(){
 
-}());
 var audio_context;
 var chunk_recorder;
 var bookmarks = [];
@@ -119,56 +117,75 @@ var audio_init = function () {
   }.bind(this));
 };
 
-function makeBookmarkDic() {
-  bookmarkDic = { 1:"중요", 2:"안중요", 3:"듣지마" };
-  return bookmarkDic;
+
+if ( typeof (recorder) == typeof (undefined)) {
+  recorder = {};
 }
 
-function bookmarkTag(params) {
-  var bookmark = $('<a />')
-    .addClass('bookmark-tag')
-    .attr({
-      'href': '#',
+recorder = {
+  init: function() {
+    this.addEventListener();
+  },
+  addEventListener: function() {
+    this.addBookmarkTagEvent();
+  },
+  addBookmarkTagEvent: function() {
+    $("[data-bookmark]").on('click', function(e){
+      e.preventDefault();
+      var $bookmark = $(this),
+          bookmarkInfo = {
+            start : (App.runningTime/10),
+            end : (App.runningTime/10) + 0.5,
+            name : $bookmark.data('name'),
+            color : $bookmark.data('color')
+          },
+          note = $('#note-area'),
+          bookmarkTag = recorder.makeBookmarkTag(bookmarkInfo),
+          newLine = $('<p/>');
+
+      bookmarks.push(bookmarkInfo);
+
+      newLine.html('&nbsp;');
+      note.append(bookmarkTag);
+      note.append(newLine);
+
+      // Setting Focus to the end of text.
+      var range = document.createRange();
+      var sel = document.getSelection();
+      range.setStartAfter(bookmarkTag[0] ,0);
+      range.collapse(true);
+      sel.removeAllRanges();
+      sel.addRange(range);
+
+      $(window).scrollTop($(document).height());
+      note.focus();
+    });
+  },
+  makeBookmarkTag: function(bookmarkInfo) {
+    var bookmark = $('<p/>'),
+        content = $('<a/>')
+
+    content.addClass('bookmark-tag');
+    content.attr({
+      'href': '',
       'contenteditable': false,
-      'data-start': params.start,
-      'data-end': params.end
-    })
-    .text(params.start + "초 - " + params.data);
-  return bookmark;
-}
+      'data-start': bookmarkInfo.start,
+      'data-end': bookmarkInfo.end
+    });
+    content.text("[" + bookmarkInfo.start + "초] - " + bookmarkInfo.name);
+    content.css('color', bookmarkInfo.color);
+
+    bookmark.html(content);
+    return bookmark;
+  }
+};
+
+
 
 $(document).on('ready page:load', function () {
 
   audio_init();
-  $("[data-bookmark]").on('click', function(){
-
-    var bookmarkval = $(this).data('bookmark');
-    var bookmark = {
-      start : (App.runningTime/10) - 0.5,
-      end : (App.runningTime/10) + 0.5,
-      data : bookmarkval,
-    }
-    bookmarks.push(bookmark);
-
-    var note = $('#note-area');
-
-    var bookmarkElement = bookmarkTag(bookmark);
-    var p = document.createElement('p');
-    p.innerHTML = '<br>';
-
-    note.append($(bookmarkElement))
-        .append($(p));
-
-    // Setting Focus to the end of text.
-    var range = document.createRange();
-    var sel = document.getSelection();
-    range.setStartAfter(bookmarkElement[0] ,0);
-    range.collapse(true);
-    sel.removeAllRanges();
-    sel.addRange(range);
-
-    note.focus();
-  });
+  recorder.init();
 
   $('.recorder-component').show();
   $('.recorder-component.pause, .recorder-component.save').hide();
