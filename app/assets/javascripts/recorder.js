@@ -130,7 +130,8 @@ recorder = {
     this.addBookmarkTagEvent();
   },
   addBookmarkTagEvent: function() {
-    $("[data-bookmark]").on('click', function(){
+    $("[data-bookmark]").on('click', function(e){
+      e.preventDefault();
       var $bookmark = $(this),
           bookmarkInfo = {
             start : (App.runningTime/10),
@@ -156,8 +157,8 @@ recorder = {
       sel.removeAllRanges();
       sel.addRange(range);
 
-      note.focus();
       $(window).scrollTop($(document).height());
+      note.focus();
     });
   },
   makeBookmarkTag: function(bookmarkInfo) {

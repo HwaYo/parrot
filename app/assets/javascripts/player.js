@@ -16,6 +16,7 @@ player = {
     var wavesurferObject = wavesurfer.object;
     this.addSpeedControllEvent(wavesurferObject);
     this.addPlayControllEvent(wavesurferObject);
+    this.addBookmarkTagEvent();
   },
 
   addPlayControllEvent: function(wavesurferObject) {
@@ -61,6 +62,11 @@ player = {
         wavesurferObject.setPlaybackRate(realSpeed);
       }
     }
+  },
+  addBookmarkTagEvent: function() {
+    $("[data-bookmark]").on('click', function(e){
+      e.preventDefault();
+    });
   },
   showPlaybutton: function() {
     $('[data-play]').show();
