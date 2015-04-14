@@ -43,6 +43,7 @@ var audio_init = function () {
     chunk_recorder = new ChunkRecorder(function () {
       return new Recorder(input);
     }, {
+      chunk_interval: 2000,
       encoding_method: function (recorder, callback) {
         recorder.exportWAV(function (blob) {
           callback(null, blob);
@@ -98,8 +99,16 @@ var audio_init = function () {
       });
 
       chunk_recorder.stop(function (err, blob) {
+        sorted_chunks = chunk_recorder.chunks.sort(function (a, b) {
+          return a.index - b.index;
+        });
+        chunks = sorted_chunks.map(function (obj) {
+          return obj.blob;
+        });
+        concatenated = new Blob(chunks, { type: 'audio/wav' });
+
         var fd = new FormData();
-        fd.append('record[file]', blob, 'record.wav');
+        fd.append('record[file]', concatenated, 'record.wav');
         fd.append('record[note]', $('#note-area').html());
         fd.append('record[bookmark]', JSON.stringify(bookmarks) );
         $.ajax({
@@ -180,10 +189,7 @@ recorder = {
   }
 };
 
-
-
 $(document).on('ready page:load', function () {
-
   audio_init();
   recorder.init();
 
