@@ -36,10 +36,6 @@ bookmarkHandler = {
           note = $('#note-area'),
           bookmarkTag = bookmarkHandler.makeBookmarkTag(bookmarkInfo),
           newLine = $('<p/>');
-      console.log('$bookmark.data("color")');
-      console.log($bookmark.data('color'));
-      console.log('bookmarkInfo');
-      console.dir(bookmarkInfo);
       bookmarkHandler.bookmarks.push(bookmarkInfo);
 
       newLine.html('&nbsp;');
@@ -89,7 +85,6 @@ bookmarkHandler = {
   saveBookmark: function(options) {
     var recordId = $('#waveform-player').data('id');
     var formData = new FormData();
-    console.log(JSON.stringify(this.bookmarks));
     formData.append('record[bookmark]', JSON.stringify(this.bookmarks) );
     
     $.ajax({
