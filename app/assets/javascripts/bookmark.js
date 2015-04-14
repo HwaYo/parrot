@@ -8,7 +8,7 @@ bookmarkHandler = {
   bookmarks: [],
   init: function(isRecording) {
     this.isRecording = isRecording;
-    this.addEventListener();   
+    this.addEventListener();
     this.audioTag = document.getElementsByTagName('audio');
   },
   setBookmarks : function(data) {
@@ -18,11 +18,13 @@ bookmarkHandler = {
     this.addBookmarkTagEvent();
   },
   addBookmarkTagEvent: function() {
-
+    $('#note-area').on('click', '.bookmark-tag', function(e) {
+      e.preventDefault();
+    });
     $("[data-bookmark]").on('click', function(e){
 
       e.preventDefault();
-      var time = 
+      var time =
           bookmarkHandler.isRecording ? App.runningTime/10 : bookmarkHandler.audioTag[0].currentTime.toFixed(1);
       time = parseFloat(time);
 
@@ -86,7 +88,7 @@ bookmarkHandler = {
     var recordId = $('#waveform-player').data('id');
     var formData = new FormData();
     formData.append('record[bookmark]', JSON.stringify(this.bookmarks) );
-    
+
     $.ajax({
         type: 'PUT',
         url: '/records/' + recordId,
@@ -110,7 +112,7 @@ $(document).on('ready page:load', function () {
     var recordId = $('#waveform-player').data('id');
     var formData = new FormData();
     formData.append('record[note]', $('#note-area').html() );
-    
+
     $.ajax({
         type: 'PUT',
         url: '/records/' + recordId,
