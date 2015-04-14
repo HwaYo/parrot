@@ -1,6 +1,6 @@
 class RecordsController < ApplicationController
   def index
-    @records = Record.remaining.order(created_at: :desc)
+    @records = current_user.records.remaining.order(created_at: :desc)
   end
 
   def new
@@ -9,12 +9,12 @@ class RecordsController < ApplicationController
   end
 
   def edit
-    @record = Record.find(params[:id])
+    @record = current_user.records.find(params[:id])
     render partial: "edit_modal"
   end
 
   def update
-    @record = Record.find(params[:id])
+    @record = current_user.records.find(params[:id])
 
     if @record.update(record_params)
       redirect_to records_path
@@ -34,12 +34,12 @@ class RecordsController < ApplicationController
   end
 
   def show
-    @record = Record.find(params[:id])
+    @record = current_user.records.find(params[:id])
     @bookmarks = current_user.bookmarks
   end
 
   def bookmark_json
-    @record = Record.find(params[:id])
+    @record = current_user.records.find(params[:id])
     render json: @record.bookmark
   end
 
