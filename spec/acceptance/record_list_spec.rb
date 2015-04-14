@@ -21,8 +21,11 @@ RSpec.describe 'Record management process', type: :feature do
 
   it "allows modify a record title" do
     selenium_required!
-    skip "See https://github.com/HwaYo/parrot/issues/61"
 
-    find('[data-target=#edit-modal]').click
+    all('[data-record-edit]').first.click
+    fill_in 'Title', with: 'modified title'
+    click_button 'OK'
+
+    expect(page).to have_content('modified title')
   end
 end
