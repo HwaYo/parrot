@@ -57,7 +57,6 @@ player = {
 
       if(checkSpeed >= MIN_SPEED && checkSpeed <= MAX_SPEED) {
         realSpeed = (checkSpeed / 10);
-        console.log('realSpeed : ' + realSpeed);
         $('#speed-info').html(realSpeed.toFixed(1));
         wavesurferObject.setPlaybackRate(realSpeed);
       }
@@ -113,10 +112,11 @@ wavesurfer = {
         alpha || 1
         ] + ')';
     };
+    
     var loadRegions = function(regions) {
+      var newRegion = {};
       regions.forEach(function (region) {
-        region.color = randomColor(0.1);
-        wavesurferObject.addRegion(region);
+        bookmarkHandler.addRegion(region);
       });
     };
 
@@ -125,10 +125,19 @@ wavesurfer = {
         responseType: 'json',
         url: $("#waveform-player").data('id')+'/bookmark_json',
       }).on('success', function (data) {
-        console.log(data);
         loadRegions(data);
+        bookmarkHandler.setBookmarks(data);
       });
     });
+  },
+  giveTransparency: function(color) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+    return 'rgba(' + [
+      parseInt(result[1], 16),
+      parseInt(result[2], 16),
+      parseInt(result[3], 16),
+      0.5
+      ] +')';
   },
   region: function() {
     var wavesurferObject = this.object;
@@ -164,4 +173,5 @@ wavesurfer = {
 $(document).on('ready page:load' ,function(){
   wavesurfer.init();
   player.init();
+  bookmarkHandler.init(false);
 });
