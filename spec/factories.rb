@@ -13,7 +13,7 @@ FactoryGirl.define do
       test note
       <a class="bookmark-tag" href="#" contenteditable="false" data-start="1" data-end="2">0.5초 - 1</a>
     str
-    bookmark JSON.generate([{ start: 0.5, end: 1.5, data: 1 }])
+    bookmark JSON.generate([{ start: 0.5, end: 1.5, name: "Important", color: "#c0ffee" }])
     user
   end
 

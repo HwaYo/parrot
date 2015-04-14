@@ -71,7 +71,7 @@ RSpec.describe RecordsController, type: :request do
   describe '#bookmark_json' do
     it 'should return bookmarks of record' do
       get bookmark_json_record_path(@record)
-      expect(response.body).to eq(%q([{"start":0.5,"end":1.5,"data":1}]))
+      expect(response.body).to eq(%q([{"start":0.5,"end":1.5,"name":"Important","color":"#c0ffee"}]))
     end
   end
 
