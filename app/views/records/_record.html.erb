@@ -18,12 +18,6 @@
           <div class="record-edit-btn" data-record="<%= record.id %>" data-record-edit data-toggle="modal" data-target="#edit-record-modal">
             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
           </div>
-
-
-          <!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-post="<%= record.id %>" data-target="#edit-record-modal">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-          </button> -->
-
           <%= link_to record_path(record), class: "record-edit-btn", method: :delete, data: {confirm: "Are you sure you want to delete?"} do %>
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
           <% end %>
