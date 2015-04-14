@@ -1,12 +1,15 @@
 language: ruby
 rvm:
-  - 2.2.0
+- 2.2.0
 cache: bundler
-bundler_args: --without development
+bundler_args: "--without development"
 env:
-  - DB=travis_sqlite
-  - DB=travis_postgresql
+- DB=travis_sqlite
+- DB=travis_postgresql
 before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
+- psql -c 'create database travis_ci_test;' -U postgres
 script:
-  - bundle exec rspec spec
+- bundle exec rspec spec
+notifications:
+  slack:
+    secure: ThkVmSGfBzvii5rlm9RRlAYqi0yXcz9icAIe7f08QMxnexlGNW7OMaUqMlqa8Cp608dZbeyUKtrfcBRicxBOeLYA6G4MucMcumlInB1hkARJoSjjqwR+V6LoS4B4baRXe3Ol+NaQptgg3KFdyXFrL+1Fl9yhDCH1j/dmw4SJ2QA=
