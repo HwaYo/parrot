@@ -1,6 +1,6 @@
 class BookmarksController < ApplicationController
   def index
-    @bookmarks = Bookmark.order(created_at: :desc)
+    @bookmarks = current_user.bookmarks.order(created_at: :desc)
   end
 
   def create
@@ -10,7 +10,7 @@ class BookmarksController < ApplicationController
   end
 
   def update
-    @bookmark = Bookmark.find(params[:id])
+    @bookmark = current_user.bookmarks.find(params[:id])
 
     if @bookmark.update(bookmark_params)
       redirect_to bookmarks_path
@@ -20,12 +20,12 @@ class BookmarksController < ApplicationController
   end
 
   def edit
-    @bookmark = Bookmark.find(params[:id])
+    @bookmark = current_user.bookmarks.find(params[:id])
     render partial: "edit"
   end
 
   def destroy
-    bookmark = Bookmark.find(params[:id])
+    bookmark = current_user.bookmarks.find(params[:id])
     bookmark.destroy
 
     redirect_to bookmarks_path
