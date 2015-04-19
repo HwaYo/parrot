@@ -51,6 +51,7 @@ var audio_init = function () {
     });
 
     chunk_recorder.record();
+    $('.recorder-description').hide();
     $('#pause-record').show();
     $('#record').hide();
   });
