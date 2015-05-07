@@ -1,129 +1,190 @@
-// Place all the behaviors and hooks related to the matching controller here.
-// All this logic will automatically be available in application.js.
-
-
-// [{start: Float, end:Float, data:{note:String}}]
-
-var audio_context;
-var chunk_recorder;
-
-
-var audio_init = function () {
+(function (window, navigator) {
+  // webkit shim
   try {
-    // webkit shim
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
     window.URL = window.URL || window.webkitURL;
-
-    audio_context = new AudioContext;
   } catch (e) {
     alert('No web audio support in this browser!');
   }
 
-  var wavesurfer = Object.create(WaveSurfer);
-
-  wavesurfer.init({
-    container     : '#waveform-recorder',
-    interact      : false,
-    cursorWidth   : 0,
-    height: 100
+  // initialize vorbis
+  Vorbis.configure({
+    workerURL: '/libvorbis.worker.js',
+    moduleURL: '/libvorbis.module.min.js',
+    memoryInitializerURL: '/libvorbis.module.min.js.mem'
   });
 
-  var microphone = Object.create(WaveSurfer.MicrophoneStream);
+  var Recorder = function (params) {
+    // initialize params
+    params = params || {};
+    this.channels = params['channels'] || 2;
+    this.bufferSize = params['bufferSize'] || 4096;
+    this.quality = params['quality'] || 0.8;
+    this.sampleRate = null;
 
-  microphone.init({
-    wavesurfer: wavesurfer,
-    bufferSize: 4096,
-    windowSize: 4096 * 10
-  });
+    this.recording = false;
 
-  microphone.on('deviceReady', function(stream) {
-    var input = audio_context.createMediaStreamSource(stream);
+    this.streamInitialized = false;
+    this.streamRef = null;
+    this.encoderPromise = null;
 
-    chunk_recorder = new ChunkRecorder(function () {
-      return new Recorder(input);
-    }, {
-      encoding_method: function (recorder, callback) {
-        recorder.exportWAV(function (blob) {
-          callback(null, blob);
+    this.audioContext = null;
+    this.audioSourceNode = null;
+    this.scriptProcessorNode = null;
+
+    // UI binding
+    this.recordButton = $('.recorder-component.record');
+    this.pauseButton = $('.recorder-component.pause');
+    this.saveButton = $('.recorder-component.save');
+
+    this._bindUI();
+  };
+
+  Recorder.prototype._bindUI = function () {
+    this.recordButton.on('click', function () {
+      this.record().then(function () {
+        this.pauseButton.show(); this.saveButton.show();
+        this.recordButton.hide();
+      }.bind(this));
+    }.bind(this));
+
+    this.pauseButton.on('click', function () {
+      this.pause().then(function () {
+        this.pauseButton.hide();
+        this.recordButton.show();
+      }.bind(this));
+    }.bind(this));
+
+    this.saveButton.on('click', function () {
+      if (!this.recording) {
+        $.blockUI({
+          css: {
+            border: 'none',
+            padding: '15px',
+            backgroundColor: '#000',
+            '-webkit-border-radius': '10px',
+            '-moz-border-radius': '10px',
+            opacity: .5,
+            color: '#fff'
+          }
         });
+
+        this.save().then(function (blob) {
+          this._sendBlob(blob).then(function (data) {
+            var result = data;
+            location.href = data.href;
+          });
+        }.bind(this));
       }
-    });
+    }.bind(this));
+  };
 
-    chunk_recorder.record();
-    $('.recorder-description').hide();
-    $('#pause-record').show();
-    $('#record').hide();
-  });
-
-  microphone.on('deviceError', function(code) {
-    console.warn('Device error: ' + code);
-  });
-  var started = false;
-  var recording = false;
-  $(".recorder-component.record").on('click', function () {
-    recording = true;
-    $('.recorder-component.pause, .recorder-component.save').show();
-    $(".recorder-component.record").hide();
-
-    if (started) {
-      microphone.togglePlay();
-      chunk_recorder.record();
-    }
-    else {
-      microphone.start();
-      started = !started;
-    }
-  }.bind(this));
-
-  $(".recorder-component.pause").on('click', function () {
-    recording = false;
-    microphone.togglePlay();
-    chunk_recorder.pause();
-    $(".recorder-component.pause").hide();
-    $(".recorder-component.record").show();
-  }.bind(this));
-
-  $(".recorder-component.save").on('click', function (){
-    if(started && !recording) {
-      $.blockUI({
-        css: {
-          border: 'none',
-          padding: '15px',
-          backgroundColor: '#000',
-          '-webkit-border-radius': '10px',
-          '-moz-border-radius': '10px',
-          opacity: .5,
-          color: '#fff'
-        }
-      });
-
-      chunk_recorder.stop(function (err, blob) {
-        var fd = new FormData();
-        fd.append('record[file]', blob, 'record.wav');
-        fd.append('record[note]', $('#note-area').html());
-        fd.append('record[bookmark]', JSON.stringify(bookmarkHandler.bookmarks) );
-        $.ajax({
-            type: 'POST',
-            url: '/records',
-            data: fd,
-            processData: false,
-            contentType: false
-        }).done(function(data) {
-          var result = data;
-          location.href = data.href;
-        });
+  Recorder.prototype.record = function () {
+    if (!this.streamInitialized) {
+      return this._initializeStream().then(function () {
+        this.recording = true;
       }.bind(this));
     }
-  }.bind(this));
-};
+    else if (!this.recording) {
+      // resume
+      this.recording = true;
+    }
 
+    return Promise.resolve();
+  };
+
+  Recorder.prototype._initializeStream = function () {
+    return new Promise(function (resolve, reject) {
+      navigator.getUserMedia({ audio: true }, function (stream) {
+        this.streamRef = stream;
+        this._connectAudioStream(stream).then(function () {
+          this.streamInitialized = true;
+          resolve();
+        }.bind(this));
+      }.bind(this), function () {
+        alert("Error occurred!");
+        reject();
+      });
+    }.bind(this));
+  };
+
+  Recorder.prototype._connectAudioStream = function (stream) {
+    this.audioContext = new AudioContext();
+    this.audioSourceNode = this.audioContext.createMediaStreamSource(stream);
+    this.scriptProcessorNode = this.audioContext.createScriptProcessor(this.bufferSize);
+
+    this.sampleRate = this.audioContext.sampleRate;
+
+    this.encoderPromise =
+      Vorbis.Encoding.createVBR(this.channels, this.sampleRate, this.quality)
+      .then(Vorbis.Encoding.writeHeaders);
+
+    // Need a central audio stream.
+    this.scriptProcessorNode.onaudioprocess = function (e) {
+      if (!this.recording) {
+        return;
+      }
+
+      var inputBuffer = e.inputBuffer;
+      var samples = inputBuffer.length;
+
+      var ch0 = inputBuffer.getChannelData(0);
+      var ch1 = inputBuffer.getChannelData(1);
+
+      ch0 = new Float32Array(ch0);
+      ch1 = new Float32Array(ch1);
+
+      var buffers = [ch0.buffer, ch1.buffer];
+
+      this.encoderPromise = this.encoderPromise.then(Vorbis.Encoding.encodeTransfer(samples, buffers));
+    }.bind(this);
+
+    this.audioSourceNode.connect(this.scriptProcessorNode);
+    this.scriptProcessorNode.connect(this.audioContext.destination);
+
+    return Promise.resolve();
+  };
+
+  Recorder.prototype.pause = function () {
+    this.recording = false;
+    return Promise.resolve();
+  };
+
+  Recorder.prototype.save = function () {
+    this.streamRef.stop();
+    this.audioSourceNode.disconnect(this.scriptProcessorNode);
+    this.scriptProcessorNode.disconnect(this.audioContext.destination);
+
+    this.encoderPromise = this.encoderPromise.then(Vorbis.Encoding.finish);
+
+    return this.encoderPromise;
+  };
+
+  Recorder.prototype._sendBlob = function (blob) {
+    var fd = new FormData();
+    fd.append('record[file]', blob, 'record.ogg');
+    fd.append('record[note]', $('#note-area').html());
+    fd.append('record[bookmark]', JSON.stringify(bookmarkHandler.bookmarks) );
+
+    return new Promise(function (resolve, reject) {
+      $.ajax({
+        type: 'POST',
+        url: '/records',
+        data: fd,
+        processData: false,
+        contentType: false
+      }).done(resolve).fail(reject);
+    });
+  };
+
+  window.Recorder = Recorder;
+})(window, navigator);
 
 $(document).on('ready page:load', function () {
-  bookmarkHandler.init(true);
-  audio_init();
-
   $('.recorder-component').show();
   $('.recorder-component.pause, .recorder-component.save').hide();
   $('.player-component').hide();
+
+  var recorder = new Recorder();
 });
