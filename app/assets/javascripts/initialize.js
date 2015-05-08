@@ -1,3 +1,1 @@
-var App = {
-  runningTime: 0,
-};
+var App = {};

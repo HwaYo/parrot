@@ -24,6 +24,7 @@
     this.sampleRate = null;
 
     this.recording = false;
+    this.elapsedTime = 0;
 
     this.streamInitialized = false;
     this.streamRef = null;
@@ -129,6 +130,8 @@
       var inputBuffer = e.inputBuffer;
       var samples = inputBuffer.length;
 
+      this.elapsedTime += (samples / this.sampleRate);
+
       var ch0 = inputBuffer.getChannelData(0);
       var ch1 = inputBuffer.getChannelData(1);
 
@@ -178,6 +181,10 @@
     });
   };
 
+  Recorder.prototype.getElapsedTime = function () {
+    return this.elapsedTime.toFixed(1);
+  };
+
   window.Recorder = Recorder;
 })(window, navigator);
 
@@ -186,5 +193,5 @@ $(document).on('ready page:load', function () {
   $('.recorder-component.pause, .recorder-component.save').hide();
   $('.player-component').hide();
 
-  var recorder = new Recorder();
+  App.recorder = new Recorder();
 });

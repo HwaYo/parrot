@@ -27,7 +27,7 @@ bookmarkHandler = {
 
       e.preventDefault();
       var time =
-          bookmarkHandler.isRecording ? App.runningTime/10 : bookmarkHandler.audioTag[0].currentTime.toFixed(1);
+          bookmarkHandler.isRecording ? App.recorder.getElapsedTime() : bookmarkHandler.audioTag[0].currentTime.toFixed(1);
       time = parseFloat(time);
 
       var $bookmark = $(this),
