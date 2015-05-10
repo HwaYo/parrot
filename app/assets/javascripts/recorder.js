@@ -15,35 +15,85 @@
     memoryInitializerURL: '/libvorbis.module.min.js.mem'
   });
 
+  var AudioStream = {
+    listeners: [],
+    streamRef: null,
+    streamInitialized: false,
+    audioContext: null,
+    audioSourceNode: null,
+    scriptProcessorNode: null
+  };
+
+  AudioStream.initialize = function (params) {
+    if (this.streamInitialized) {
+      return Promise.resolve(this);
+    }
+
+    params = params || {};
+    this.bufferSize = params['bufferSize'] || 4096;
+
+    return new Promise(function (resolve, reject) {
+      navigator.getUserMedia({ audio: true }, function (stream) {
+        this.streamRef = stream;
+        this.audioContext = new AudioContext();
+        this.audioSourceNode = this.audioContext.createMediaStreamSource(stream);
+        this.scriptProcessorNode = this.audioContext.createScriptProcessor(this.bufferSize);
+
+        this.sampleRate = this.audioContext.sampleRate;
+
+        this.scriptProcessorNode.onaudioprocess = this._onAudioProcess.bind(this);
+
+        this.audioSourceNode.connect(this.scriptProcessorNode);
+        this.scriptProcessorNode.connect(this.audioContext.destination);
+
+        this.streamInitialized = true;
+        resolve(this);
+
+      }.bind(this), function () {
+        alert('Permission denied: access to microphone');
+        reject();
+      });
+    }.bind(this));
+  };
+
+  AudioStream._onAudioProcess = function (e) {
+    this.listeners.forEach(function (listener, i) {
+      listener(this, e);
+    }.bind(this));
+  };
+
+  AudioStream.addListener = function (listener) {
+    this.listeners.push(listener);
+  };
+
+  AudioStream.destroy = function () {
+    this.streamRef.stop();
+    this.audioSourceNode.disconnect(this.scriptProcessorNode);
+    this.scriptProcessorNode.disconnect(this.audioContext.destination);
+  };
+
   var Recorder = function (params) {
     // initialize params
     params = params || {};
     this.channels = params['channels'] || 2;
-    this.bufferSize = params['bufferSize'] || 4096;
     this.quality = params['quality'] || 0.8;
-    this.sampleRate = null;
 
+    this.initialzed = false;
     this.recording = false;
     this.elapsedTime = 0;
 
-    this.streamInitialized = false;
-    this.streamRef = null;
     this.encoderPromise = null;
 
-    this.audioContext = null;
-    this.audioSourceNode = null;
-    this.scriptProcessorNode = null;
-
-    // UI binding
     this.recordButton = $('.recorder-component.record');
     this.pauseButton = $('.recorder-component.pause');
     this.saveButton = $('.recorder-component.save');
-
     this._bindUI();
   };
 
   Recorder.prototype._bindUI = function () {
     this.recordButton.on('click', function () {
+      $('.recorder-description').hide();
+
       this.record().then(function () {
         this.pauseButton.show(); this.saveButton.show();
         this.recordButton.hide();
@@ -81,72 +131,54 @@
     }.bind(this));
   };
 
-  Recorder.prototype.record = function () {
-    if (!this.streamInitialized) {
-      return this._initializeStream().then(function () {
-        this.recording = true;
-      }.bind(this));
-    }
-    else if (!this.recording) {
-      // resume
-      this.recording = true;
+  Recorder.prototype._initialize = function () {
+    if (this.initialized) {
+      return Promise.resolve();
     }
 
-    return Promise.resolve();
-  };
+    return AudioStream.initialize().then(function (stream) {
+      this.sampleRate = stream.audioContext.sampleRate;
 
-  Recorder.prototype._initializeStream = function () {
-    return new Promise(function (resolve, reject) {
-      navigator.getUserMedia({ audio: true }, function (stream) {
-        this.streamRef = stream;
-        this._connectAudioStream(stream).then(function () {
-          this.streamInitialized = true;
-          resolve();
-        }.bind(this));
-      }.bind(this), function () {
-        alert("Error occurred!");
-        reject();
-      });
+      this.encoderPromise = Vorbis.Encoding.createVBR(this.channels, this.sampleRate, this.quality)
+      .then(Vorbis.Encoding.writeHeaders);
+
+      stream.addListener(this._onAudioProcess.bind(this));
+
+      this.initialzed = true;
     }.bind(this));
   };
 
-  Recorder.prototype._connectAudioStream = function (stream) {
-    this.audioContext = new AudioContext();
-    this.audioSourceNode = this.audioContext.createMediaStreamSource(stream);
-    this.scriptProcessorNode = this.audioContext.createScriptProcessor(this.bufferSize);
+  Recorder.prototype._onAudioProcess = function (stream, e) {
+    if (!this.recording) {
+      return;
+    }
 
-    this.sampleRate = this.audioContext.sampleRate;
+    var inputBuffer = e.inputBuffer;
+    var samples = inputBuffer.length;
 
-    this.encoderPromise =
-      Vorbis.Encoding.createVBR(this.channels, this.sampleRate, this.quality)
-      .then(Vorbis.Encoding.writeHeaders);
+    this.elapsedTime += (samples / this.sampleRate);
 
-    // Need a central audio stream.
-    this.scriptProcessorNode.onaudioprocess = function (e) {
-      if (!this.recording) {
-        return;
-      }
+    var ch0 = inputBuffer.getChannelData(0);
+    var ch1 = inputBuffer.getChannelData(1);
 
-      var inputBuffer = e.inputBuffer;
-      var samples = inputBuffer.length;
+    ch0 = new Float32Array(ch0);
+    ch1 = new Float32Array(ch1);
 
-      this.elapsedTime += (samples / this.sampleRate);
+    var buffers = [ch0.buffer, ch1.buffer];
 
-      var ch0 = inputBuffer.getChannelData(0);
-      var ch1 = inputBuffer.getChannelData(1);
+    this.encoderPromise = this.encoderPromise.then(Vorbis.Encoding.encodeTransfer(samples, buffers));
+  };
 
-      ch0 = new Float32Array(ch0);
-      ch1 = new Float32Array(ch1);
-
-      var buffers = [ch0.buffer, ch1.buffer];
-
-      this.encoderPromise = this.encoderPromise.then(Vorbis.Encoding.encodeTransfer(samples, buffers));
-    }.bind(this);
-
-    this.audioSourceNode.connect(this.scriptProcessorNode);
-    this.scriptProcessorNode.connect(this.audioContext.destination);
-
-    return Promise.resolve();
+  Recorder.prototype.record = function () {
+    if (this.initialized) {
+      this.recording = true;
+      return Promise.resolve();
+    }
+    else {
+      return this._initialize().then(function () {
+        this.recording = true;
+      }.bind(this));
+    }
   };
 
   Recorder.prototype.pause = function () {
@@ -155,10 +187,7 @@
   };
 
   Recorder.prototype.save = function () {
-    this.streamRef.stop();
-    this.audioSourceNode.disconnect(this.scriptProcessorNode);
-    this.scriptProcessorNode.disconnect(this.audioContext.destination);
-
+    AudioStream.destroy();
     this.encoderPromise = this.encoderPromise.then(Vorbis.Encoding.finish);
 
     return this.encoderPromise;
@@ -185,7 +214,64 @@
     return this.elapsedTime.toFixed(1);
   };
 
+  var WaveRenderer = function (params) {
+    var defaultParams = {
+      interpolate: false,
+      height: 100
+    };
+    params = $.extend({}, defaultParams, params);
+
+    this.renderer = new Waveform(params);
+    this.rendering = false;
+    this.data = [];
+
+    this.recordButton = $('.recorder-component.record');
+    this.pauseButton = $('.recorder-component.pause');
+
+    this._bindUI();
+
+    AudioStream.addListener(this._onAudioProcess.bind(this));
+  };
+
+  WaveRenderer.prototype._bindUI = function () {
+    this.recordButton.on('click', function () {
+      this.rendering = true;
+    }.bind(this));
+
+    this.pauseButton.on('click', function () {
+      this.rendering = false;
+    }.bind(this));
+  };
+
+  WaveRenderer.prototype._onAudioProcess = function (stream, e) {
+    if (!this.rendering) {
+      return;
+    }
+
+    var inputBuffer = e.inputBuffer;
+    var channelData = Array.prototype.slice.call(inputBuffer.getChannelData(0));
+
+    var samples = [];
+
+    var bufferSize = channelData.length;
+    var windowSize = bufferSize;
+    for (var i = 0; i < bufferSize / windowSize; ++i) {
+      var startOffset = windowSize * i;
+      var endOffset = windowSize * (i + 1) - 1;
+      var sliced = channelData.slice(startOffset, endOffset);
+
+      samples.push(Math.max.apply(null, sliced));
+    }
+
+    this.data = this.data.concat(samples);
+
+    this.renderer.update({
+      data: this.data
+    });
+  };
+
   window.Recorder = Recorder;
+  window.WaveRenderer = WaveRenderer;
 })(window, navigator);
 
 $(document).on('ready page:load', function () {
@@ -194,4 +280,7 @@ $(document).on('ready page:load', function () {
   $('.player-component').hide();
 
   App.recorder = new Recorder();
+  App.waveRenderer = new WaveRenderer({
+    container: document.getElementById('waveform-recorder')
+  });
 });
