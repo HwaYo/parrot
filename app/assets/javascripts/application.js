@@ -16,7 +16,6 @@
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require wavesurfer.min
-//= require wavesurfer.microphone.min
 //= stub player
 //= stub recorder
 //= require initialize
