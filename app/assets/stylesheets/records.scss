@@ -10,6 +10,26 @@
 * item
 */
 
+#waveform-recorder {
+  position: relative;
+  height: 100px;
+}
+
+.recorder-description-wrap {
+  position: absolute;
+  width: 100%;
+  display: table;
+}
+
+.recorder-description {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 1.5em;
+  width: 100%;
+  height: 100px;
+}
+
 .record-edit-btn {
   margin: 0px;
   padding: 0px;
@@ -71,14 +91,6 @@
 
 .waveform-container {
   display: table;
-}
-
-.recorder-description {
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
-  font-size: 1.5em;
-  width: 100%;
 }
 
 #note-area:focus,
