@@ -67,3 +67,4 @@ gem 'blockuijs-rails',  :git => 'git://github.com/rusanu/blockuijs-rails.git'
 gem 'doorkeeper', '~> 2.2.1'
 gem "doorkeeper-grants_assertion", github: "Inittec/doorkeeper-grants_assertion", branch: "master"
 
+gem 'grape', '~> 0.11.0'
