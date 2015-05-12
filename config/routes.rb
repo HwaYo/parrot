@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  use_doorkeeper
   root 'home#index'
 
   get 'auth/:provider/callback', to: 'sessions#create'

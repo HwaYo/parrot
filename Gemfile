@@ -64,4 +64,6 @@ gem 'bootstrap-sass', '~> 3.3.4.1'
 gem 'fog', '~> 1.29.0'
 gem 'carrierwave', '~> 0.10.0'
 gem 'blockuijs-rails',  :git => 'git://github.com/rusanu/blockuijs-rails.git'
+gem 'doorkeeper', '~> 2.2.1'
+gem "doorkeeper-grants_assertion", github: "Inittec/doorkeeper-grants_assertion", branch: "master"
 
