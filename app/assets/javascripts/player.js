@@ -1,56 +1,4 @@
-function bindSpeedEvent(wavesurfer){
-  $('.speed-group').on('click', function(e){
-    var speed = $(e.target).find("input[type='radio']").data('speed');
-    wavesurfer.setPlaybackRate(speed);
-  });
-}
-
-
-$(document).on('ready page:load' ,function(){
-  var wavesurfer = Object.create(WaveSurfer);
-
-
-  var GLOBAL_ACTIONS = {
-    'play': function () {
-      wavesurfer.playPause();
-    },
-
-    'back': function () {
-      wavesurfer.skipBackward();
-    },    'forth': function () {
-      wavesurfer.skipForward();
-    },
-
-    'toggle-mute': function () {
-      wavesurfer.toggleMute();
-    }
-  };
-
-  GLOBAL_ACTIONS['delete-region'] = function () {
-    var form = document.forms.edit;
-    var regionId = form.dataset.region;
-    if (regionId) {
-      wavesurfer.regions.list[regionId].remove();
-      form.reset();
-    }
-  };
-
-  GLOBAL_ACTIONS['export'] = function () {
-    window.open('data:application/json;charset=utf-8,' +
-      encodeURIComponent(localStorage.regions));
-  };
-
-  wavesurfer.init({
-    container: '#waveform-player',
-    height: 100,
-    scrollParent: true,
-    normalize: true,
-    minimap: true,
-    backend: 'AudioElement'
-  });
-
-  var record_url = $("#waveform-player").data("url");
-  wavesurfer.load(record_url);
+// 음소거 : .toggleMute();
 
 if ( typeof (player) == typeof (undefined)) {
   player = {};
@@ -83,32 +31,9 @@ player = {
     });
     $('#forward-btn').on('click', function() {
       wavesurferObject.skipForward();
-  });
-
-
-  /* Minimap plugin */
-  // wavesurfer.initMinimap({
-  //   height: 30,
-  //   waveColor: '#ddd',
-  //   progressColor: '#999',
-  //   cursorColor: '#999'
-  // });
-
-
-  /* Timeline plugin */
-  wavesurfer.on('ready', function () {
-    var timeline = Object.create(WaveSurfer.Timeline);
-    timeline.init({
-      wavesurfer: wavesurfer,
-      height: 20,
-      container: "#wave-timeline"
-    });
-
-    $('#backward-btn').on('click', function() {
-      wavesurferObject.skipBackward();
     });
   },
-
+  
   addSpeedControllEvent: function(wavesurferObject) {
     $('#speed-up-btn').on('click', function() {
       setSpeed(1);
@@ -199,15 +124,6 @@ wavesurfer = {
         bookmarkHandler.setBookmarks(data);
       });
     });
-  },
-  giveTransparency: function(color) {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
-    return 'rgba(' + [
-      parseInt(result[1], 16),
-      parseInt(result[2], 16),
-      parseInt(result[3], 16),
-      0.5
-      ] +')';
   },
   region: function() {
     var wavesurferObject = this.object;
