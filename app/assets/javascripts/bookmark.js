@@ -29,6 +29,17 @@ bookmarkHandler = {
       0.5
       ] +')';
   },
+  closeAllBookmarks: function() {
+    var time =
+        bookmarkHandler.isRecording ? App.recorder.getElapsedTime() : bookmarkHandler.audioTag[0].currentTime.toFixed(1);
+    time = parseFloat(time);
+    for(var key in bookmarkHandler.bookmarkDic){
+      var bookmarkInfo = bookmarkHandler.bookmarkDic[key];
+      bookmarkInfo['end'] = time;
+      bookmarkHandler.bookmarks.push(bookmarkInfo);
+      delete bookmarkHandler.bookmarkDic[key];
+    }
+  },
   addBookmarkTagEvent: function() {
     $('#note-area').on('click', '.bookmark-tag', function(e) {
       e.preventDefault();
@@ -60,7 +71,7 @@ bookmarkHandler = {
         var note = $('#note-area'),
           bookmarkTag = bookmarkHandler.makeBookmarkTag(bookmarkInfo),
           newLine = $('<p/>');
-          
+
         note.attr('data-placeholder','');
 
         newLine.html('&nbsp;');

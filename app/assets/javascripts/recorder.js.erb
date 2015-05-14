@@ -187,6 +187,10 @@
   };
 
   Recorder.prototype.save = function () {
+
+    // close all active bookmarks
+    bookmarkHandler.closeAllBookmarks();
+
     AudioStream.destroy();
     this.encoderPromise = this.encoderPromise.then(Vorbis.Encoding.finish);
 
