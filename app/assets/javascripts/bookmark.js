@@ -8,6 +8,7 @@ bookmarkHandler = {
   isRecording: false,
   audioTag: [],
   bookmarks: [],
+  bookmarkDic: {},
   init: function(isRecording) {
     this.isRecording = isRecording;
     this.addEventListener();
@@ -19,6 +20,15 @@ bookmarkHandler = {
   addEventListener: function() {
     this.addBookmarkTagEvent();
   },
+  giveTransparency: function(color) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+    return 'rgba(' + [
+      parseInt(result[1], 16),
+      parseInt(result[2], 16),
+      parseInt(result[3], 16),
+      0.5
+      ] +')';
+  },
   addBookmarkTagEvent: function() {
     $('#note-area').on('click', '.bookmark-tag', function(e) {
       e.preventDefault();
@@ -26,42 +36,66 @@ bookmarkHandler = {
     $("[data-bookmark]").on('click', function(e){
 
       e.preventDefault();
+
+      var $bookmark = $(this);
       var time =
           bookmarkHandler.isRecording ? App.recorder.getElapsedTime() : bookmarkHandler.audioTag[0].currentTime.toFixed(1);
       time = parseFloat(time);
 
-      var $bookmark = $(this),
-          bookmarkInfo = {
-            start : time,
-            end : time + 0.5,
-            name : $bookmark.data('name'),
-            color : $bookmark.data('color'),
-          },
-          note = $('#note-area'),
+      // start of the Bookmark
+      if( !$bookmark.hasClass("bookmark-active") ) {
+        $(this).addClass("bookmark-active");
+        $(this).css("background-color",bookmarkHandler.giveTransparency($(this).data('color')));
+
+        var bookmarkInfo = {
+          start : time,
+          id : $bookmark.data('bookmark'),
+          name : $bookmark.data('name'),
+          color : $bookmark.data('color'),
+        }
+
+        bookmarkHandler.bookmarkDic[$bookmark.data('bookmark')] = bookmarkInfo;
+        console.log(bookmarkHandler.bookmarkDic[$bookmark.data('bookmark')]);
+
+        var note = $('#note-area'),
           bookmarkTag = bookmarkHandler.makeBookmarkTag(bookmarkInfo),
           newLine = $('<p/>');
-      note.attr('data-placeholder','');
-      bookmarkHandler.bookmarks.push(bookmarkInfo);
+          
+        note.attr('data-placeholder','');
 
-      newLine.html('&nbsp;');
-      note.append(bookmarkTag);
-      note.append(newLine);
+        newLine.html('&nbsp;');
+        note.append(bookmarkTag);
+        note.append(newLine);
 
-      // Setting Focus to the end of text.
-      var range = document.createRange();
-      var sel = document.getSelection();
-      range.setStartAfter(bookmarkTag[0] ,0);
-      range.collapse(true);
-      sel.removeAllRanges();
-      sel.addRange(range);
+        // Setting Focus to the end of text.
+        var range = document.createRange();
+        var sel = document.getSelection();
+        range.setStartAfter(bookmarkTag[0] ,0);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
 
-      $(window).scrollTop($(document).height());
-      note.focus();
+        $(window).scrollTop($(document).height());
+        note.focus();
 
-      if ( !bookmarkHandler.isRecording ) {
-        bookmarkHandler.saveBookmark();
-        bookmarkHandler.addRegion(bookmarkInfo);
+        if ( !bookmarkHandler.isRecording ) {
+          bookmarkHandler.saveBookmark();
+          bookmarkHandler.addRegion(bookmarkInfo);
+        }
       }
+      // end of the Bookmark
+      else {
+        $(this).removeClass("bookmark-active");
+        $(this).css("background-color",'');
+
+        var bookmarkInfo = bookmarkHandler.bookmarkDic[$bookmark.data('bookmark')];
+        bookmarkInfo['end'] = time;
+
+        bookmarkHandler.bookmarks.push(bookmarkHandler.bookmarkDic[$bookmark.data('bookmark')]);
+        delete bookmarkHandler.bookmarkDic[$bookmark.data('bookmark')]
+      }
+
+      console.log(bookmarkInfo);
     });
   },
   makeBookmarkTag: function(bookmarkInfo) {
@@ -84,7 +118,7 @@ bookmarkHandler = {
   addRegion: function(options) {
     var newOption = {};
     $.extend(newOption,options)
-    newOption.color = wavesurfer.giveTransparency(options.color);
+    newOption.color = bookmarkHandler.giveTransparency(options.color);
     wavesurfer.object.addRegion(newOption);
   },
   saveBookmark: function(options) {
