@@ -8,11 +8,32 @@ bookmarkHandler = {
   isRecording: false,
   audioTag: [],
   bookmarks: [],
-  bookmarkDic: {},
+  colorList: [],
+  maxLen: {},
+  bookmarkInfo: {},
+  $currentBookmark: {},
   init: function(isRecording) {
     this.isRecording = isRecording;
     this.addEventListener();
     this.audioTag = document.getElementsByTagName('audio');
+    if ( null != document.getElementById('waveform-recorder') )
+      this.maxLen = document.getElementById('waveform-recorder').offsetWidth;
+  },
+  appendColor : function() {
+    // add color to colorList index
+    if ( null == this.currentBookmark ) {
+      this.colorList.push("#000000");
+    }
+    else {
+      this.colorList.push(this.currentBookmark.data('color'));
+    }
+    // check if its over the player width
+    if ( this.colorList.length > this.maxLen ) {
+      this.colorList.shift();
+    }
+  },
+  waveformColor : function(place, amplitude) {
+    return bookmarkHandler.colorList[place];
   },
   setBookmarks : function(data) {
     this.bookmarks = data;
@@ -29,16 +50,11 @@ bookmarkHandler = {
       0.5
       ] +')';
   },
-  closeAllBookmarks: function() {
+  getCurrentTime: function() {
     var time =
         bookmarkHandler.isRecording ? App.recorder.getElapsedTime() : bookmarkHandler.audioTag[0].currentTime.toFixed(1);
     time = parseFloat(time);
-    for(var key in bookmarkHandler.bookmarkDic){
-      var bookmarkInfo = bookmarkHandler.bookmarkDic[key];
-      bookmarkInfo['end'] = time;
-      bookmarkHandler.bookmarks.push(bookmarkInfo);
-      delete bookmarkHandler.bookmarkDic[key];
-    }
+    return time;
   },
   addBookmarkTagEvent: function() {
     $('#note-area').on('click', '.bookmark-tag', function(e) {
@@ -49,9 +65,7 @@ bookmarkHandler = {
       e.preventDefault();
 
       var $bookmark = $(this);
-      var time =
-          bookmarkHandler.isRecording ? App.recorder.getElapsedTime() : bookmarkHandler.audioTag[0].currentTime.toFixed(1);
-      time = parseFloat(time);
+      time = bookmarkHandler.getCurrentTime();
 
       // start of the Bookmark
       if( !$bookmark.hasClass("bookmark-active") ) {
@@ -65,8 +79,12 @@ bookmarkHandler = {
           color : $bookmark.data('color'),
         }
 
-        bookmarkHandler.bookmarkDic[$bookmark.data('bookmark')] = bookmarkInfo;
-        console.log(bookmarkHandler.bookmarkDic[$bookmark.data('bookmark')]);
+        // when no other bookmark is active
+        if ( bookmarkHandler.currentBookmark != null ) {
+          bookmarkHandler.closeBookmark(time);
+        }
+        bookmarkHandler.currentBookmark = $(this);
+        bookmarkHandler.bookmarkInfo = bookmarkInfo;
 
         var note = $('#note-area'),
           bookmarkTag = bookmarkHandler.makeBookmarkTag(bookmarkInfo),
@@ -93,21 +111,22 @@ bookmarkHandler = {
           bookmarkHandler.saveBookmark();
           bookmarkHandler.addRegion(bookmarkInfo);
         }
+        // Setting Focus to the end of the text
       }
       // end of the Bookmark
       else {
-        $(this).removeClass("bookmark-active");
-        $(this).css("background-color",'');
-
-        var bookmarkInfo = bookmarkHandler.bookmarkDic[$bookmark.data('bookmark')];
-        bookmarkInfo['end'] = time;
-
-        bookmarkHandler.bookmarks.push(bookmarkHandler.bookmarkDic[$bookmark.data('bookmark')]);
-        delete bookmarkHandler.bookmarkDic[$bookmark.data('bookmark')]
+        bookmarkHandler.currentBookmark = $(this);
+        bookmarkHandler.closeBookmark(time);
       }
 
-      console.log(bookmarkInfo);
     });
+  },
+  closeBookmark : function(time) {
+    this.currentBookmark.removeClass("bookmark-active");
+    this.currentBookmark.css("background-color","");
+    this.bookmarkInfo['end'] = time;
+    this.bookmarks.push(this.bookmarkInfo);
+    this.currentBookmark = null;
   },
   makeBookmarkTag: function(bookmarkInfo) {
     var bookmark = $('<p/>'),
