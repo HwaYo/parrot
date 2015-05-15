@@ -12,10 +12,7 @@
       this.canvas = options.canvas;
       this.data = options.data || [];
       this.outerColor = options.outerColor || "transparent";
-      //this.innerColor = options.innerColor || "#000000";
       this.innerColor = bookmarkHandler.waveformColor || "#000000";
-      console.log("innerColor");
-      console.log(this.innerColor);
       this.interpolate = true;
       if (options.interpolate === false) {
         this.interpolate = false;
@@ -81,7 +78,6 @@
         d = _ref[_i];
         t = this.width / this.data.length;
         if (typeof this.innerColor === "function") {
-          //this.context.fillStyle = this.innerColor(i / this.width, d);
           this.context.fillStyle = this.innerColor(i, d);
         }
         this.context.clearRect(t * i, middle - middle * d, t, middle * d * 2);
