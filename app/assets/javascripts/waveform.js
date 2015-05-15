@@ -12,7 +12,10 @@
       this.canvas = options.canvas;
       this.data = options.data || [];
       this.outerColor = options.outerColor || "transparent";
-      this.innerColor = options.innerColor || "#000000";
+      //this.innerColor = options.innerColor || "#000000";
+      this.innerColor = bookmarkHandler.waveformColor || "#000000";
+      console.log("innerColor");
+      console.log(this.innerColor);
       this.interpolate = true;
       if (options.interpolate === false) {
         this.interpolate = false;
@@ -32,6 +35,10 @@
         this.update(options);
       }
     }
+
+    Waveform.prototype.setColor = function(color) {
+      return this.innerColor = color;
+    };
 
     Waveform.prototype.setData = function(data) {
       return this.data = data;
@@ -54,6 +61,7 @@
       } else {
         this.setDataInterpolated(options.data);
       }
+      bookmarkHandler.appendColor();
       return this.redraw();
     };
 
@@ -73,7 +81,8 @@
         d = _ref[_i];
         t = this.width / this.data.length;
         if (typeof this.innerColor === "function") {
-          this.context.fillStyle = this.innerColor(i / this.width, d);
+          //this.context.fillStyle = this.innerColor(i / this.width, d);
+          this.context.fillStyle = this.innerColor(i, d);
         }
         this.context.clearRect(t * i, middle - middle * d, t, middle * d * 2);
         this.context.fillRect(t * i, middle - middle * d, t, middle * d * 2);

@@ -189,7 +189,7 @@
   Recorder.prototype.save = function () {
 
     // close all active bookmarks
-    bookmarkHandler.closeAllBookmarks();
+    bookmarkHandler.closeBookmark(bookmarkHandler.getCurrentTime());
 
     AudioStream.destroy();
     this.encoderPromise = this.encoderPromise.then(Vorbis.Encoding.finish);
