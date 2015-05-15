@@ -10,6 +10,7 @@ guard :rspec, cmd: "bundle exec rspec" do
   watch(rspec.spec_support) { rspec.spec_dir }
   watch(%r{^spec/unit/(.+)_spec\.rb$})
   watch(%r{^spec/integration/(.+)_spec\.rb$})
+  watch(%r{^spec/api/(.+)_spec\.rb$})
 
   # Ruby files
   ruby = dsl.ruby
