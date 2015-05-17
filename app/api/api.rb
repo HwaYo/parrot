@@ -11,6 +11,10 @@ module APIEntities
       end
     end
   end
+
+  class Bookmark < Grape::Entity
+    expose :uuid, :color, :name, :created_at, :updated_at
+  end
 end
 
 class API < Grape::API
@@ -39,7 +43,7 @@ class API < Grape::API
       requires :last_synced_at, type: Integer
     end
     get :pull do
-      updated = Record.where('updated_at > ?', Time.at(params[:last_synced_at]))
+      updated = current_user.records.where('updated_at > ?', Time.at(params[:last_synced_at]))
       present updated, with: APIEntities::Record
     end
 
@@ -49,6 +53,35 @@ class API < Grape::API
     end
     post :push do
       # synchronization logic
+      records = params[:records]
+
+      synced_records = []
+
+      records.each do |record|
+        record = record.slice(Record.column_names)
+        # Simply overwrite now, but maybe updated_at re-comparison required.
+        mapped_record = Record.find_by_uuid(record)
+        if mapped_record.nil?
+          # Created from local.
+          synced_records << current_user.records.create!(record.to_h)
+        else
+          mapped_record.update_attributes!(record.to_h)
+          synced_records << mapped_record
+        end
+      end
+
+      present synced_records, with: APIEntities::Record
+    end
+  end
+
+  resources :bookmarks do
+    desc "Pull bookmarks modified after given timestamp"
+    params do
+      requires :last_synced_at, type: Integer
+    end
+    get :pull do
+      updated = current_user.bookmarks.where('updated_at > ?', Time.at(params[:last_synced_at]))
+      present updated, with: APIEntities::Bookmark
     end
   end
 end

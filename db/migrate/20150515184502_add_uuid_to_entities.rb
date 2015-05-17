@@ -8,9 +8,19 @@ class AddUuidToEntities < ActiveRecord::Migration
         record.save!
       end
     end
+
+    add_column :bookmarks, :uuid, :string
+
+    Bookmark.transaction do
+      Bookmark.all.each do |bookmark|
+        bookmark.uuid = SecureRandom.uuid
+        bookmark.save!
+      end
+    end
   end
 
   def self.down
     remove_column :records, :uuid
+    remove_column :bookmarks, :uuid
   end
 end

@@ -31,4 +31,28 @@ RSpec.describe API do
       expect(JSON.parse(response.body).count).to eq(0)
     end
   end
+
+  describe 'POST /api/v1/records/push' do
+    it 'creates records which create at local' do
+      post '/api/v1/records/push'
+    end
+  end
+
+  describe 'GET /api/v1/bookmarks/pull' do
+    before do
+      @bookmark = FactoryGirl.create(:bookmark, user: @user)
+    end
+
+    it 'returns bookmarks modified after given timestamp' do
+      get '/api/v1/bookmarks/pull', { last_synced_at: @bookmark.updated_at.to_i - 1 }
+      expect(response.status).to eq(200)
+      expect(JSON.parse(response.body).count).to eq(1)
+    end
+
+    it 'returns no bookmark modified before given timestamp' do
+      get '/api/v1/bookmarks/pull', { last_synced_at: @bookmark.updated_at.to_i + 1 }
+      expect(response.status).to eq(200)
+      expect(JSON.parse(response.body).count).to eq(0)
+    end
+  end
 end

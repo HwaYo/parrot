@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20150515184502) do
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "uuid"
   end
 
   add_index "bookmarks", ["user_id"], name: "index_bookmarks_on_user_id"
