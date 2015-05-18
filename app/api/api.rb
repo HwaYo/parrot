@@ -49,7 +49,7 @@ class API < Grape::API
 
     desc "Push records which require synchronization"
     params do
-      requires :records, type: Array
+      requires :entities, type: Array
     end
     post :push do
       # synchronization logic
@@ -60,7 +60,7 @@ class API < Grape::API
       records.each do |record|
         record = record.slice(Record.column_names)
         # Simply overwrite now, but maybe updated_at re-comparison required.
-        mapped_record = Record.find_by_uuid(record)
+        mapped_record = Record.find_by_uuid(record.uuid)
         if mapped_record.nil?
           # Created from local.
           synced_records << current_user.records.create!(record.to_h)
@@ -82,6 +82,32 @@ class API < Grape::API
     get :pull do
       updated = current_user.bookmarks.where('updated_at > ?', Time.at(params[:last_synced_at]))
       present updated, with: APIEntities::Bookmark
+    end
+
+    desc "Push bookmarks which require synchronization"
+    params do
+      requires :entities, type: Array
+    end
+    post :push do
+      # synchronization logic
+      bookmarks = params[:bookmarks]
+
+      synced_bookmarks = []
+
+      bookmarks.each do |bookmark|
+        bookmark = bookmark.slice(Bookmark.column_names)
+        # Simply overwrite now, but maybe updated_at re-comparison required.
+        mapped_bookmark = Bookmark.find_by_uuid(bookmark.uuid)
+        if mapped_bookmark.nil?
+          # Created from local.
+          synced_bookmarks << current_user.bookmarks.create!(bookmark.to_h)
+        else
+          mapped_bookmark.update_attributes!(bookmark.to_h)
+          synced_bookmarks << mapped_bookmark
+        end
+      end
+
+      present synced_bookmarks, with: APIEntities::Bookmark
     end
   end
 end
