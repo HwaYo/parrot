@@ -2,6 +2,7 @@ class Record < ActiveRecord::Base
   before_create :generate_uuid!
 
   belongs_to :user
+  has_many :bookmark_histories
   mount_uploader :file, RecordUploader
 
   validates :title, presence: { message: "1자 이상으로 입력해주세요." }

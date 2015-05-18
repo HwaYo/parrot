@@ -55,4 +55,16 @@ RSpec.describe API do
       expect(JSON.parse(response.body).count).to eq(0)
     end
   end
+
+  describe 'GET /api/v1/bookmark_histories/pull' do
+    before do
+      @record = FactoryGirl.create(:record, user: @user)
+      @bookmark = FactoryGirl.create(:bookmark, user: @user)
+      @history = @bookmark.bookmark_histories.create(record: @record, bookmark: @bookmark)
+    end
+
+    it 'returns bookmark histories modified after given timestamp' do
+      get '/api/v1/bookmark_histories/pull', { last_synced_at: 0 }
+    end
+  end
 end

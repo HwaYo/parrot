@@ -15,6 +15,16 @@ module APIEntities
   class Bookmark < Grape::Entity
     expose :uuid, :color, :name, :created_at, :updated_at
   end
+
+  class BookmarkHistory < Grape::Entity
+    expose :uuid, :start, :end, :created_at, :updated_at
+    expose :record_uuid do |history, options|
+      history.record.try(:uuid)
+    end
+    expose :bookmark_uuid do |history, options|
+      history.bookmark.try(:uuid)
+    end
+  end
 end
 
 class API < Grape::API
@@ -53,12 +63,12 @@ class API < Grape::API
     end
     post :push do
       # synchronization logic
-      records = params[:records]
+      records = params[:entities] || []
 
       synced_records = []
 
       records.each do |record|
-        record = record.slice(Record.column_names)
+        record = record.slice(*Record.column_names).except("id", "file")
         # Simply overwrite now, but maybe updated_at re-comparison required.
         mapped_record = Record.find_by_uuid(record.uuid)
         if mapped_record.nil?
@@ -90,12 +100,12 @@ class API < Grape::API
     end
     post :push do
       # synchronization logic
-      bookmarks = params[:bookmarks]
+      bookmarks = params[:entities] || []
 
       synced_bookmarks = []
 
       bookmarks.each do |bookmark|
-        bookmark = bookmark.slice(Bookmark.column_names)
+        bookmark = bookmark.slice(*Bookmark.column_names).except("id")
         # Simply overwrite now, but maybe updated_at re-comparison required.
         mapped_bookmark = Bookmark.find_by_uuid(bookmark.uuid)
         if mapped_bookmark.nil?
@@ -108,6 +118,53 @@ class API < Grape::API
       end
 
       present synced_bookmarks, with: APIEntities::Bookmark
+    end
+  end
+
+  resources :bookmark_histories do
+    desc "Pull bookmark histories modified after given timestamp"
+    params do
+      requires :last_synced_at, type: Integer
+    end
+    get :pull do
+      bookmarks = current_user.bookmarks
+      updated = BookmarkHistory.where(bookmark: bookmarks).where('updated_at > ?', Time.at(params[:last_synced_at]))
+      present updated, with: APIEntities::BookmarkHistory
+    end
+
+    desc "Push bookmark histories which require synchronization"
+    params do
+      requires :entities, type: Array
+    end
+    post :push do
+      # synchronization logic
+      histories = params[:entities] || []
+
+      synced_histories = []
+
+      histories.each do |history|
+        history = history.slice(*BookmarkHistory.column_names).except("id", "record_id", "bookmark_id")
+        # Simply overwrite now, but maybe updated_at re-comparison required.
+        mapped_history = BookmarkHistory.find_by_uuid(history.uuid)
+        if mapped_history.nil?
+          # Created from local.
+          new_history = BookmarkHistory.new(history.to_h)
+          new_history.bookmark = Bookmark.find_by_uuid(history.bookmark_uuid)
+          new_history.record = Record.find_by_uuid(history.record_uuid)
+          new_history.save!
+
+          synced_histories << new_history
+        else
+          mapped_history.assign_attrbutes(history.to_h)
+          mapped_history.bookmark = Bookmark.find_by_uuid(history.bookmark_uuid)
+          mapped_history.record = Record.find_by_uuid(history.record_uuid)
+          mapped_history.save!
+
+          synced_histories << mapped_history
+        end
+      end
+
+      present synced_histories, with: APIEntities::Bookmark
     end
   end
 end
