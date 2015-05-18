@@ -26,7 +26,22 @@ class RecordsController < ApplicationController
   def create
     record = current_user.records.new(record_params)
     record.title = "#{Time.now.strftime('%Y년 %m월 %d일 %H시 %M분에 남긴 녹음본')}"
-    record.save!
+
+    record.transaction do
+      if record.bookmark
+        bookmark_histories = JSON.parse(record.bookmark)
+        bookmark_histories.each do |history|
+          bookmark = Bookmark.find_by_name(history["name"])
+          next if bookmark.nil?
+
+          bookmark_history = record.bookmark_histories.build(history.slice(*BookmarkHistory.column_names))
+          bookmark_history.bookmark = bookmark
+          bookmark_history.save!
+        end
+      end
+
+      record.save!
+    end
 
     render json: {
       href: record_path(record)

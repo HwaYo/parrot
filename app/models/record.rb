@@ -1,6 +1,8 @@
 class Record < ActiveRecord::Base
   before_create :generate_uuid!
 
+  attr_accessor :bookmark
+
   belongs_to :user
   has_many :bookmark_histories
   mount_uploader :file, RecordUploader

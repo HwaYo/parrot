@@ -77,7 +77,6 @@ ActiveRecord::Schema.define(version: 20150518050123) do
   create_table "records", force: :cascade do |t|
     t.string   "title"
     t.text     "note"
-    t.text     "bookmark"
     t.string   "file"
     t.integer  "user_id"
     t.datetime "created_at",                 null: false
