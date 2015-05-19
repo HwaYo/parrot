@@ -54,8 +54,17 @@ class RecordsController < ApplicationController
   end
 
   def bookmark_json
-    @record = current_user.records.find(params[:id])
-    render json: @record.bookmark
+    record = current_user.records.find(params[:id])
+    bookmark_histories = record.bookmark_histories.includes(:bookmark).map do |history|
+      {
+        name: history.bookmark.name,
+        color: history.bookmark.color,
+        start: history.start,
+        'end' => history.end
+      }
+    end
+
+    render json: bookmark_histories.to_json
   end
 
   def destroy

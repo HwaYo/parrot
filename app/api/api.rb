@@ -53,7 +53,7 @@ class API < Grape::API
       requires :last_synced_at, type: Integer
     end
     get :pull do
-      updated = current_user.records.where('updated_at > ?', Time.at(params[:last_synced_at]))
+      updated = current_user.records.from_remote.where('updated_at > ?', Time.at(params[:last_synced_at]))
       present updated, with: APIEntities::Record
     end
 
@@ -81,6 +81,19 @@ class API < Grape::API
       end
 
       present synced_records, with: APIEntities::Record
+    end
+
+    desc "Upload a record file"
+    params do
+    end
+    post :file do
+      record = Record.find_by_uuid(params[:uuid])
+      return if record.nil?
+
+      record.file = params[:file]
+      record.save!
+
+      present record, with: APIEntities::Record
     end
   end
 
@@ -143,19 +156,19 @@ class API < Grape::API
       synced_histories = []
 
       histories.each do |history|
-        history = history.slice(*BookmarkHistory.column_names).except("id", "record_id", "bookmark_id")
+        history_params = history.slice(*BookmarkHistory.column_names).except("id", "record_id", "bookmark_id")
         # Simply overwrite now, but maybe updated_at re-comparison required.
-        mapped_history = BookmarkHistory.find_by_uuid(history.uuid)
+        mapped_history = BookmarkHistory.find_by_uuid(history_params.uuid)
         if mapped_history.nil?
           # Created from local.
-          new_history = BookmarkHistory.new(history.to_h)
+          new_history = BookmarkHistory.new(history_params.to_h)
           new_history.bookmark = Bookmark.find_by_uuid(history.bookmark_uuid)
           new_history.record = Record.find_by_uuid(history.record_uuid)
           new_history.save!
 
           synced_histories << new_history
         else
-          mapped_history.assign_attrbutes(history.to_h)
+          mapped_history.assign_attrbutes(history_params.to_h)
           mapped_history.bookmark = Bookmark.find_by_uuid(history.bookmark_uuid)
           mapped_history.record = Record.find_by_uuid(history.record_uuid)
           mapped_history.save!
@@ -164,7 +177,7 @@ class API < Grape::API
         end
       end
 
-      present synced_histories, with: APIEntities::Bookmark
+      present synced_histories, with: APIEntities::BookmarkHistory
     end
   end
 end
