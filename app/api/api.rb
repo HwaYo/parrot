@@ -2,7 +2,7 @@ require 'doorkeeper/grape/helpers'
 
 module APIEntities
   class Record < Grape::Entity
-    expose :uuid, :title, :note, :created_at, :updated_at, :deleted
+    expose :uuid, :title, :note, :created_at, :updated_at
     expose :file do |record, options|
       if record.file
         record.file.path
@@ -10,10 +10,16 @@ module APIEntities
         nil
       end
     end
+    expose :deleted do |record, options|
+      record.deleted?
+    end
   end
 
   class Bookmark < Grape::Entity
     expose :uuid, :color, :name, :created_at, :updated_at
+    expose :deleted do |bookmark, options|
+      bookmark.deleted?
+    end
   end
 
   class BookmarkHistory < Grape::Entity
@@ -23,6 +29,9 @@ module APIEntities
     end
     expose :bookmark_uuid do |history, options|
       history.bookmark.try(:uuid)
+    end
+    expose :deleted do |history, options|
+      history.deleted?
     end
   end
 end
@@ -68,7 +77,7 @@ class API < Grape::API
       synced_records = []
 
       records.each do |record|
-        record = record.slice(*Record.column_names).except("id", "file")
+        record = record.slice(*Record.column_names).except("id", "file").compact!
         # Simply overwrite now, but maybe updated_at re-comparison required.
         mapped_record = Record.find_by_uuid(record.uuid)
         if mapped_record.nil?
@@ -84,8 +93,6 @@ class API < Grape::API
     end
 
     desc "Upload a record file"
-    params do
-    end
     post :file do
       record = Record.find_by_uuid(params[:uuid])
       return if record.nil?
@@ -103,7 +110,7 @@ class API < Grape::API
       requires :last_synced_at, type: Integer
     end
     get :pull do
-      updated = current_user.bookmarks.where('updated_at > ?', Time.at(params[:last_synced_at]))
+      updated = current_user.bookmarks.with_deleted.where('updated_at > ?', Time.at(params[:last_synced_at]))
       present updated, with: APIEntities::Bookmark
     end
 
@@ -118,7 +125,7 @@ class API < Grape::API
       synced_bookmarks = []
 
       bookmarks.each do |bookmark|
-        bookmark = bookmark.slice(*Bookmark.column_names).except("id")
+        bookmark = bookmark.slice(*Bookmark.column_names).except("id").compact!
         # Simply overwrite now, but maybe updated_at re-comparison required.
         mapped_bookmark = Bookmark.find_by_uuid(bookmark.uuid)
         if mapped_bookmark.nil?
@@ -141,7 +148,7 @@ class API < Grape::API
     end
     get :pull do
       bookmarks = current_user.bookmarks
-      updated = BookmarkHistory.where(bookmark: bookmarks).where('updated_at > ?', Time.at(params[:last_synced_at]))
+      updated = BookmarkHistory.with_deleted.where(bookmark: bookmarks).where('updated_at > ?', Time.at(params[:last_synced_at]))
       present updated, with: APIEntities::BookmarkHistory
     end
 
@@ -156,7 +163,7 @@ class API < Grape::API
       synced_histories = []
 
       histories.each do |history|
-        history_params = history.slice(*BookmarkHistory.column_names).except("id", "record_id", "bookmark_id")
+        history_params = history.slice(*BookmarkHistory.column_names).except("id", "record_id", "bookmark_id").compact!
         # Simply overwrite now, but maybe updated_at re-comparison required.
         mapped_history = BookmarkHistory.find_by_uuid(history_params.uuid)
         if mapped_history.nil?
@@ -168,7 +175,7 @@ class API < Grape::API
 
           synced_histories << new_history
         else
-          mapped_history.assign_attrbutes(history_params.to_h)
+          mapped_history.assign_attributes(history_params.to_h)
           mapped_history.bookmark = Bookmark.find_by_uuid(history.bookmark_uuid)
           mapped_history.record = Record.find_by_uuid(history.record_uuid)
           mapped_history.save!

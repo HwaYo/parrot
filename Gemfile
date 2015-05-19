@@ -69,3 +69,4 @@ gem "doorkeeper-grants_assertion", github: "Inittec/doorkeeper-grants_assertion"
 
 gem 'grape', '~> 0.11.0'
 gem 'grape-entity', '~> 0.4.5'
+gem "paranoia", "~> 2.0"

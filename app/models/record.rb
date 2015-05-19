@@ -1,8 +1,8 @@
 class Record < ActiveRecord::Base
   include SyncableModel
 
-  scope :remaining, -> { where(deleted: false).where.not(file: nil) }
-  scope :from_remote, -> { where.not(file: nil) }
+  scope :remaining, -> { where.not(file: nil) }
+  scope :from_remote, -> { with_deleted.where.not(file: nil) }
 
   attr_writer :bookmark
 
