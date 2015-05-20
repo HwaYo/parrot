@@ -77,14 +77,17 @@ class API < Grape::API
       synced_records = []
 
       records.each do |record|
-        record = record.slice(*Record.column_names).except("id", "file").compact!
+        record_params = record.slice(*Record.column_names).except("id", "file")
         # Simply overwrite now, but maybe updated_at re-comparison required.
-        mapped_record = Record.find_by_uuid(record.uuid)
+        mapped_record = Record.find_by_uuid(record_params.uuid)
         if mapped_record.nil?
           # Created from local.
-          synced_records << current_user.records.create!(record.to_h)
+          synced_records << current_user.records.create!(record_params.to_h.compact)
+        elsif record.deleted
+          mapped_record.destroy
+          synced_records << mapped_record
         else
-          mapped_record.update_attributes!(record.to_h)
+          mapped_record.update_attributes!(record_params.to_h.compact)
           synced_records << mapped_record
         end
       end
@@ -125,14 +128,16 @@ class API < Grape::API
       synced_bookmarks = []
 
       bookmarks.each do |bookmark|
-        bookmark = bookmark.slice(*Bookmark.column_names).except("id").compact!
+        bookmark = bookmark.slice(*Bookmark.column_names).except("id")
         # Simply overwrite now, but maybe updated_at re-comparison required.
         mapped_bookmark = Bookmark.find_by_uuid(bookmark.uuid)
         if mapped_bookmark.nil?
           # Created from local.
-          synced_bookmarks << current_user.bookmarks.create!(bookmark.to_h)
+          synced_bookmarks << current_user.bookmarks.create!(bookmark.to_h.compact)
+        elsif bookmark.deleted
+          mapped_bookmark.destroy
         else
-          mapped_bookmark.update_attributes!(bookmark.to_h)
+          mapped_bookmark.update_attributes!(bookmark.to_h.compact)
           synced_bookmarks << mapped_bookmark
         end
       end
@@ -163,19 +168,21 @@ class API < Grape::API
       synced_histories = []
 
       histories.each do |history|
-        history_params = history.slice(*BookmarkHistory.column_names).except("id", "record_id", "bookmark_id").compact!
+        history_params = history.slice(*BookmarkHistory.column_names).except("id", "record_id", "bookmark_id")
         # Simply overwrite now, but maybe updated_at re-comparison required.
         mapped_history = BookmarkHistory.find_by_uuid(history_params.uuid)
         if mapped_history.nil?
           # Created from local.
-          new_history = BookmarkHistory.new(history_params.to_h)
+          new_history = BookmarkHistory.new(history_params.to_h.compact)
           new_history.bookmark = Bookmark.find_by_uuid(history.bookmark_uuid)
           new_history.record = Record.find_by_uuid(history.record_uuid)
           new_history.save!
 
           synced_histories << new_history
+        elsif history.deleted
+          mapped_history.destroy
         else
-          mapped_history.assign_attributes(history_params.to_h)
+          mapped_history.assign_attributes(history_params.to_h.compact)
           mapped_history.bookmark = Bookmark.find_by_uuid(history.bookmark_uuid)
           mapped_history.record = Record.find_by_uuid(history.record_uuid)
           mapped_history.save!
