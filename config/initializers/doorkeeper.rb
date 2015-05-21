@@ -4,8 +4,14 @@ Doorkeeper.configure do
     params[:assertion])
     response = Net::HTTP.get_response(facebook)
     user_data = JSON.parse(response.body)
-    User.find_by_uid(user_data['id'])
-  end
+
+    registered_user = User.find_by_uid(user_data['id'])
+    if registered_user.nil?
+      User.create_with_doorkeeper(user_data)
+    else
+      registered_user
+    end
+ end
 
   access_token_expires_in 1.years
 end

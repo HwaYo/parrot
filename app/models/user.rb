@@ -12,4 +12,13 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.create_with_doorkeeper(auth)
+    create! do |user|
+      user.provider = "facebook"
+      user.uid = auth["id"]
+      user.name = "#{auth['first_name']} #{auth['last_name']}"
+      user.email = auth["email"]
+      user.image = "https://graph.facebook.com/#{auth['id']}/picture?type=square"
+    end
+  end
 end
