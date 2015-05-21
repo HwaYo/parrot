@@ -1,4 +1,17 @@
 class CreateBookmarkHistories < ActiveRecord::Migration
+  class Record < ActiveRecord::Base
+    has_many :bookmark_histories
+  end
+
+  class Bookmark < ActiveRecord::Base
+    has_many :bookmark_histories
+  end
+
+  class BookmarkHistory < ActiveRecord::Base
+    belongs_to :bookmark
+    belongs_to :record
+  end
+
   def self.up
     create_table :bookmark_histories do |t|
       t.float :start

@@ -1,4 +1,10 @@
 class AddUuidToEntities < ActiveRecord::Migration
+  class Record < ActiveRecord::Base
+  end
+
+  class Bookmark < ActiveRecord::Base
+  end
+
   def self.up
     add_column :records, :uuid, :string
 
