@@ -8,8 +8,7 @@ bookmarkHandler = {
   isRecording: false,
   audioTag: [],
   bookmarks: [],
-  init: function(isRecording) {
-    this.isRecording = isRecording;
+  init: function() {
     this.addEventListener();
     this.audioTag = document.getElementsByTagName('audio');
   },
@@ -24,7 +23,6 @@ bookmarkHandler = {
       e.preventDefault();
     });
     $("[data-bookmark]").on('click', function(e){
-
       e.preventDefault();
       var time =
           bookmarkHandler.isRecording ? App.recorder.getElapsedTime() : bookmarkHandler.audioTag[0].currentTime.toFixed(1);
@@ -104,7 +102,7 @@ bookmarkHandler = {
 };
 
 $(document).on('ready page:load', function () {
-  bookmarkHandler.init(true);
+  bookmarkHandler.init();
 
   var timer = {};
   $('#note-area').on('keyup', function(event){

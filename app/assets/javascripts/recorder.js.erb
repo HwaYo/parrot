@@ -93,6 +93,7 @@
   Recorder.prototype._bindUI = function () {
     this.recordButton.on('click', function () {
       $('.recorder-description').hide();
+      bookmarkHandler.isRecording = true;
 
       this.record().then(function () {
         this.pauseButton.show(); this.saveButton.show();
