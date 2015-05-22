@@ -15,7 +15,7 @@ class RecordsController < ApplicationController
 
   def update
     @record = current_user.records.find(params[:id])
-
+    associate_bookmark_histories(@record)
     if @record.update(record_params)
       redirect_to records_path
     else
@@ -26,22 +26,8 @@ class RecordsController < ApplicationController
   def create
     record = current_user.records.new(record_params)
     record.title = "#{Time.now.strftime('%Y년 %m월 %d일 %H시 %M분에 남긴 녹음본')}"
-
-    record.transaction do
-      if record.bookmark
-        bookmark_histories = JSON.parse(record.bookmark)
-        bookmark_histories.each do |history|
-          bookmark = Bookmark.find_by_name(history["name"])
-          next if bookmark.nil?
-
-          bookmark_history = record.bookmark_histories.build(history.slice(*BookmarkHistory.column_names))
-          bookmark_history.bookmark = bookmark
-          bookmark_history.save!
-        end
-      end
-
-      record.save!
-    end
+    associate_bookmark_histories(record)
+    record.save!
 
     render json: {
       href: record_path(record)
@@ -76,5 +62,18 @@ class RecordsController < ApplicationController
 private
   def record_params
     params.require(:record).permit(:title, :file, :note, :bookmark)
+  end
+
+  def associate_bookmark_histories(record)
+    if record.bookmark
+      bookmark_histories = JSON.parse(record.bookmark)
+      bookmark_histories.each do |history|
+        bookmark = Bookmark.find_by_name(history["name"])
+        next if bookmark.nil?
+
+        bookmark_history = record.bookmark_histories.build(history.slice(*BookmarkHistory.column_names))
+        bookmark_history.bookmark = bookmark
+      end
+    end
   end
 end
