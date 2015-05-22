@@ -11,8 +11,7 @@
   // initialize vorbis
   Vorbis.configure({
     workerURL: '<%= asset_path("libvorbis/libvorbis.worker") %>',
-    moduleURL: '<%= asset_path("libvorbis/libvorbis.module.min.js") %>',
-    memoryInitializerURL: '<%= asset_path("libvorbis/libvorbis.module.min.js.mem") %>'
+    moduleURL: '<%= asset_path("libvorbis/libvorbis.module") %>'
   });
 
   var AudioStream = {

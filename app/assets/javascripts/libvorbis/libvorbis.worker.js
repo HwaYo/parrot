@@ -7,7 +7,7 @@ handleRequestOnce('config', function (config) {
     locateFile: function (file) {
       switch (file) {
       case 'libvorbis.module.min.js.mem':
-        return config.memoryInitializerURL;
+        return config['memoryInitializerURL'];
       }
     },
     onRuntimeInitialized: function () {
