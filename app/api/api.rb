@@ -5,7 +5,7 @@ module APIEntities
     expose :uuid, :title, :note, :created_at, :updated_at
     expose :file do |record, options|
       if record.file
-        record.file.path
+        record.file.url
       else
         nil
       end
