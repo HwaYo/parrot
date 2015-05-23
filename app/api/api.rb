@@ -95,6 +95,18 @@ class API < Grape::API
       present synced_records, with: APIEntities::Record
     end
 
+
+    desc "Get a record file url"
+    params do
+      requires :uuid, type: String
+    end
+    route_param :uuid do
+      get do
+        record = Record.find_by_uuid(params[:uuid])
+        present record, with: APIEntities::Record
+      end
+    end
+
     desc "Upload a record file"
     post :file do
       record = Record.find_by_uuid(params[:uuid])

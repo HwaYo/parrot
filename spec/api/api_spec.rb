@@ -104,6 +104,18 @@ RSpec.describe API do
     end
   end
 
+  describe 'GET /api/v1/records/:uuid' do
+    before do
+      @record = FactoryGirl.create(:record, user: @user)
+    end
+
+    it 'returns a record entity' do
+      get '/api/v1/records/%s' % @record.uuid
+      expect(response.status).to eq(200)
+      expect(response.body).to eq(APIEntities::Record.represent(@record).to_json)
+    end
+  end
+
   describe 'GET /api/v1/bookmarks/pull' do
     before do
       @url = '/api/v1/bookmarks/pull'.freeze
