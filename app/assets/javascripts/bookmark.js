@@ -7,9 +7,31 @@ if ( typeof (bookmarkHandler) == typeof (undefined)) {
 bookmarkHandler = {
   audioTag: [],
   bookmarks: [],
+  colorList: [],
+  maxLen: {},
+  bookmarkInfo: {},
+  $currentBookmark: {},
   init: function() {
     this.addEventListener();
     this.audioTag = document.getElementsByTagName('audio');
+    if ( null != document.getElementById('waveform-recorder') )
+      this.maxLen = document.getElementById('waveform-recorder').offsetWidth;
+  },
+  appendColor : function() {
+    // add color to colorList index
+    if ( null == this.currentBookmark ) {
+      this.colorList.push("#000000");
+    }
+    else {
+      this.colorList.push(this.currentBookmark.data('color'));
+    }
+    // check if its over the player width
+    if ( this.colorList.length > this.maxLen ) {
+      this.colorList.shift();
+    }
+  },
+  waveformColor : function(place, amplitude) {
+    return bookmarkHandler.colorList[place];
   },
   setBookmarks : function(data) {
     this.bookmarks = data;
@@ -17,49 +39,91 @@ bookmarkHandler = {
   addEventListener: function() {
     this.addBookmarkTagEvent();
   },
+  giveTransparency: function(color) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+    return 'rgba(' + [
+      parseInt(result[1], 16),
+      parseInt(result[2], 16),
+      parseInt(result[3], 16),
+      0.5
+      ] +')';
+  },
+  getCurrentTime: function() {
+    var time = App.recorder ? App.recorder.getElapsedTime() : bookmarkHandler.audioTag[0].currentTime.toFixed(1);
+    time = parseFloat(time);
+    return time;
+  },
   addBookmarkTagEvent: function() {
     $('#note-area').on('click', '.bookmark-tag', function(e) {
       e.preventDefault();
     });
     $("[data-bookmark]").on('click', function(e){
       e.preventDefault();
-      var time =
-          App.recorder ? App.recorder.getElapsedTime() : bookmarkHandler.audioTag[0].currentTime.toFixed(1);
-      time = parseFloat(time);
 
-      var $bookmark = $(this),
-          bookmarkInfo = {
-            start : time,
-            end : time + 0.5,
-            name : $bookmark.data('name'),
-            color : $bookmark.data('color'),
-          },
-          note = $('#note-area'),
+      var $bookmark = $(this);
+      var time = bookmarkHandler.getCurrentTime();
+
+      // start of the Bookmark
+      if( !$bookmark.hasClass("bookmark-active") ) {
+        $(this).addClass("bookmark-active");
+        $(this).css("background-color",bookmarkHandler.giveTransparency($(this).data('color')));
+
+        var bookmarkInfo = {
+          start : time,
+          id : $bookmark.data('bookmark'),
+          name : $bookmark.data('name'),
+          color : $bookmark.data('color'),
+        }
+
+        // when no other bookmark is active
+        if ( bookmarkHandler.currentBookmark != null ) {
+          bookmarkHandler.closeBookmark(time);
+        }
+        bookmarkHandler.currentBookmark = $(this);
+        bookmarkHandler.bookmarkInfo = bookmarkInfo;
+
+        var note = $('#note-area'),
           bookmarkTag = bookmarkHandler.makeBookmarkTag(bookmarkInfo),
           newLine = $('<p/>');
-      note.attr('data-placeholder','');
-      bookmarkHandler.bookmarks.push(bookmarkInfo);
 
-      newLine.html('&nbsp;');
-      note.append(bookmarkTag);
-      note.append(newLine);
+        note.attr('data-placeholder','');
 
-      // Setting Focus to the end of text.
-      var range = document.createRange();
-      var sel = document.getSelection();
-      range.setStartAfter(bookmarkTag[0] ,0);
-      range.collapse(true);
-      sel.removeAllRanges();
-      sel.addRange(range);
+        newLine.html('&nbsp;');
+        note.append(bookmarkTag);
+        note.append(newLine);
 
-      $(window).scrollTop($(document).height());
-      note.focus();
+        // Setting Focus to the end of text.
+        var range = document.createRange();
+        var sel = document.getSelection();
+        range.setStartAfter(bookmarkTag[0] ,0);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
 
-      if (!App.recorder) {
-        bookmarkHandler.saveBookmark();
-        bookmarkHandler.addRegion(bookmarkInfo);
+        $(window).scrollTop($(document).height());
+        note.focus();
+
+        if (!App.recorder) {
+          bookmarkHandler.saveBookmark();
+          bookmarkHandler.addRegion(bookmarkInfo);
+        }
+        // Setting Focus to the end of the text
+      }
+      // end of the Bookmark
+      else {
+        bookmarkHandler.currentBookmark = $(this);
+        bookmarkHandler.closeBookmark(time);
       }
     });
+  },
+  closeBookmark : function(time) {
+    if(this.currentBookmark != null) {
+      this.currentBookmark.removeClass("bookmark-active");
+      this.currentBookmark.css("background-color","");
+      this.bookmarkInfo['end'] = time;
+      this.bookmarks.push(this.bookmarkInfo);
+      this.currentBookmark = null;
+    }
   },
   makeBookmarkTag: function(bookmarkInfo) {
     var bookmark = $('<p/>'),
@@ -81,7 +145,7 @@ bookmarkHandler = {
   addRegion: function(options) {
     var newOption = {};
     $.extend(newOption,options)
-    newOption.color = wavesurfer.giveTransparency(options.color);
+    newOption.color = bookmarkHandler.giveTransparency(options.color);
     wavesurfer.object.addRegion(newOption);
   },
   saveBookmark: function(options) {

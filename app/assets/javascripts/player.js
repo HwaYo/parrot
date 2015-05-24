@@ -29,16 +29,11 @@ player = {
     $('[data-action="play"]').on('click', function() {
       wavesurferObject.playPause();
     });
-
     $('#forward-btn').on('click', function() {
       wavesurferObject.skipForward();
     });
-
-    $('#backward-btn').on('click', function() {
-      wavesurferObject.skipBackward();
-    });
   },
-
+  
   addSpeedControllEvent: function(wavesurferObject) {
     $('#speed-up-btn').on('click', function() {
       setSpeed(1);
@@ -129,15 +124,6 @@ wavesurfer = {
         bookmarkHandler.setBookmarks(data);
       });
     });
-  },
-  giveTransparency: function(color) {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
-    return 'rgba(' + [
-      parseInt(result[1], 16),
-      parseInt(result[2], 16),
-      parseInt(result[3], 16),
-      0.5
-      ] +')';
   },
   region: function() {
     var wavesurferObject = this.object;
