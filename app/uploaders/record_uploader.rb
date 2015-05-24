@@ -5,6 +5,10 @@ class RecordUploader < CarrierWave::Uploader::Base
     "#{secure_token}.#{file.extension}" if original_filename.present?
   end
 
+  def self.fog_public
+    true
+  end
+
   protected
   def secure_token
     var = :"@#{mounted_as}_secure_token"

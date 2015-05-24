@@ -2,8 +2,9 @@ require 'rails_helper'
 
 RSpec.describe 'Record management process', type: :feature do
   before :each do
-    @record = FactoryGirl.create(:record)
     sign_in!
+    @user = User.find_by_uid('1234512345')
+    @record = FactoryGirl.create(:record, user: @user)
   end
 
   it 'shows records' do

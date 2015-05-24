@@ -7,7 +7,6 @@ class SessionsController < ApplicationController
 
     if user.nil?
       user = User.create_with_omniauth(auth)
-      create_bookmark!(user)
     end
 
     session[:user_id] = user.id
@@ -17,14 +16,5 @@ class SessionsController < ApplicationController
   def destroy
     session[:user_id] = nil
     redirect_to root_url, :notice => "Signed out!"
-  end
-
-private
-  def create_bookmark!(user)
-    [
-      { name: 'Important', color: '#e11d21' },
-      { name: "Don't Understand", color: '#fbca04' },
-      { name: 'Not Important', color: '#207de5' }
-    ].each { |attribute| user.bookmarks.create!(attribute) }
   end
 end

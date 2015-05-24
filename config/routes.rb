@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  use_doorkeeper
+  mount API => '/'
+
   root 'home#index'
 
   get 'auth/:provider/callback', to: 'sessions#create'

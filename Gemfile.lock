@@ -1,4 +1,13 @@
 GIT
+  remote: git://github.com/Inittec/doorkeeper-grants_assertion.git
+  revision: 4878d06f74bfcae4cb455c244265de221d6cacf4
+  branch: master
+  specs:
+    doorkeeper-grants_assertion (0.0.1)
+      doorkeeper (>= 1.3)
+      railties (>= 3.1)
+
+GIT
   remote: git://github.com/rusanu/blockuijs-rails.git
   revision: 56e727429fa876fa03eade459404c98d74bf32e8
   specs:
@@ -48,6 +57,10 @@ GEM
     autoprefixer-rails (5.1.10)
       execjs
       json
+    axiom-types (0.1.1)
+      descendants_tracker (~> 0.0.4)
+      ice_nine (~> 0.11.0)
+      thread_safe (~> 0.3, >= 0.3.1)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bootstrap-sass (3.3.4.1)
@@ -74,6 +87,8 @@ GEM
     codeclimate-test-reporter (0.4.7)
       simplecov (>= 0.7.1, < 1.0.0)
     coderay (1.1.0)
+    coercible (1.0.0)
+      descendants_tracker (~> 0.0.1)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -84,11 +99,16 @@ GEM
     columnize (0.9.0)
     database_cleaner (1.4.1)
     debug_inspector (0.0.2)
+    descendants_tracker (0.0.4)
+      thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.2.5)
     docile (1.1.5)
+    doorkeeper (2.2.1)
+      railties (>= 3.2)
     dotenv (2.0.1)
     dotenv-rails (2.0.1)
       dotenv (= 2.0.1)
+    equalizer (0.0.11)
     erubis (2.7.0)
     excon (0.45.2)
     execjs (2.5.2)
@@ -194,6 +214,19 @@ GEM
     formatador (0.2.5)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
+    grape (0.11.0)
+      activesupport
+      builder
+      hashie (>= 2.1.0)
+      multi_json (>= 1.3.2)
+      multi_xml (>= 0.5.2)
+      rack (>= 1.3.0)
+      rack-accept
+      rack-mount
+      virtus (>= 1.0.0)
+    grape-entity (0.4.5)
+      activesupport
+      multi_json (>= 1.3.2)
     guard (2.12.5)
       formatador (>= 0.2.4)
       listen (~> 2.7)
@@ -211,6 +244,7 @@ GEM
     hashie (3.4.1)
     hitimes (1.2.2)
     i18n (0.7.0)
+    ice_nine (0.11.1)
     inflecto (0.0.2)
     ipaddress (0.8.0)
     jbuilder (2.2.13)
@@ -264,12 +298,18 @@ GEM
       multi_json (~> 1.3)
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
+    paranoia (2.1.2)
+      activerecord (~> 4.0)
     pg (0.18.1)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
     rack (1.6.0)
+    rack-accept (0.4.5)
+      rack (>= 0.4)
+    rack-mount (0.8.3)
+      rack (>= 1.0.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.0)
@@ -370,6 +410,11 @@ GEM
     uglifier (2.7.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    virtus (1.0.5)
+      axiom-types (~> 0.1)
+      coercible (~> 1.0)
+      descendants_tracker (~> 0.0, >= 0.0.3)
+      equalizer (~> 0.0, >= 0.0.9)
     web-console (2.1.2)
       activemodel (>= 4.0)
       binding_of_caller (>= 0.7.2)
@@ -390,14 +435,19 @@ DEPENDENCIES
   carrierwave (~> 0.10.0)
   codeclimate-test-reporter (~> 0.4.7)
   database_cleaner (~> 1.4.1)
+  doorkeeper (~> 2.2.1)
+  doorkeeper-grants_assertion!
   dotenv-rails (~> 2.0.1)
   factory_girl_rails (~> 4.5.0)
   fog (~> 1.29.0)
+  grape (~> 0.11.0)
+  grape-entity (~> 0.4.5)
   guard-rspec (~> 4.5.0)
   jbuilder (~> 2.0)
   jquery-rails
   newrelic_rpm (~> 3.11.2.286)
   omniauth-facebook (~> 2.0.1)
+  paranoia (~> 2.0)
   pg (~> 0.18.1)
   rails (= 4.2.0)
   rails_12factor (~> 0.0.3)

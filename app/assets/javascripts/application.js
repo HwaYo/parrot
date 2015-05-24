@@ -16,7 +16,7 @@
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require wavesurfer.min
-//= require libvorbis/libvorbis
+//= stub libvorbis/libvorbis.worker
 //= stub player
 //= stub recorder
 //= require initialize

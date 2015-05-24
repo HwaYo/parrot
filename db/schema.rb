@@ -11,7 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150511143923) do
+ActiveRecord::Schema.define(version: 20150519091404) do
+
+  create_table "bookmark_histories", force: :cascade do |t|
+    t.float    "start"
+    t.float    "end"
+    t.integer  "record_id"
+    t.integer  "bookmark_id"
+    t.string   "uuid"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.datetime "deleted_at"
+  end
+
+  add_index "bookmark_histories", ["deleted_at"], name: "index_bookmark_histories_on_deleted_at"
 
   create_table "bookmarks", force: :cascade do |t|
     t.string   "color"
@@ -19,8 +32,11 @@ ActiveRecord::Schema.define(version: 20150511143923) do
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "uuid"
+    t.datetime "deleted_at"
   end
 
+  add_index "bookmarks", ["deleted_at"], name: "index_bookmarks_on_deleted_at"
   add_index "bookmarks", ["user_id"], name: "index_bookmarks_on_user_id"
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -66,14 +82,15 @@ ActiveRecord::Schema.define(version: 20150511143923) do
   create_table "records", force: :cascade do |t|
     t.string   "title"
     t.text     "note"
-    t.text     "bookmark"
     t.string   "file"
     t.integer  "user_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.boolean  "deleted",    default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "uuid"
+    t.datetime "deleted_at"
   end
 
+  add_index "records", ["deleted_at"], name: "index_records_on_deleted_at"
   add_index "records", ["user_id"], name: "index_records_on_user_id"
 
   create_table "users", force: :cascade do |t|
