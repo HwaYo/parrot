@@ -274,6 +274,8 @@
 
   WaveRenderer.prototype.resizeCanvas = function(width) {
     this.renderer.width = width;
+    this.renderer.canvas.width = width;
+    // App.waveRenderer.renderer.canvas.width
   }
 
   window.Recorder = Recorder;
