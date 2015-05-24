@@ -214,10 +214,12 @@
     return this.elapsedTime.toFixed(1);
   };
 
+  // TODO - AAA
   var WaveRenderer = function (params) {
     var defaultParams = {
       interpolate: false,
-      height: 100
+      height: 100,
+      width: $('.wave-component').width()
     };
     params = $.extend({}, defaultParams, params);
 
@@ -270,6 +272,12 @@
     });
   };
 
+  WaveRenderer.prototype.resizeCanvas = function(width) {
+    this.renderer.width = width;
+    this.renderer.canvas.width = width;
+    // App.waveRenderer.renderer.canvas.width
+  }
+
   window.Recorder = Recorder;
   window.WaveRenderer = WaveRenderer;
 })(window, navigator);
@@ -283,4 +291,10 @@ $(document).on('ready page:load', function () {
   App.waveRenderer = new WaveRenderer({
     container: document.getElementById('waveform-recorder')
   });
+
+
+  $(window).resize(function() {
+    App.waveRenderer.resizeCanvas($(window).width());
+  });
+  
 });
