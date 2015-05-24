@@ -118,15 +118,16 @@ bookmarkHandler = {
         bookmarkHandler.currentBookmark = $(this);
         bookmarkHandler.closeBookmark(time);
       }
-
     });
   },
   closeBookmark : function(time) {
-    this.currentBookmark.removeClass("bookmark-active");
-    this.currentBookmark.css("background-color","");
-    this.bookmarkInfo['end'] = time;
-    this.bookmarks.push(this.bookmarkInfo);
-    this.currentBookmark = null;
+    if(this.currentBookmark != null) {
+      this.currentBookmark.removeClass("bookmark-active");
+      this.currentBookmark.css("background-color","");
+      this.bookmarkInfo['end'] = time;
+      this.bookmarks.push(this.bookmarkInfo);
+      this.currentBookmark = null;
+    }
   },
   makeBookmarkTag: function(bookmarkInfo) {
     var bookmark = $('<p/>'),
