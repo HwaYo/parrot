@@ -71,7 +71,7 @@ private
         bookmark = Bookmark.find_by_name(history["name"])
         next if bookmark.nil?
 
-        bookmark_history = record.bookmark_histories.build(history.slice(*BookmarkHistory.column_names))
+        bookmark_history = record.bookmark_histories.build(history.slice(*BookmarkHistory.column_names).except('id'))
         bookmark_history.bookmark = bookmark
       end
     end
