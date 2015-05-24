@@ -159,5 +159,4 @@ wavesurfer = {
 $(document).on('ready page:load' ,function(){
   wavesurfer.init();
   player.init();
-  bookmarkHandler.init(false);
 });

@@ -5,15 +5,13 @@ if ( typeof (bookmarkHandler) == typeof (undefined)) {
 }
 
 bookmarkHandler = {
-  isRecording: false,
   audioTag: [],
   bookmarks: [],
   colorList: [],
   maxLen: {},
   bookmarkInfo: {},
   $currentBookmark: {},
-  init: function(isRecording) {
-    this.isRecording = isRecording;
+  init: function() {
     this.addEventListener();
     this.audioTag = document.getElementsByTagName('audio');
     if ( null != document.getElementById('waveform-recorder') )
@@ -51,8 +49,7 @@ bookmarkHandler = {
       ] +')';
   },
   getCurrentTime: function() {
-    var time =
-        bookmarkHandler.isRecording ? App.recorder.getElapsedTime() : bookmarkHandler.audioTag[0].currentTime.toFixed(1);
+    var time = App.recorder ? App.recorder.getElapsedTime() : bookmarkHandler.audioTag[0].currentTime.toFixed(1);
     time = parseFloat(time);
     return time;
   },
@@ -61,11 +58,10 @@ bookmarkHandler = {
       e.preventDefault();
     });
     $("[data-bookmark]").on('click', function(e){
-
       e.preventDefault();
 
       var $bookmark = $(this);
-      time = bookmarkHandler.getCurrentTime();
+      var time = bookmarkHandler.getCurrentTime();
 
       // start of the Bookmark
       if( !$bookmark.hasClass("bookmark-active") ) {
@@ -107,7 +103,7 @@ bookmarkHandler = {
         $(window).scrollTop($(document).height());
         note.focus();
 
-        if ( !bookmarkHandler.isRecording ) {
+        if (!App.recorder) {
           bookmarkHandler.saveBookmark();
           bookmarkHandler.addRegion(bookmarkInfo);
         }
@@ -169,7 +165,7 @@ bookmarkHandler = {
 };
 
 $(document).on('ready page:load', function () {
-  bookmarkHandler.init(true);
+  bookmarkHandler.init();
 
   var timer = {};
   $('#note-area').on('keyup', function(event){
