@@ -34,6 +34,7 @@ class CreateBookmarkHistories < ActiveRecord::Migration
 
         bookmark_history = record.bookmark_histories.build(history.slice(*BookmarkHistory.column_names))
         bookmark_history.bookmark = bookmark
+        bookmark_history.uuid = SecureRandom.uuid
         bookmark_history.save!
       end
     end
