@@ -1,5 +1,8 @@
-@import url("font-awesome.min.css");
-@import url("http://fonts.googleapis.com/css?family=Roboto:100,100italic,300,300italic,400,400italic");
+// @import url("font-awesome.min.css");
+// @import url("http://fonts.googleapis.com/css?family=Roboto:100,100italic,300,300italic,400,400italic");
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
 
 /*
 	Tessellate by HTML5 UP
@@ -1313,15 +1316,15 @@
 		width: device-width;
 	}
 
-	body {
-		background: #F8F8F8;
-		font-family: 'Roboto', sans-serif;
-		font-weight: 300;
-		font-size: 17pt;
-		line-height: 1.75em;
-		color: #888;
-		-webkit-text-stroke: 0.1px;
-	}
+	// body {
+	// 	background: #F8F8F8;
+	// 	font-family: 'Roboto', sans-serif;
+	// 	font-weight: 300;
+	// 	font-size: 17pt;
+	// 	line-height: 1.75em;
+	// 	color: #888;
+	// 	-webkit-text-stroke: 0.1px;
+	// }
 
 		body.is-loading * {
 			-moz-transition: none !important;
@@ -1998,11 +2001,14 @@
 	#header {
 		position: relative;
 		margin: 0;
-		background-image: asset_url("overlay.png"), asset_url("header.jpg");
-		background-size: auto, cover;
-		background-position: top left, center center;
-		background-repeat: repeat, no-repeat;
-		padding: 14em 0 8em 0;
+		// background-image: asset_url("overlay.png"), asset_url("header.jpg");
+		// background-size: auto, cover;
+		// background-position: top left, center center;
+		background: url("<%= asset_path('background.jpg') %>");
+	  background-size: cover;
+	  background-position: center center;
+		// background-repeat: repeat, no-repeat;
+		padding: 14em 0 14em 0;
 		text-align: center;
 		color: #fff;
 	}
@@ -2331,3 +2337,42 @@
 				}
 
 	}
+
+
+
+#fb-link{
+  width: 220px;
+  display: block;
+  margin: auto;
+
+  .fb-join {
+    background-color: transparent;
+    border: 1px solid #3f3f3f;
+    width: 210px;
+    height: 50px;
+    margin-top:20px;
+    cursor: pointer;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px;
+
+    .fb-join-image {
+      position: absolute;
+      margin-left: 25px;
+      margin-top: 11px;
+      width: 13px;
+
+      .fb-black {
+			  width: 13px;
+			}
+    }
+    .fb-join-text {
+      position: absolute;
+      margin-top: 15px;
+      margin-left: 60px;
+      color: #3f3f3f;
+    }
+  }
+}
