@@ -15,11 +15,11 @@
 //= require jquery.blockUI
 //= require turbolinks
 //= require bootstrap-sprockets
-//= require wavesurfer.min
-//= stub libvorbis/libvorbis.worker
-//= stub player
-//= stub recorder
-//= require initialize
+//= require ./wavesurfer.min
+//= stub ./libvorbis/libvorbis.worker
+//= stub ./player
+//= stub ./recorder
+//= require ./initialize
 //= require_tree .
 
 $(document).on('ready page:load', function () {

@@ -8,5 +8,4 @@ class HomeController < ApplicationController
       render layout: "home_application"
     end
   end
-
 end
