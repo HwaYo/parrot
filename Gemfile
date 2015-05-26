@@ -70,3 +70,6 @@ gem "doorkeeper-grants_assertion", github: "Inittec/doorkeeper-grants_assertion"
 gem 'grape', '~> 0.11.0'
 gem 'grape-entity', '~> 0.4.5'
 gem "paranoia", "~> 2.0"
+
+gem 'slack-notifier', '~> 1.2.1'
+gem 'sucker_punch', '~> 1.5.0'
