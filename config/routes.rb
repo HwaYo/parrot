@@ -15,4 +15,6 @@ Rails.application.routes.draw do
       get 'bookmark_json'
     end
   end
+
+  resources :subscriptions, only: :create
 end

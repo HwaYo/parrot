@@ -1,4 +1,7 @@
-FactoryGirl.define do
+FactoryGirl.define do  factory :subscription do
+    
+  end
+
   factory :user do
     provider "facebook"
     uid "1234512345"
