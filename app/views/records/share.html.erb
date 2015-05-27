@@ -1,0 +1,32 @@
+<% content_for :header do %>
+  <%= javascript_include_tag 'player', 'data-turbolinks-track' => true %>
+<% end %>
+
+<% content_for :navbar_button do %>
+  <li class="player-component play">
+    <button class="btn btn-link btn-lg" data-action="play">
+      <span data-play>
+        <i class="glyphicon glyphicon-play"></i>
+      </span>
+      <span data-pause style="display: none;">
+        <i class="glyphicon glyphicon-pause"></i>
+      </span>
+    </button>
+  </li>
+<% end %>
+
+<div class="wave-component player-component">
+    <div id='wave'></div>
+    <p id="subtitle" class="text-center text-info">&nbsp;</p>
+    <div id="wave-timeline">
+    </div>
+    <div id="waveform-player" data-id="<%= @record.id %>" data-url="<%= @record.file.url %>"></div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <%= render partial: 'note' %>
+  </div>
+</div>
+
+

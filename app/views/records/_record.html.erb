@@ -15,7 +15,10 @@
           <%= strip_tags record.note.try(:truncate, 500) %>
         </div>
         <div class="record-edit-btn-container">
-          <div class="record-edit-btn" data-record="<%= record.id %>" data-record-edit data-toggle="modal" data-target="#edit-record-modal">
+          <div class="record-edit-btn" data-record="<%= record.id %>" data-action="share" data-record-edit data-toggle="modal" data-target="#share-record-modal">
+            <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+          </div>
+          <div class="record-edit-btn" data-record="<%= record.id %>" data-action="edit" data-record-edit data-toggle="modal" data-target="#edit-record-modal">
             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
           </div>
           <%= link_to record_path(record), class: "record-edit-btn", method: :delete, data: {confirm: "Are you sure you want to delete?"} do %>
