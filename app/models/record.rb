@@ -10,5 +10,20 @@ class Record < ActiveRecord::Base
   has_many :bookmark_histories
   mount_uploader :file, RecordUploader
 
-  validates :title, presence: { message: "1자 이상으로 입력해주세요." }
+  validates :title, presence: { message: "title has to be longer than 1 character" }
+  validates :username, presence: { message: "username has to be longer than 1 character" }, if: :is_shared?
+  validates :password, presence: { message: "password has to be longer than 1 character" }, if: :is_shared?
+
+  def is_shared?
+    share_token != nil
+  end
+
+  def share(params)
+    begin
+      self.share_token = SecureRandom.hex[0,10]
+      self.username = params[:username]
+      self.password = params[:password]
+    end while self.class.exists?(share_token: share_token)
+  end
+
 end

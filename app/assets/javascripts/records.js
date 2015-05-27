@@ -10,27 +10,36 @@ record = {
     this.addEditRecordFormEvent();
   },
   addEditRecordFormEvent: function() {
-    var setValidationEvent = function() {
-      $('#edit-record-modal form').on('ajax:success', function(xhr, status, error){
+    var setValidationEvent = function(action) {
+      $('#' + action + '-record-modal form').on('ajax:success', function(xhr, status, error){
         location.reload();
       }).on('ajax:error',function(xhr, status, error){
-        $('#edit-record-modal-content').html(status.responseText);
-        setValidationEvent();
+        $('#' + action + '-record-modal-content').html(status.responseText);
+        setValidationEvent(action);
       });
     };
 
     $("#edit-record-modal").on("shown.bs.modal", function(e) {
-      setValidationEvent();
+      setValidationEvent('edit');
+    });
+
+    $("#share-record-modal").on("shown.bs.modal", function(e) {
+      $('#share-btn').on('click', function(){
+        window.prompt("Copy to clipboard: Ctrl+C, Enter", $(this).attr("data-clipboard-text"));
+      });
+      setValidationEvent('share');
     });
 
     $('[data-record-edit]').on("click", function(e){
       e.preventDefault();
 
       var recordId = $(this).data('record');
-          url = "records/" + recordId + "/edit";
+      var action = $(this).data('action');
+
+      url = "records/" + recordId + "/" + action;
 
       record.request(url, function(html){
-        $('#edit-record-modal-content').html(html);
+        $('#' + action + '-record-modal-content').html(html);
       });
     });
   },

@@ -59,7 +59,26 @@ class RecordsController < ApplicationController
     redirect_to records_path
   end
 
+  def share_new
+    @record = Record.find(params[:id])
+    @record.share(share_params)
+    if @record.save
+      redirect_to records_path
+    else
+      render partial: 'share_modal', status: 500
+    end
+  end
+
+  def share
+    @record = Record.find(params[:id])
+    render partial: 'share_modal'
+  end
+
 private
+  def share_params
+    params.require(:record).permit(:username,:password)
+  end
+
   def record_params
     params.require(:record).permit(:title, :file, :note, :bookmark)
   end
