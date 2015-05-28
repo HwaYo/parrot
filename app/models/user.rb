@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  after_create :notify_slack
+
   has_many :records
   has_many :bookmarks
 
@@ -35,5 +37,9 @@ private
       { name: "Don't Understand", color: '#fbca04' },
       { name: 'Not Important', color: '#207de5' }
     ].each { |attribute| user.bookmarks.create!(attribute) }
+  end
+
+  def notify_slack
+    SlackNotificationJob.new.async.perform("New user from web: #{self.email} (#{self.uid})")
   end
 end
