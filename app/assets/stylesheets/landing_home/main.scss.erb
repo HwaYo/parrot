@@ -3,6 +3,7 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+
 /*
 	Tessellate by HTML5 UP
 	html5up.net | @n33co
@@ -1315,16 +1316,15 @@
 		width: device-width;
 	}
 
-	 body {
+	// body {
 	// 	background: #F8F8F8;
-		 	font-family: 'Nanum Barun Gothic', sans-serif;
-
+	// 	font-family: 'Roboto', sans-serif;
 	// 	font-weight: 300;
 	// 	font-size: 17pt;
 	// 	line-height: 1.75em;
 	// 	color: #888;
 	// 	-webkit-text-stroke: 0.1px;
-	 }
+	// }
 
 		body.is-loading * {
 			-moz-transition: none !important;
@@ -1457,12 +1457,6 @@
 			margin: 0;
 			padding: 0.25em 0 0.5em 0;
 		}
-
-	#header {
-		h1, p {
-			color: black;
-		}
-	}
 
 	footer {
 		padding-top: 1.5em;
@@ -2010,7 +2004,7 @@
 		// background-image: asset_url("overlay.png"), asset_url("header.jpg");
 		// background-size: auto, cover;
 		// background-position: top left, center center;
-		background: asset_url("background.jpg");
+		background: url("<%= asset_path('background.jpg') %>");
 	  background-size: cover;
 	  background-position: center center;
 		// background-repeat: repeat, no-repeat;
@@ -2042,11 +2036,6 @@
 			margin-top:100px;
 		}
 
-		#header-content {
-			background-color: rgba(255, 255, 255, 0.5);
-			padding: 50px 0;
-		}
-
 /* Main Sections */
 
 	.main {
@@ -2064,11 +2053,11 @@
 			.main > header h2 {
 				font-size: 2.25em;
 				font-weight: 100;
-				margin-bottom: 0.5em;
+				margin-bottom: 0;
 			}
 
 			.main > header p {
-				margin: 1em 0 0 0;
+				margin: 2em 0 0 0;
 				padding: 0;
 				text-align: center;
 			}
@@ -2087,25 +2076,11 @@
 
 			.main > .content.style1 {
 				background: #3BA7C4;
-
-				section {
-					p {
-						line-height: 1.5em;
-						font-weight: 100;
-					}
-				}
 			}
 
 			.main > .content.style2 {
 				background: #91d1db;
 				color:#606060;
-
-				section {
-					p {
-						line-height: 1.5em;
-						font-weight: 100;
-					}
-				}
 			}
 
 			.main > .content.style3 {
@@ -2170,15 +2145,6 @@
 			.feature-icon {
 				margin-bottom: 2em;
 			}
-			span.icon {
-				background-repeat: no-repeat;
-				background-position: center;
-			}
-			.fa-cloud {
-				background-repeat: no-repeat;
-				background-position: center;
-				background: asset_url('cloud_white.png');
-			}
 
 		/* Header */
 
@@ -2237,7 +2203,7 @@
 
 			#header {
 				margin: 0 !important;
-				// padding: 8em 2em 8em 2em;
+				padding: 8em 2em 8em 2em;
 			}
 
 				#header header p {
@@ -2271,7 +2237,7 @@
 					}
 
 					.main > header p {
-						margin: 1em 0 0 0;
+						margin: 1.5em 0 0 0;
 					}
 
 				.main > .content {
@@ -2343,7 +2309,7 @@
 			}
 
 		/* Header */
-/*
+
 			#header {
 				padding: 6em 20px 6em 20px;
 			}
@@ -2351,7 +2317,7 @@
 				#header > header {
 					padding: 0 1em 0 1em;
 				}
-*/
+
 		/* Main Sections */
 
 			.main > header {
@@ -2375,7 +2341,7 @@
 
 
 #fb-link{
-  width: 210px;
+  width: 220px;
   display: block;
   margin: auto;
 
@@ -2404,8 +2370,7 @@
     }
     .fb-join-text {
       position: absolute;
-      font-size: 13px;
-      margin-top: 12px;
+      margin-top: 15px;
       margin-left: 60px;
       color: #3f3f3f;
     }
