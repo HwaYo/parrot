@@ -20,6 +20,22 @@
 		vertical-align: baseline;
 	}
 
+	.fa-cloud {
+		background-repeat: no-repeat !important;
+		background-position: center !important;
+		background-image: asset_url('cloud_white.png') !important;
+	}
+	.fa-sound {
+		background-repeat: no-repeat !important;
+		background-position: center !important;
+		background-image: asset_url('wave_white.png') !important;
+	}
+	.fa-bookmark {
+		background-repeat: no-repeat !important;
+		background-position: center !important;
+		background-image: asset_url('bookmark_white.png') !important;
+	}
+
 	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 		display: block;
 	}
@@ -2173,11 +2189,6 @@
 			span.icon {
 				background-repeat: no-repeat;
 				background-position: center;
-			}
-			.fa-cloud {
-				background-repeat: no-repeat;
-				background-position: center;
-				background: asset_url('cloud_white.png');
 			}
 
 		/* Header */
