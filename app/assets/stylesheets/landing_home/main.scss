@@ -2058,11 +2058,11 @@
 			.main > header h2 {
 				font-size: 2.25em;
 				font-weight: 100;
-				margin-bottom: 0;
+				margin-bottom: 1.5em;
 			}
 
 			.main > header p {
-				margin: 2em 0 0 0;
+				margin: 1em 0 0 0;
 				padding: 0;
 				text-align: center;
 			}
@@ -2149,6 +2149,15 @@
 
 			.feature-icon {
 				margin-bottom: 2em;
+			}
+			span.icon {
+				background-repeat: no-repeat;
+				background-position: center;
+			}
+			.fa-cloud {
+				background-repeat: no-repeat;
+				background-position: center;
+				background: asset_url('cloud_white.png');
 			}
 
 		/* Header */
@@ -2242,7 +2251,7 @@
 					}
 
 					.main > header p {
-						margin: 1.5em 0 0 0;
+						margin: 1em 0 0 0;
 					}
 
 				.main > .content {
