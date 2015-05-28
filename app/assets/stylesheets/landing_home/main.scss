@@ -1318,6 +1318,7 @@
 	 body {
 	// 	background: #F8F8F8;
 		 	font-family: 'Nanum Barun Gothic', sans-serif;
+
 	// 	font-weight: 300;
 	// 	font-size: 17pt;
 	// 	line-height: 1.75em;
@@ -2041,6 +2042,11 @@
 			margin-top:100px;
 		}
 
+		#header-content {
+			background-color: rgba(255, 255, 255, 0.5);
+			padding: 50px 0;
+		}
+
 /* Main Sections */
 
 	.main {
@@ -2086,6 +2092,13 @@
 			.main > .content.style2 {
 				background: #91d1db;
 				color:#606060;
+
+				section {
+					p {
+						line-height: 1.5em;
+						font-weight: 100;
+					}
+				}
 			}
 
 			.main > .content.style3 {
@@ -2217,7 +2230,7 @@
 
 			#header {
 				margin: 0 !important;
-				padding: 8em 2em 8em 2em;
+				// padding: 8em 2em 8em 2em;
 			}
 
 				#header header p {
@@ -2323,7 +2336,7 @@
 			}
 
 		/* Header */
-
+/*
 			#header {
 				padding: 6em 20px 6em 20px;
 			}
@@ -2331,7 +2344,7 @@
 				#header > header {
 					padding: 0 1em 0 1em;
 				}
-
+*/
 		/* Main Sections */
 
 			.main > header {
