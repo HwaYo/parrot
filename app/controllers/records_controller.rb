@@ -63,7 +63,7 @@ class RecordsController < ApplicationController
     @record = Record.find(params[:id])
     @record.share(share_params)
     if @record.save
-      redirect_to records_path
+      render partial: 'share_modal', status: 302
     else
       render partial: 'share_modal', status: 500
     end

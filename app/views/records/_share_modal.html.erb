@@ -9,7 +9,7 @@
       <div class="input-group">
         <input class="form-control" type="text" value="<%= request.base_url + "/share/" + @record.share_token %>" name="record[share_token]" id="record_share_token" disabled>
         <div class="input-group-btn" >
-          <div class="btn btn-default" id="share-btn" data-toggle="tooltip" data-placement="top" title="Copy to Clipboard" data-clipboard-text="<%= request.base_url + '/share/' + @record.share_token %>">
+          <div class="btn btn-default" id="share-btn" data-clipboard-text="<%= request.base_url + '/share/' + @record.share_token %>">
             Copy URL
           </div>
         </div>

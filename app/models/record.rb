@@ -19,11 +19,11 @@ class Record < ActiveRecord::Base
   end
 
   def share(params)
-    begin
+    if self.share_token == nil
       self.share_token = SecureRandom.hex[0,10]
-      self.username = params[:username]
-      self.password = params[:password]
-    end while self.class.exists?(share_token: share_token)
+    end
+    self.username = params[:username]
+    self.password = params[:password]
   end
 
 end

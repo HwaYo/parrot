@@ -15,6 +15,9 @@ record = {
         location.reload();
       }).on('ajax:error',function(xhr, status, error){
         $('#' + action + '-record-modal-content').html(status.responseText);
+        $('#share-btn').on('click', function(){
+            window.prompt("Copy to clipboard: Ctrl+C, Enter", $(this).attr("data-clipboard-text"));
+          });
         setValidationEvent(action);
       });
     };
