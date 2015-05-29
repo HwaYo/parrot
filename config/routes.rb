@@ -20,4 +20,6 @@ Rails.application.routes.draw do
       post 'share_new'
     end
   end
+
+  resources :subscriptions, only: :create
 end
