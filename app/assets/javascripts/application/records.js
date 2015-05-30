@@ -15,10 +15,10 @@ record = {
     });
     $('#share-stop').on('click', function() {
       record.request(url, 'DELETE', function(result){
-          $('#share-record-modal-content').html(result.responseText);
-          record.addClickListener();
-          record.setValidationEvent('share');
-        });
+        $('#share-record-modal-content').html(result);
+        record.addClickListener();
+        record.setValidationEvent('share');
+      });
     });
   },
   setValidationEvent: function(action) {

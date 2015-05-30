@@ -73,7 +73,7 @@ class RecordsController < ApplicationController
     @record = Record.find(params[:id])
     @record.stop_sharing
     if @record.save
-      render partial: 'share_modal', status: 302
+      render partial: 'share_modal', status: 200
     else
       render partial: 'share_modal', status: 500
     end
