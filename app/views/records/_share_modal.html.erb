@@ -1,0 +1,48 @@
+<%= form_for @record, url: { controller: "records", action: "share" }, method: :post, remote: true do |f| %>
+  <div class="modal-body">
+    <div class="form-group">
+    <% if @record.share_token.blank? %>
+      <h4>Set Username and Password to Share via Link</h4>
+    <% else %>
+      <h4>Change Username, Password and Share URL</h4>
+      <label class="control-label" for="record_username">Share URL</label>
+      <div class="input-group">
+        <input class="form-control" type="text" value="<%= request.base_url + "/share/" + @record.share_token %>" name="record[share_token]" id="record_share_token" disabled>
+        <div class="input-group-btn" >
+          <div class="btn btn-default" id="share-btn" data-clipboard-text="<%= request.base_url + '/share/' + @record.share_token %>">
+            Copy URL
+          </div>
+        </div>
+      </div>
+    <% end %>
+    </div>
+    <% if @record.errors.messages[:username].blank? %>
+      <div class="form-group">
+    <% else %>
+      <div class="form-group validate-has-error">
+    <% end %>
+        <%= f.label :username, class: "control-label" %>
+        <%= f.text_field :username, class: "form-control", placeholder: @record.user.name %>
+        <% @record.errors.messages[:username].each do |message| %>
+          <span for="link" class="validate-has-error"><%= message %></span>
+        <% end %>
+      </div>
+    <% if @record.errors.messages[:password].blank? %>
+      <div class="form-group">
+    <% else %>
+      <div class="form-group validate-has-error">
+    <% end %>
+        <%= f.label :password, class: "control-label" %>
+        <%= f.password_field :password, class: "form-control",placeholder: "Type Password" %>
+        <% @record.errors.messages[:password].each do |message| %>
+          <span for="link" class="validate-has-error"><%= message %></span>
+        <% end %> 
+      </div>
+    </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
+    <button type="button" id="share-stop" class="btn btn-danger">STOP</button>
+    <%= f.submit "SHARE", class: "btn btn-primary share-submit" %>
+  </div>
+  </div>
+<% end %>
