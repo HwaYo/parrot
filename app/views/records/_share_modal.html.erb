@@ -1,4 +1,4 @@
-<%= form_for @record, url: { controller: "records", action: "share_new" }, method: :post, remote: true do |f| %>
+<%= form_for @record, url: { controller: "records", action: "share" }, method: :post, remote: true do |f| %>
   <div class="modal-body">
     <div class="form-group">
     <% if @record.share_token.blank? %>
@@ -41,7 +41,8 @@
     </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
-    <%= f.submit "Share", class: "btn btn-primary" %>
+    <button type="button" id="share-stop" class="btn btn-danger">STOP</button>
+    <%= f.submit "SHARE", class: "btn btn-primary share-submit" %>
   </div>
   </div>
 <% end %>

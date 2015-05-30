@@ -17,7 +17,8 @@ Rails.application.routes.draw do
     member do
       get 'bookmark_json'
       get 'share'
-      post 'share_new'
+      post 'share', to: 'records#share_new'
+      delete 'share', to: 'records#share_stop'
     end
   end
 

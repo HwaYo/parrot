@@ -26,4 +26,8 @@ class Record < ActiveRecord::Base
     self.password = params[:password]
   end
 
+  def stop_sharing
+    self.share_token = nil
+  end
+
 end

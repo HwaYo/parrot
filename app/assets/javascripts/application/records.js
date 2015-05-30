@@ -9,28 +9,36 @@ record = {
   addEventListener: function() {
     this.addEditRecordFormEvent();
   },
+  addClickListener: function() {
+    $('#share-btn').on('click', function(){
+      window.prompt("Copy to clipboard: Ctrl+C, Enter", $(this).attr("data-clipboard-text"));
+    });
+    $('#share-stop').on('click', function() {
+      record.request(url, 'DELETE', function(result){
+          $('#share-record-modal-content').html(result.responseText);
+          record.addClickListener();
+          record.setValidationEvent('share');
+        });
+    });
+  },
+  setValidationEvent: function(action) {
+    $('#' + action + '-record-modal form').on('ajax:success', function(xhr, status, error){
+      location.reload();
+    }).on('ajax:error',function(xhr, status, error){
+      $('#' + action + '-record-modal-content').html(status.responseText);
+      record.addClickListener();
+      record.setValidationEvent(action);
+    });
+  },
   addEditRecordFormEvent: function() {
-    var setValidationEvent = function(action) {
-      $('#' + action + '-record-modal form').on('ajax:success', function(xhr, status, error){
-        location.reload();
-      }).on('ajax:error',function(xhr, status, error){
-        $('#' + action + '-record-modal-content').html(status.responseText);
-        $('#share-btn').on('click', function(){
-            window.prompt("Copy to clipboard: Ctrl+C, Enter", $(this).attr("data-clipboard-text"));
-          });
-        setValidationEvent(action);
-      });
-    };
 
     $("#edit-record-modal").on("shown.bs.modal", function(e) {
-      setValidationEvent('edit');
+      record.setValidationEvent('edit');
     });
 
     $("#share-record-modal").on("shown.bs.modal", function(e) {
-      $('#share-btn').on('click', function(){
-        window.prompt("Copy to clipboard: Ctrl+C, Enter", $(this).attr("data-clipboard-text"));
-      });
-      setValidationEvent('share');
+      record.addClickListener();
+      record.setValidationEvent('share');
     });
 
     $('[data-record-edit]').on("click", function(e){
@@ -41,17 +49,18 @@ record = {
 
       url = "records/" + recordId + "/" + action;
 
-      record.request(url, function(html){
+      record.request(url, 'GET', function(html){
         $('#' + action + '-record-modal-content').html(html);
       });
     });
   },
-  request: function(url, callback) {
+  request: function(url, type, callback, error) {
     $.ajax({
-      url: url
+      url: url,
+      type: type,
     }).success(function(result){
       callback(result);
-    });
+    }).error(error);
   }
 };
 

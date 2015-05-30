@@ -69,6 +69,16 @@ class RecordsController < ApplicationController
     end
   end
 
+  def share_stop
+    @record = Record.find(params[:id])
+    @record.stop_sharing
+    if @record.save
+      render partial: 'share_modal', status: 302
+    else
+      render partial: 'share_modal', status: 500
+    end
+  end
+
   def share
     @record = Record.find(params[:id])
     render partial: 'share_modal'
