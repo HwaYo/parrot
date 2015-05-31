@@ -40,9 +40,13 @@
       </div>
     </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
-    <button type="button" id="share-stop" class="btn btn-danger">STOP</button>
-    <%= f.submit "SHARE", class: "btn btn-primary share-submit" %>
+    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+    <% if @record.share_token.blank? %>
+      <%= f.submit "Share", class: "btn btn-primary share-submit" %>
+    <% else %>
+      <button type="button" id="share-stop" class="btn btn-danger">Stop</button>
+    <% end %>
+    
   </div>
   </div>
 <% end %>
