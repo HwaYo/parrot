@@ -5,6 +5,14 @@ class ApplicationController < ActionController::Base
   before_action :logged_in?
   helper_method :current_user
 
+protected
+  def publish_event(key, object = {})
+    object[:from] = 'web'
+    object[:uid] = current_user.uid if current_user
+    object[:agent] = request.user_agent
+    PublishEventJob.new.async.perform(key, object)
+  end
+
 private
   def logged_in?
     unless session[:user_id]

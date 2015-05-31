@@ -73,3 +73,4 @@ gem "paranoia", "~> 2.0"
 
 gem 'slack-notifier', '~> 1.2.1'
 gem 'sucker_punch', '~> 1.5.0'
+gem 'keen', '~> 0.8.10'

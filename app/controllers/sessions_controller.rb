@@ -10,6 +10,9 @@ class SessionsController < ApplicationController
     end
 
     session[:user_id] = user.id
+
+    publish_event('logged_in')
+
     redirect_to records_path
   end
 

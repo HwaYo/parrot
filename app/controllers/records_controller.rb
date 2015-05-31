@@ -32,6 +32,8 @@ class RecordsController < ApplicationController
     associate_bookmark_histories(record)
     record.save!
 
+    publish_event('recorded', { record: record, history_count: record.bookmark_histories.count })
+
     render json: {
       href: record_path(record)
     }
@@ -40,6 +42,8 @@ class RecordsController < ApplicationController
   def show
     @record = current_user.records.find(params[:id])
     @bookmarks = current_user.bookmarks
+
+    publish_event('played', { record: @record })
   end
 
   def bookmark_json
@@ -67,6 +71,7 @@ class RecordsController < ApplicationController
     @record = Record.find(params[:id])
     @record.share(share_params)
     if @record.save
+      publish_event('shared', { record: @record })
       render partial: 'share_modal', status: 302
     else
       render partial: 'share_modal', status: 500
