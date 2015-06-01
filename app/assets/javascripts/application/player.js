@@ -25,13 +25,15 @@ player = {
       wavesurferObject.play($(this).data('start'));
       player.showPausebutton();
     });
-
     $('[data-action="play"]').on('click', function() {
       wavesurferObject.playPause();
     });
     $('#forward-btn').on('click', function() {
       wavesurferObject.skipForward();
     });
+    $('#backward-btn').on('click', function() {
+      wavesurferObject.skipBackward();
+    })
   },
   
   addSpeedControllEvent: function(wavesurferObject) {
