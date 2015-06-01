@@ -4,12 +4,14 @@
       <span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>
       <%= bookmark.name %>
     </span>
-      
+
     <span class="pull-right">
       <a class="glyphicon glyphicon-edit" href="#" data-bookmark-edit data-bookmark-id="<%= bookmark.id %>"></a>
-      <%= link_to '', bookmark_path(bookmark),
+      <%= link_to_delete bookmark.bookmark_histories.count,
+            '', bookmark_path(bookmark),
             method: :delete,
-            data: { confirm: 'Are you sure you want to delete?' }, class: 'glyphicon glyphicon-trash' %>
+            data: { confirm: "이미 등록된 #{bookmark.bookmark_histories.count} 개의 북마크도 함께 삭제됩니다. 정말 삭제하시겠습니까?" },
+            class: 'glyphicon glyphicon-trash' %>
     </span>
   </div>
   <div class="modify">
