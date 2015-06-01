@@ -15,7 +15,10 @@ class RecordsController < ApplicationController
 
   def update
     @record = current_user.records.find(params[:id])
+
+    @record.bookmark = record_params[:bookmark]
     associate_bookmark_histories(@record)
+
     if @record.update(record_params)
       redirect_to records_path
     else
@@ -46,7 +49,8 @@ class RecordsController < ApplicationController
         name: history.bookmark.name,
         color: history.bookmark.color,
         start: history.start,
-        'end' => history.end
+        'end' => history.end,
+        uuid: history.uuid,
       }
     end
 
@@ -97,6 +101,9 @@ private
     if record.bookmark
       bookmark_histories = JSON.parse(record.bookmark)
       bookmark_histories.each do |history|
+
+        next if history.keys.include? "uuid"
+
         bookmark = Bookmark.find_by_name(history["name"])
         next if bookmark.nil?
 
