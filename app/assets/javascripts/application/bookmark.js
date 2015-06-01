@@ -39,9 +39,9 @@ bookmarkHandler = {
     this.bookmarks = data;
   },
   addEventListener: function() {
-    if( App.recorder ) {
+    if( null != document.getElementById('waveform-recorder') ) {
       this.addBookmarkTagEvent();
-    } else { 
+    } else {
       // Different job done when Playing audio
       this.addBookmarkPlaying();
     }
@@ -86,8 +86,6 @@ bookmarkHandler = {
           color : $(this).data('color'),
           name : $(this).data('name'),
         };
-
-        console.log(options);
 
         bookmarkHandler.currentBookmark = $(this);
         bookmarkHandler.bookmarkInfo = options;
@@ -156,9 +154,6 @@ bookmarkHandler = {
 
         $(window).scrollTop($(document).height());
         note.focus();
-
-        bookmarkHandler.saveBookmark();
-        bookmarkHandler.addRegion(bookmarkInfo);
       }
       // end of the Bookmark
       else {
@@ -175,7 +170,6 @@ bookmarkHandler = {
       this.currentBookmark.removeClass("bookmark-active");
       this.currentBookmark.css("background-color","");
       this.bookmarkInfo['end'] = time;
-      console.dir(this.bookmarkInfo);
       this.bookmarks.push(this.bookmarkInfo);
       this.currentBookmark = null;
     }
@@ -207,8 +201,6 @@ bookmarkHandler = {
     var recordId = $('#waveform-player').data('id');
     var formData = new FormData();
     formData.append('record[bookmark]', JSON.stringify(this.bookmarks) );
-    console.log("save bookmark");
-    console.dir(formData);
     $.ajax({
         type: 'PUT',
         url: '/records/' + recordId,
