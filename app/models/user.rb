@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
   after_create :notify_slack
 
-  has_many :records
-  has_many :bookmarks
+  has_many :records, dependent: :destroy
+  has_many :bookmarks, dependent: :destroy
 
   def self.create_with_omniauth(auth)
     user = create! do |user|

@@ -6,8 +6,8 @@ class Record < ActiveRecord::Base
 
   attr_accessor :bookmark
 
-  belongs_to :user, dependent: :destroy
-  has_many :bookmark_histories
+  belongs_to :user
+  has_many :bookmark_histories, dependent: :destroy
   mount_uploader :file, RecordUploader
 
   validates :title, presence: { message: "title has to be longer than 1 character" }
