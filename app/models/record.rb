@@ -6,7 +6,7 @@ class Record < ActiveRecord::Base
 
   attr_accessor :bookmark
 
-  belongs_to :user
+  belongs_to :user, dependent: :destroy
   has_many :bookmark_histories
   mount_uploader :file, RecordUploader
 
