@@ -32,7 +32,11 @@ class RecordsController < ApplicationController
     associate_bookmark_histories(record)
     record.save!
 
-    publish_event('recorded', { record: record, history_count: record.bookmark_histories.count })
+    publish_event('recorded', {
+      record: record,
+      history_count: record.bookmark_histories.count,
+      duration: params[:record][:duration]
+    })
 
     render json: {
       href: record_path(record)
