@@ -1,7 +1,7 @@
 class Bookmark < ActiveRecord::Base
   include SyncableModel
 
-  belongs_to :user
+  belongs_to :user, dependent: :destroy
   has_many :bookmark_histories
 
   validates :name, presence: true
