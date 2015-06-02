@@ -10,7 +10,9 @@ bookmarkHandler = {
   colorList: [],
   maxLen: {},
   bookmarkInfo: {},
+  regionInfo: {},
   $currentBookmark: {},
+  bookmarkTimer: {},
   init: function() {
     this.addEventListener();
     this.audioTag = document.getElementsByTagName('audio');
@@ -37,10 +39,17 @@ bookmarkHandler = {
     this.bookmarks = data;
   },
   addEventListener: function() {
-    this.addBookmarkTagEvent();
+    if( null != document.getElementById('waveform-recorder') ) {
+      this.addBookmarkTagEvent();
+    } else {
+      // Different job done when Playing audio
+      this.addBookmarkPlaying();
+    }
   },
   giveTransparency: function(color) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+    if ( result == null ) return color;
+
     return 'rgba(' + [
       parseInt(result[1], 16),
       parseInt(result[2], 16),
@@ -52,6 +61,49 @@ bookmarkHandler = {
     var time = App.recorder ? App.recorder.getElapsedTime() : bookmarkHandler.audioTag[0].currentTime.toFixed(1);
     time = parseFloat(time);
     return time;
+  },
+  addBookmarkPlaying: function() {
+    $('#note-area').on('click', '.bookmark-tag', function(e) {
+      e.preventDefault();
+    });
+    $("[data-bookmark]").on('click', function(e){
+      e.preventDefault();
+
+      window.clearInterval(bookmarkHandler.bookmarkTimer);
+
+      // start of the Bookmark
+      if( !$(this).hasClass("bookmark-active") ) {
+        $(this).addClass("bookmark-active");
+        $(this).css("background-color",bookmarkHandler.giveTransparency($(this).data('color')));
+
+        if( bookmarkHandler.currentBookmark != null ) {
+          bookmarkHandler.closeBookmark();
+        }
+
+        var options = {
+          start : bookmarkHandler.getCurrentTime(),
+          end : bookmarkHandler.getCurrentTime(),
+          color : $(this).data('color'),
+          name : $(this).data('name'),
+        };
+
+        bookmarkHandler.currentBookmark = $(this);
+        bookmarkHandler.bookmarkInfo = options;
+        bookmarkHandler.regionInfo = bookmarkHandler.addRegion(options);
+
+        bookmarkHandler.bookmarkTimer = window.setInterval(bookmarkHandler.updateRegionTime,25);
+      }
+      // end of the boomkark
+      else {
+        bookmarkHandler.closeBookmark();
+        bookmarkHandler.saveBookmark();
+      }
+    });
+  },
+  updateRegionTime: function() {
+
+    bookmarkHandler.regionInfo.update({ end: bookmarkHandler.getCurrentTime() });
+
   },
   addBookmarkTagEvent: function() {
     $('#note-area').on('click', '.bookmark-tag', function(e) {
@@ -102,12 +154,6 @@ bookmarkHandler = {
 
         $(window).scrollTop($(document).height());
         note.focus();
-
-        if (!App.recorder) {
-          bookmarkHandler.saveBookmark();
-          bookmarkHandler.addRegion(bookmarkInfo);
-        }
-        // Setting Focus to the end of the text
       }
       // end of the Bookmark
       else {
@@ -117,6 +163,9 @@ bookmarkHandler = {
     });
   },
   closeBookmark : function(time) {
+    if ( time == null ) {
+      time = bookmarkHandler.getCurrentTime();
+    }
     if(this.currentBookmark != null) {
       this.currentBookmark.removeClass("bookmark-active");
       this.currentBookmark.css("background-color","");
@@ -144,15 +193,14 @@ bookmarkHandler = {
   },
   addRegion: function(options) {
     var newOption = {};
-    $.extend(newOption,options)
+    $.extend(newOption,options);
     newOption.color = bookmarkHandler.giveTransparency(options.color);
-    wavesurfer.object.addRegion(newOption);
+    return wavesurfer.object.addRegion(newOption);
   },
   saveBookmark: function(options) {
     var recordId = $('#waveform-player').data('id');
     var formData = new FormData();
     formData.append('record[bookmark]', JSON.stringify(this.bookmarks) );
-
     $.ajax({
         type: 'PUT',
         url: '/records/' + recordId,

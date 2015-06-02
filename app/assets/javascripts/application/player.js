@@ -109,7 +109,6 @@ wavesurfer = {
     };
 
     var loadRegions = function(regions) {
-      var newRegion = {};
       regions.forEach(function (region) {
         bookmarkHandler.addRegion(region);
       });
