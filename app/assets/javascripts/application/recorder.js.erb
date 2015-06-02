@@ -201,6 +201,7 @@
     fd.append('record[file]', blob, 'record.ogg');
     fd.append('record[note]', $('#note-area').html());
     fd.append('record[bookmark]', JSON.stringify(bookmarkHandler.bookmarks) );
+    fd.append('record[duration]', this.getElapsedTime());
 
     return new Promise(function (resolve, reject) {
       $.ajax({
