@@ -26,6 +26,7 @@ class BookmarksController < ApplicationController
 
   def destroy
     bookmark = current_user.bookmarks.find(params[:id])
+    bookmark.bookmark_histories.delete_all
     bookmark.destroy
 
     redirect_to bookmarks_path
