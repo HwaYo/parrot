@@ -81,10 +81,11 @@ bookmarkHandler = {
         }
 
         var options = {
-          start : bookmarkHandler.getCurrentTime(),
-          end : bookmarkHandler.getCurrentTime(),
-          color : $(this).data('color'),
-          name : $(this).data('name'),
+          bookmark_id: $(this).data('bookmark'),
+          start: bookmarkHandler.getCurrentTime(),
+          end: bookmarkHandler.getCurrentTime(),
+          color: $(this).data('color'),
+          name: $(this).data('name'),
         };
 
         bookmarkHandler.currentBookmark = $(this);
@@ -122,7 +123,7 @@ bookmarkHandler = {
 
         var bookmarkInfo = {
           start : time,
-          id : $bookmark.data('bookmark'),
+          bookmark_id : $bookmark.data('bookmark'),
           name : $bookmark.data('name'),
           color : $bookmark.data('color'),
         }
