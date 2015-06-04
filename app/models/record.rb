@@ -4,7 +4,7 @@ class Record < ActiveRecord::Base
   scope :remaining, -> { where.not(file: nil) }
   scope :from_remote, -> { with_deleted.where.not(file: nil) }
 
-  attr_accessor :bookmark
+  attr_reader :bookmark
 
   belongs_to :user
   has_many :bookmark_histories, dependent: :destroy
@@ -13,6 +13,12 @@ class Record < ActiveRecord::Base
   validates :title, presence: { message: "title has to be longer than 1 character" }
   validates :username, presence: { message: "username has to be longer than 1 character" }, if: :is_shared?
   validates :password, presence: { message: "password has to be longer than 1 character" }, if: :is_shared?
+
+  before_save :build_histories
+
+  def bookmark=(value)
+    @bookmark = JSON.parse(value) if String === value
+  end
 
   def is_shared?
     share_token != nil
@@ -30,4 +36,19 @@ class Record < ActiveRecord::Base
     self.share_token = nil
   end
 
+private
+  def build_histories
+    return if bookmark.nil?
+    new_histories = bookmark.reject {|history| history.keys.include?('uuid') }
+    new_histories.each do |history|
+      bookmark = Bookmark.find_by_id(history['bookmark_id'])
+      next if bookmark.nil?
+
+      self.bookmark_histories.build(
+        history.slice(*BookmarkHistory.column_names)
+        .except('id')
+        .merge(bookmark: bookmark)
+      )
+    end
+  end
 end
