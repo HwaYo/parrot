@@ -97,16 +97,16 @@
 	  	<div>
 	    	<%= form_for Subscription.new do |f| %>
 					<div class="row">
-						<div class="col-sm-6 col-xs-12"><%= f.text_field :name, placeholder: "이름" %></div>
-						<div class="col-sm-6 col-xs-12"><%= f.text_field :email, placeholder: "이메일" %></div>
+						<div class="col-sm-4 col-sm-offset-2 col-xs-12"><%= f.text_field :name, placeholder: "이름" %></div>
+						<div class="col-sm-4 col-xs-12"><%= f.text_field :email, placeholder: "이메일" %></div>
 					</div>
 					<div class="row">
-						<div class="col-sm12 col-xs-12">
+						<div class="col-sm-8 col-sm-offset-2 col-xs-12">
 							<%= f.text_area :message, placeholder: "메시지" %>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-sm12 col-xs-12">
+						<div class="col-sm-12 col-xs-12">
 							<%= f.submit class: "button", value: "보내기" %>
 						</div>
 					</div>
