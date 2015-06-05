@@ -21,8 +21,9 @@
 	<div class="parallax-background"></div>
 	<div class="parallax-content text-center">
   	<div>
-    	<h2>강의 콘텐츠 하이라이트 플랫폼</h2>
-			<p>강의를 녹음하는 도중 중요한 부분들을 원터치로 기록하세요. LoroClip이 당신의 북마크를 통해 가장 효율적으로, 언제 어디서나 학습할 수 있도록 도와줍니다.</p>
+    	<h2 class="title">강의 콘텐츠 하이라이트 플랫폼</h2>
+			<p class="content">강의를 녹음하는 도중 중요한 부분들을 원터치로 기록하세요.</p>
+			<p class="content">LoroClip이 당신의 북마크를 통해 가장 효율적으로, 언제 어디서나 학습할 수 있도록 도와줍니다.</p>
 	  </div>
 	</div>
 </div>
@@ -32,7 +33,6 @@
 	<div class="parallax-background"></div>
 	<div class="container">
 		<div class="parallax-content text-center">
-			<h2 class="container_title">FEATURES</h2>
 	  	<div>
 	    	<div class="col-sm-4 col-xs-12 text-center feature_content">
 			    <span class="feature-icon"><span class="icon fa-bookmark"></span></span>
@@ -58,22 +58,28 @@
 	<div class="parallax-background"></div>
 	<div class="container">
 		<div class="parallax-content text-center">
-			<h2 class="container_title">LoroClip은 이렇게 사용합니다.</h2>
+			<h2 class="container_title">LoroClip은 이렇게 사용해요.</h2>
 	  	<div>
 	    	<div class="col-sm-4 col-xs-12 text-center feature_content">
 			    <%= image_tag 'pic01.png', class: "image fit featured" %>
-			    <h3 class="content-title">1. 나만의 북마크 만들기</h3>
+			    <h3 class="content-title">첫번째,
+			    </h3>
+			    <h3 class="content-title">나만의 북마크 만들기</h3>
 			    <p>내가 자주 쓰는 나만의 북마크를 만들고 수정, 관리하세요.</p>
 					<p>(현재 웹을 통해서만 관리 가능)</p>
 			  </div>
 			  <div class="col-sm-4 col-xs-12 text-center feature_content">
 			    <%= image_tag 'pic02.png', class: "image fit featured" %>
-			    <h3 class="content-title">2. 녹음하기</h3>
+			    <h3 class="content-title">두번째,
+			    </h3>
+			    <h3 class="content-title">녹음하기</h3>
 			    <p>LoroClip 앱을 사용해 강의를 녹음하세요. 놓치고 싶지 않은 부분이 있을 땐 단 한번의 터치로 북마크를 남길 수 있습니다.</p>
 			  </div>
 			  <div class="col-sm-4 col-xs-12 text-center feature_content">
 			    <%= image_tag 'pic03.png', class: "image fit featured" %>
-					<h3 class="content-title">3. 어디서든 다시 듣기</h3>
+			    <h3 class="content-title">세번째,
+			    </h3>
+					<h3 class="content-title">어디서든 다시 듣기</h3>
 					<p>녹음파일과 북마크는 계정과 연결되어 보관되므로 웹/모바일을 가리지 않고 언제 어디서든 쉽게 이용 가능합니다.</p>
 			  </div>
 		  </div>
@@ -102,7 +108,6 @@
 					<div class="row">
 						<div class="col-sm12 col-xs-12">
 							<%= f.submit class: "button", value: "보내기" %>
-							<%= f.submit type: :reset, value: "다시 쓰기", class: "button alt" %>
 						</div>
 					</div>
 				<% end %>

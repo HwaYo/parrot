@@ -370,7 +370,7 @@ h1, h2, h3, h4, h5, h6 {
 	 input[type="reset"],
 	 button,
 	 .button {
-		background: rgba(255, 255, 255, 0.15);
+		background: RGB(72, 109, 168);
 		box-shadow: inset 0 0 0 1px #fff;
 		color: #fff;
 	}
@@ -619,11 +619,6 @@ h1, h2, h3, h4, h5, h6 {
 	  width: 100%;
 	  height: 100%;
 
-	  .content-title {
-	  	color: white;
-	  	font-size: 1.5em;
-	  }
-
 	  div {
 	  	display: table-cell;
 		  vertical-align: middle;
@@ -655,13 +650,25 @@ h1, h2, h3, h4, h5, h6 {
 
 #first {
 	.parallax-content {
-		margin: 50px 0;		
+		margin: 80px 0;		
+	}
+
+	.title {
+		color: rgb(59,167,196);
+	  font-size: 2em;
+	  margin-bottom: 1em;
+	  font-weight: 300;
+	}
+
+	.content {
+		color: rgb(91,91,91);
+	  font-size: 0.88em;	
 	}
 }
 
 #second {
 	.parallax-content {
-		margin-top: 50px;		
+		margin-top: 80px;		
 	}
 
 	.parallax-background {
@@ -669,17 +676,32 @@ h1, h2, h3, h4, h5, h6 {
 	}
 
 	.feature_content{
-  	margin-bottom: 50px;
+  	margin-bottom: 80px;
 
   	p {
-  		color: RGB(88, 179, 204);	
+  		font-size: 0.88em;
+  		color: RGB(201, 237, 245);
+  		 font-weight: 100;
   	}
+  }
+
+  .content-title {
+  	color: RGB(255, 255, 255);
+  	font-size: 1.6em;
+  	font-weight: 300;
   }
 }
 
 #third {
+	.container_title {
+  	font-size: 2em;
+  	margin-bottom: 80px;
+  	color: RGB(91, 91, 91);	
+  	font-weight: 300;
+  }
+
 	.parallax-content {
-		margin-top: 50px;		
+		margin-top: 80px;		
 	}
 
 	.parallax-background {
@@ -687,30 +709,42 @@ h1, h2, h3, h4, h5, h6 {
 	}
 
 	.feature_content {
-  	margin-bottom: 50px;
+  	margin-bottom: 80px;
   	p {
-  		color: RGB(88, 179, 204);	
+  		font-size: 0.88em;
+			color: RGB(91, 91, 91);	
+			font-weight: 100;
   	}
   }
 
+  .content-title {
+  	color: RGB(59, 167, 196);
+  	font-size: 1.6em;
+  	font-weight: 300;
+  }
 }
-
 
 #fourth {
 	.parallax-background {
 		background: RGB(59, 167, 196);	
 	}
 	.form-title {
-		font-size: 3em;
+		font-size: 2em;
+		color: RGB(255, 255, 255);	
 		display: table-caption;
+		font-weight: 300;
 	}
 	
 	.form-subtitle {
 		display: table-caption;
+		font-size: 0.88em;
+		color: RGB(201, 237, 245);	
+		margin-bottom: 80px;
+		font-weight: 200;
 	}
 
 	.parallax-content {
-		margin: 50px 0;		
+		margin: 80px 0;		
 	}
 
 	form {
@@ -725,6 +759,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #fifth {
+	.parallax-background {
+		background: RGB(255, 255, 255);	
+	}
+
 	.parallax-content {
 		margin: 30px 0;		
 	}
