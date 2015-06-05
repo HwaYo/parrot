@@ -1,154 +1,126 @@
-<!-- Header -->
-	<section id="header" class="dark">
-		<div id="header-content">
-			<header>
-				<h1>LoroClip</h1>
-				<p>가장 효율적으로, 빈틈없이 녹음본을 듣고 관리하는 방법</p>
-			</header>
-			<div>
-				<%= link_to "/auth/facebook", id:"fb-link" do %>
-        <div class="fb-join">
-          <div class="fb-join-image">
-            <%= image_tag "facebook-black.png", class: "fb-black"%>
-          </div>
-          <div class="fb-join-text">페이스북으로 시작하기</div>
-        </div>
-      	<% end %>
-			</div>
-		</div>
-		<footer>
-			<div class="using-path">
-				<a href="https://play.google.com/store/apps/details?id=com.loroclip">
-				  <img alt="Get it on Google Play"
-				       src="https://developer.android.com/images/brand/en_generic_rgb_wo_45.png" />
-				</a>
-			</div>
-		</footer>
-	</section>
+<div id="main-page" class="parallax" id="main-page">
+	<div id="main-page-background" class="parallax-background"></div>
+	<div class="parallax-content text-center">
+  	<div>
+    	<%= image_tag "logo.png", id: "logo" %>
+	    <h1>
+	    	<p>Record with Efficency,</p>
+	    	<p>Anywhere, Anytime.</p>
+	    </h1>
+    	<%= link_to "/auth/facebook" do %>
+      	<%= image_tag "facebook.png", id: "facebook-button"%>
+    	<% end %>
+			<a href="https://play.google.com/store/apps/details?id=com.loroclip">
+			  <img alt="Get it on Google Play" src="https://developer.android.com/images/brand/en_generic_rgb_wo_45.png" />
+			</a>
+	  </div>
+	</div>
+</div>
 
-<!-- First -->
-	<section id="first" class="main">
-		<header>
-			<div class="container">
-				<h2>강의 콘텐츠 하이라이트 플랫폼</h2>
-				<p>강의를 녹음하는 도중 중요한 부분들을 원터치로 기록하세요. LoroClip이 당신의 북마크를 통해 가장 효율적으로, 언제 어디서나 학습할 수 있도록 도와줍니다.</p>
-			</div>
-		</header>
-		<div class="content dark style1 featured">
-			<div class="container">
-				<div class="row">
-					<div class="4u 12u(narrow)">
-						<section>
-							<span class="feature-icon"><span class="icon fa-bookmark"></span></span>
-							<header>
-								<h3>구간 북마크</h3>
-							</header>
-							<p>녹음 파일의 어떤 부분부터 들어야 할지 모르겠다구요? 녹음하면서 북마크로 중요한 부분을 표시하고 그 부분만 찾아 들으세요. 강의 도중 능동적으로 중요도를 파악하는 것은 집중력 향상에도 큰 도움이 됩니다.</p>
-						</section>
-					</div>
-					<div class="4u 12u(narrow)">
-						<section>
-							<span class="feature-icon"><span class="icon fa-sound"></span></span>
-							<header>
-								<h3>노이즈 필터링</h3>
-							</header>
-							<p>LoroClip을 통해 강의자의 목소리를 잡음 없이 더욱 뚜렷하게 들으세요. LoroClip은 1024개 주파수 대역폭 분석을 통해 녹음 과정에서 발생한 잡음을 제거합니다.</p>
-						</section>
-					</div>
-					<div class="4u 12u(narrow)">
-						<section>
-							<span class="feature-icon"><span class="icon fa-cloud"></span></span>
-							<header>
-								<h3>원격 클라우드 저장소</h3>
-							</header>
-							<p>번거롭게 이메일을 보내거나 USB를 연결할 필요가 없습니다. LoroClip이 Wi-Fi를 통해 자동으로 클라우드 서버에 파일을 업로드합니다. 모바일, PC 어디에서든지 강의를 복습하세요.</p>
-						</section>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+<div id="first" class="parallax">
+	<div class="parallax-background"></div>
+	<div class="parallax-content text-center">
+  	<div>
+    	<h2 class="title">강의 콘텐츠 하이라이트 플랫폼</h2>
+			<p class="content">강의를 녹음하는 도중 중요한 부분들을 원터치로 기록하세요.</p>
+			<p class="content">LoroClip이 당신의 북마크를 통해 가장 효율적으로, 언제 어디서나 학습할 수 있도록 도와줍니다.</p>
+	  </div>
+	</div>
+</div>
 
-	<!-- Second -->
-	<section id="second" class="main">
-		<header>
-			<div class="container">
-				<h2>LoroClip은 이렇게 사용합니다.</h2>
-				<!-- <p>Gravida dis placerat lectus ante vel nunc euismod est turpis sodales. Diam tempor dui lacinia accumsan vivamus. Gravida dis placerat lectus ante vel nunc euismod est turpis sodales. Diam tempor dui lacinia accumsan vivamus.</p> -->
-			</div>
-		</header>
-		<div class="content style2 featured">
-			<div class="container">
-				<div class="row">
-					<div class="4u 12u(narrow)">
-						<section>
-							<%= image_tag 'pic01.png', class: "image fit featured" %>
-							<header>
-								<h3>1. 나만의 북마크 만들기</h3>
-							</header>
-							<p>내가 자주 쓰는 나만의 북마크를 만들고 수정, 관리하세요.</p>
-							<p>(현재 웹을 통해서만 관리 가능)</p>
-						</section>
-					</div>
-					<div class="4u 12u(narrow)">
-						<section>
-							<%= image_tag 'pic02.png', class: "image fit featured" %>
-							<header>
-								<h3>2. 녹음하기</h3>
-							</header>
-							<p>LoroClip 앱을 사용해 강의를 녹음하세요. 놓치고 싶지 않은 부분이 있을 땐 단 한번의 터치로 북마크를 남길 수 있습니다.</p>
-						</section>
-					</div>
-					<div class="4u 12u(narrow)">
-						<section>
-							<%= image_tag 'pic03.png', class: "image fit featured" %>
-							<header>
-								<h3>3. 어디서든 다시 듣기</h3>
-							</header>
-							<p>녹음파일과 북마크는 계정과 연결되어 보관되므로 웹/모바일을 가리지 않고 언제 어디서든 쉽게 이용 가능합니다.</p>
-						</section>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
 
-<!-- Fourth -->
-	<section id="fourth" class="main">
-		<header>
-			<div class="container">
-				<h2>정식버전이 출시되면 알려드립니다!</h2>
-				<p>아래 양식에 메일 주소와 메시지를 남겨주시면 정식버전 출시 소식을 알려드리겠습니다.</p>
-			</div>
-		</header>
-		<div class="content style4 featured">
-			<div class="container 75%">
-				<%= form_for Subscription.new do |f| %>
-					<div class="row 50%">
-						<div class="6u 12u(mobile)"><%= f.text_field :name, placeholder: "이름" %></div>
-						<div class="6u 12u(mobile)"><%= f.text_field :email, placeholder: "이메일" %></div>
-					</div>
-					<div class="row 50%">
-						<div class="12u"><%= f.text_area :message, placeholder: "메시지" %></div>
+<div id="second" class="parallax">
+	<div class="parallax-background"></div>
+	<div class="container">
+		<div class="parallax-content text-center">
+	  	<div>
+	    	<div class="col-sm-4 col-xs-12 text-center feature_content">
+			    <span class="feature-icon"><span class="icon fa-bookmark"></span></span>
+			    <h3 class="content-title">구간 북마크</h3>
+			    <p class="content">녹음 파일의 어떤 부분부터 들어야 할지 모르겠다구요? 녹음하면서 북마크로 중요한 부분을 표시하고 그 부분만 찾아 들으세요. 강의 도중 능동적으로 중요도를 파악하는 것은 집중력 향상에도 큰 도움이 됩니다.</p>
+			  </div>
+			  <div class="col-sm-4 col-xs-12 text-center feature_content">
+			    <span class="feature-icon"><span class="icon fa-sound"></span></span>
+			    <h3 class="content-title">노이즈 필터링</h3>
+			    <p class="content">LoroClip을 통해 강의자의 목소리를 잡음 없이 더욱 뚜렷하게 들으세요. LoroClip은 1024개 주파수 대역폭 분석을 통해 녹음 과정에서 발생한 잡음을 제거합니다.</p>
+			  </div>
+			  <div class="col-sm-4 col-xs-12 text-center feature_content">
+			    <span class="feature-icon"><span class="icon fa-cloud"></span></span>
+			    <h3 class="content-title">원격 클라우드 저장소</h3>
+			    <p class="content">번거롭게 이메일을 보내거나 USB를 연결할 필요가 없습니다. LoroClip이 Wi-Fi를 통해 자동으로 클라우드 서버에 파일을 업로드합니다. 모바일, PC 어디에서든지 강의를 복습하세요.</p>
+			  </div>
+		  </div>
+		</div>
+	</div>
+</div>
+
+<div id="third" class="parallax">
+	<div class="parallax-background"></div>
+	<div class="container">
+		<div class="parallax-content text-center">
+			<h2 class="container_title">LoroClip은 이렇게 사용해요.</h2>
+	  	<div>
+	    	<div class="col-sm-4 col-xs-12 text-center feature_content">
+			    <%= image_tag 'pic01.png', class: "image fit featured" %>
+			    <h3 class="content-title">첫번째,
+			    </h3>
+			    <h3 class="content-title">나만의 북마크 만들기</h3>
+			    <p>내가 자주 쓰는 나만의 북마크를 만들고 수정, 관리하세요.</p>
+					<p>(현재 웹을 통해서만 관리 가능)</p>
+			  </div>
+			  <div class="col-sm-4 col-xs-12 text-center feature_content">
+			    <%= image_tag 'pic02.png', class: "image fit featured" %>
+			    <h3 class="content-title">두번째,
+			    </h3>
+			    <h3 class="content-title">녹음하기</h3>
+			    <p>LoroClip 앱을 사용해 강의를 녹음하세요. 놓치고 싶지 않은 부분이 있을 땐 단 한번의 터치로 북마크를 남길 수 있습니다.</p>
+			  </div>
+			  <div class="col-sm-4 col-xs-12 text-center feature_content">
+			    <%= image_tag 'pic03.png', class: "image fit featured" %>
+			    <h3 class="content-title">세번째,
+			    </h3>
+					<h3 class="content-title">어디서든 다시 듣기</h3>
+					<p>녹음파일과 북마크는 계정과 연결되어 보관되므로 웹/모바일을 가리지 않고 언제 어디서든 쉽게 이용 가능합니다.</p>
+			  </div>
+		  </div>
+		</div>
+	</div>
+</div>
+
+<div id="fourth" class="parallax">
+	<div class="parallax-background"></div>
+	<div class="container">
+		<div class="parallax-content text-center">
+			<h2 class="form-title">정식버전이 출시되면 알려드립니다!</h2>
+			<p class="form-subtitle">아래 양식에 메일 주소와 메시지를 남겨주시면 정식버전 출시 소식을 알려드리겠습니다.</p>
+			
+	  	<div>
+	    	<%= form_for Subscription.new do |f| %>
+					<div class="row">
+						<div class="col-sm-6 col-xs-12"><%= f.text_field :name, placeholder: "이름" %></div>
+						<div class="col-sm-6 col-xs-12"><%= f.text_field :email, placeholder: "이메일" %></div>
 					</div>
 					<div class="row">
-						<div class="12u">
-							<ul class="actions">
-								<li><%= f.submit class: "button", value: "보내기" %></li>
-								<li><%= f.submit type: :reset, value: "다시 쓰기", class: "button alt" %></li>
-							</ul>
+						<div class="col-sm12 col-xs-12">
+							<%= f.text_area :message, placeholder: "메시지" %>
 						</div>
 					</div>
-					<% end %>
-			</div>
+					<div class="row">
+						<div class="col-sm12 col-xs-12">
+							<%= f.submit class: "button", value: "보내기" %>
+						</div>
+					</div>
+				<% end %>
 		</div>
-	</section>
+	</div>
+</div>
 
-<!-- Footer -->
-	<section id="footer">
-		<div class="copyright">
-			<ul class="menu">
-				<li>&copy; Team HwaYo. All rights reserved.</li>
-			</ul>
-		</div>
-	</section>
+
+<div id="fifth" class="parallax">
+	<div class="parallax-background"></div>
+	<div class="parallax-content text-center">
+  	<div>
+    	<span class="team_name">Team HwaYo. All rights reserved.</span>
+	  </div>
+	</div>
+</div>
