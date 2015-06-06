@@ -131,7 +131,7 @@ class API < Grape::API
       requires :uuid, type: String
       requires :url, type: String
     end
-    post :complete_noise_reduction do
+    post :nr do
       private_api!
 
       # Example
