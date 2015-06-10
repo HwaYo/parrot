@@ -1,4 +1,5 @@
-class ShareController < ActionController::Base
+class ShareController < ApplicationController
+  skip_before_action :logged_in?
   layout "application"
 
   def show
