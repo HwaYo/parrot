@@ -30,5 +30,8 @@ module Parrot
 
     # Job
     config.autoload_paths += Dir[Rails.root.join('app', 'jobs', '*')]
+
+    config.time_zone = 'Asia/Seoul'
+    config.active_record.default_timezone = :local
   end
 end
