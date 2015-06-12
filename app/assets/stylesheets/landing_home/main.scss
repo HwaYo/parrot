@@ -1,7 +1,7 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import url(http://fonts.googleapis.com/css?family=Raleway:500,300);
-@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(//cdn.jsdelivr.net/font-nanum/1.0/nanumbarungothic/nanumbarungothic.css);
 
 /*
 	Tessellate by HTML5 UP
@@ -81,7 +81,8 @@
 }
 
 body {
-	font-family: 'Nanum Gothic', sans-serif !important;
+	font-family: 'Nanum Barun Gothic', sans-serif;
+	line-height: 1.5em !important;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -680,6 +681,7 @@ h1, h2, h3, h4, h5, h6 {
 	}
 
 	.feature_content{
+		padding: 0 40px;
   	margin-bottom: 80px;
 
   	p {
@@ -713,6 +715,7 @@ h1, h2, h3, h4, h5, h6 {
 	}
 
 	.feature_content {
+		padding: 0 40px;
   	margin-bottom: 80px;
   	p {
   		font-size: 0.88em;
