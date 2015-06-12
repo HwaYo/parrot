@@ -83,6 +83,7 @@
 body {
 	font-family: 'Nanum Barun Gothic', sans-serif;
 	line-height: 1.5em !important;
+	font-size: 15pt !important;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -90,10 +91,6 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: 100;
 	line-height: 1.5em;
 }
-
-
-
-	
 
 /* Image */
 
@@ -647,6 +644,11 @@ h1, h2, h3, h4, h5, h6 {
 
 #main-page {
 	font-family: 'Raleway', sans-serif !important;
+	font-size: 13pt !important;
+
+	h1 {
+		letter-spacing: -1px;
+	}
 }
 
 #main-page-background {
@@ -692,6 +694,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .content-title {
+  	margin-bottom: 25px;
   	color: RGB(255, 255, 255);
   	font-size: 1.6em;
   	font-weight: 300;
@@ -711,7 +714,7 @@ h1, h2, h3, h4, h5, h6 {
 	}
 
 	.parallax-background {
-		background: RGB(145, 209, 219);	
+		background-image: asset_url('background2.png')
 	}
 
 	.feature_content {
@@ -725,9 +728,13 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .content-title {
-  	color: RGB(59, 167, 196);
-  	font-size: 1.6em;
-  	font-weight: 300;
+  	margin-bottom: 25px;
+  	p {
+	  	color: RGB(59, 167, 196);
+	  	font-size: 1.6em;
+	  	font-weight: 300;
+	  	line-height: 1.2em;
+	  }
   }
 }
 
