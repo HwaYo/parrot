@@ -22,5 +22,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :ping, only: :index
+
   resources :subscriptions, only: :create
 end
