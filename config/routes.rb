@@ -23,4 +23,6 @@ Rails.application.routes.draw do
   end
 
   resources :subscriptions, only: :create
+
+  get '/privacy_policy', to: 'application#privacy_policy'
 end
