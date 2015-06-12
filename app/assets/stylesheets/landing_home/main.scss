@@ -1,7 +1,7 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import url(http://fonts.googleapis.com/css?family=Raleway:500,300);
-@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(//cdn.jsdelivr.net/font-nanum/1.0/nanumbarungothic/nanumbarungothic.css);
 
 /*
 	Tessellate by HTML5 UP
@@ -81,7 +81,9 @@
 }
 
 body {
-	font-family: 'Nanum Gothic', sans-serif !important;
+	font-family: 'Nanum Barun Gothic', sans-serif;
+	line-height: 1.5em !important;
+	font-size: 15pt !important;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -89,10 +91,6 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: 100;
 	line-height: 1.5em;
 }
-
-
-
-	
 
 /* Image */
 
@@ -646,6 +644,11 @@ h1, h2, h3, h4, h5, h6 {
 
 #main-page {
 	font-family: 'Raleway', sans-serif !important;
+	font-size: 13pt !important;
+
+	h1 {
+		letter-spacing: -1px;
+	}
 }
 
 #main-page-background {
@@ -680,6 +683,7 @@ h1, h2, h3, h4, h5, h6 {
 	}
 
 	.feature_content{
+		padding: 0 40px;
   	margin-bottom: 80px;
 
   	p {
@@ -690,6 +694,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .content-title {
+  	margin-bottom: 25px;
   	color: RGB(255, 255, 255);
   	font-size: 1.6em;
   	font-weight: 300;
@@ -709,10 +714,11 @@ h1, h2, h3, h4, h5, h6 {
 	}
 
 	.parallax-background {
-		background: RGB(145, 209, 219);	
+		background-image: asset_url('background2.png')
 	}
 
 	.feature_content {
+		padding: 0 40px;
   	margin-bottom: 80px;
   	p {
   		font-size: 0.88em;
@@ -722,9 +728,13 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .content-title {
-  	color: RGB(59, 167, 196);
-  	font-size: 1.6em;
-  	font-weight: 300;
+  	margin-bottom: 25px;
+  	p {
+	  	color: RGB(59, 167, 196);
+	  	font-size: 1.6em;
+	  	font-weight: 300;
+	  	line-height: 1.2em;
+	  }
   }
 }
 
