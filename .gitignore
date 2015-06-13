@@ -104,3 +104,5 @@ bower.json
 
 # Ignore pow environment settings
 .powenv
+
+.irb-history
