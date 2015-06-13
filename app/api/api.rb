@@ -123,6 +123,8 @@ class API < Grape::API
       record.file = params[:file]
       record.save!
 
+      RequestNrJob.new.async.perform(record)
+
       present record, with: APIEntities::Record
     end
 
