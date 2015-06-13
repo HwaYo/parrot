@@ -16,6 +16,14 @@ class Record < ActiveRecord::Base
 
   before_save :build_histories
 
+  def file_url
+    if noise_reduced_file_url
+      noise_reduced_file_url
+    else
+      file.try(:url)
+    end
+  end
+
   def bookmark=(value)
     @bookmark = JSON.parse(value) if String === value
   end
