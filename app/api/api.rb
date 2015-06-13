@@ -4,11 +4,7 @@ module APIEntities
   class Record < Grape::Entity
     expose :uuid, :title, :note, :created_at, :updated_at
     expose :file do |record, options|
-      if record.file
-        record.file.url
-      else
-        nil
-      end
+      record.file_url
     end
     expose :deleted do |record, options|
       record.deleted?

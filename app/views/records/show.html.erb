@@ -20,11 +20,7 @@
     <p id="subtitle" class="text-center text-info">&nbsp;</p>
     <div id="wave-timeline">
     </div>
-    <% if @record.noise_reduced_file_url.nil? %>
-      <div id="waveform-player" data-id="<%= @record.id %>" data-url="<%= @record.file.url %>"></div>
-    <% else %>
-      <div id="waveform-player" data-id="<%= @record.id %>" data-url="<%= @record.noise_reduced_file_url %>"></div>
-    <% end %>
+    <div id="waveform-player" data-id="<%= @record.id %>" data-url="<%= @record.file_url %>"></div>
 </div>
 
 <div class="container">
