@@ -22,6 +22,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :ping, only: :index
+
   resources :subscriptions, only: :create
 
   get '/privacy_policy', to: 'application#privacy_policy'

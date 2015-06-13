@@ -34,6 +34,8 @@ class RecordsController < ApplicationController
       duration: params[:record][:duration]
     })
 
+    request_nr(record)
+
     render json: {
       href: record_path(record)
     }

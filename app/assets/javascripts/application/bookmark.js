@@ -218,8 +218,10 @@ $(document).on('ready page:load', function () {
 
   var timer = {};
   $('#note-area').on('keyup', function(event){
-    window.clearInterval(timer);
-    timer = window.setInterval(updateNote, 3000);
+    if( !App.recorder ) {
+      window.clearInterval(timer);
+      timer = window.setInterval(updateNote, 3000);
+    }
   });
   updateNote = function() {
     window.clearInterval(timer);

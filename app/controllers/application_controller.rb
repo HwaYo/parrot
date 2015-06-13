@@ -6,6 +6,10 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
 protected
+  def request_nr(record)
+    RequestNrJob.new.async.perform(record)
+  end
+
   def publish_event(key, object = {})
     object[:from] = 'web'
     object[:uid] = current_user.uid if current_user
