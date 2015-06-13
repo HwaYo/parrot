@@ -2,7 +2,9 @@ require 'doorkeeper/grape/helpers'
 
 module APIEntities
   class Record < Grape::Entity
-    expose :uuid, :title, :note, :created_at, :updated_at
+    extend EntityFormat::TimestampExposer
+
+    expose :uuid, :title, :note
     expose :file do |record, options|
       if record.file
         record.file.url
@@ -10,20 +12,25 @@ module APIEntities
         nil
       end
     end
+
     expose :deleted do |record, options|
       record.deleted?
     end
   end
 
   class Bookmark < Grape::Entity
-    expose :uuid, :color, :name, :created_at, :updated_at
+    extend EntityFormat::TimestampExposer
+
+    expose :uuid, :color, :name
     expose :deleted do |bookmark, options|
       bookmark.deleted?
     end
   end
 
   class BookmarkHistory < Grape::Entity
-    expose :uuid, :start, :end, :created_at, :updated_at
+    extend EntityFormat::TimestampExposer
+
+    expose :uuid, :start, :end
     expose :record_uuid do |history, options|
       history.record.try(:uuid)
     end

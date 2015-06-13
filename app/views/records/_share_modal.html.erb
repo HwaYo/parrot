@@ -2,10 +2,10 @@
   <div class="modal-body">
     <div class="form-group">
     <% if @record.share_token.blank? %>
-      <h4>Set Username and Password to Share via Link</h4>
+      <h4>Set Username and Password to Access via Link</h4>
     <% else %>
-      <h4>Change Username, Password and Share URL</h4>
-      <label class="control-label" for="record_username">Share URL</label>
+      <h4>Change Username, Password and Record URL</h4>
+      <label class="control-label" for="record_username">Record URL</label>
       <div class="input-group">
         <input class="form-control" type="text" value="<%= request.base_url + "/share/" + @record.share_token %>" name="record[share_token]" id="record_share_token" disabled>
         <div class="input-group-btn" >
