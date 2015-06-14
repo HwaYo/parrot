@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150606024751) do
+ActiveRecord::Schema.define(version: 20150614085101) do
 
   create_table "bookmark_histories", force: :cascade do |t|
     t.float    "start"
@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(version: 20150606024751) do
     t.datetime "oauth_expires_at"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.string   "channel"
   end
 
 end

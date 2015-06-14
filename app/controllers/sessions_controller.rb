@@ -6,7 +6,10 @@ class SessionsController < ApplicationController
     user = User.find_by_provider_and_uid(auth["provider"], auth["uid"])
 
     if user.nil?
-      user = User.create_with_omniauth(auth)
+      user = User.create_with_omniauth(auth, session[:channel])
+      session[:user_id] = user.id
+
+      publish_event('sign_up')
     end
 
     session[:user_id] = user.id
