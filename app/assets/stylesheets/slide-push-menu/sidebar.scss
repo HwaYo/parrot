@@ -50,6 +50,7 @@
     margin: 0;
     padding: 0;
     list-style: none;
+    height:100%;
 }
 
 .sidebar-nav li {
@@ -70,7 +71,7 @@
 }
 
 .sidebar-nav .sidebar-item-footer {
-    position: fixed;
+    position: absolute;
     bottom: 0;
 }
 
