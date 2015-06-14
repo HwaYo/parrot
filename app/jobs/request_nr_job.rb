@@ -2,15 +2,10 @@ class RequestNrJob
   include SuckerPunch::Job
 
   def perform(record)
-    if Rails.env.production?
-      uri = URI.parse("http://nr.devsusu.info/nr")
-    else
-      uri = URI.parse("http://localhost:4567/nr")
-    end
-
+    uri = URI.parse(ENV['NOISE_REDUCTION_API_URL'])
     params = { :url => record.file.url , :uuid => record.uuid }
-
     uri.query = URI.encode_www_form( params )
+
     puts Net::HTTP.get(uri)
   end
 end
