@@ -15,8 +15,10 @@ private
   def capture_channel
     channel = request.query_parameters["share"]
     if channel.present?
-      session[:channel] = channel
+      session[:channel] ||= channel
       redirect_to "#{request.path}?#{request.query_parameters.except(:share).to_query}"
+    else
+      session[:channel] ||= "direct"
     end
   end
 end
