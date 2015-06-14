@@ -6,10 +6,15 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
 protected
+  def request_nr(record)
+    RequestNrJob.new.async.perform(record)
+  end
+
   def publish_event(key, object = {})
     object[:from] = 'web'
-    object[:uid] = current_user.uid if current_user
     object[:agent] = request.user_agent
+    object[:uid] = current_user.try(:uid)
+    object[:channel] = user_channel
     PublishEventJob.new.async.perform(key, object)
   end
 
@@ -23,5 +28,13 @@ private
 
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  end
+
+  def user_channel
+    if current_user
+      current_user.channel
+    else
+      session[:channel]
+    end
   end
 end

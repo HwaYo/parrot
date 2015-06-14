@@ -6,11 +6,7 @@ module APIEntities
 
     expose :uuid, :title, :note
     expose :file do |record, options|
-      if record.file
-        record.file.url
-      else
-        nil
-      end
+      record.file_url
     end
 
     expose :deleted do |record, options|
@@ -53,15 +49,15 @@ class API < Grape::API
     def authorize!
       doorkeeper_authorize!
     end
+
+    # temporary
+    def private_api!
+    end
   end
 
   prefix 'api'
   version 'v1', using: :path
   format :json
-
-  before do
-    authorize!
-  end
 
   resources :records do
     desc "Pull records modified after given timestamp"
@@ -69,6 +65,8 @@ class API < Grape::API
       requires :last_synced_at, type: Integer
     end
     get :pull do
+      authorize!
+
       updated = current_user.records.from_remote.where('updated_at > ?', Time.at(params[:last_synced_at]))
       present updated, with: APIEntities::Record
     end
@@ -78,6 +76,8 @@ class API < Grape::API
       requires :entities, type: Array
     end
     post :push do
+      authorize!
+
       # synchronization logic
       records = params[:entities] || []
 
@@ -109,6 +109,8 @@ class API < Grape::API
     end
     route_param :uuid do
       get do
+        authorize!
+
         record = Record.find_by_uuid(params[:uuid])
         present record, with: APIEntities::Record
       end
@@ -116,10 +118,30 @@ class API < Grape::API
 
     desc "Upload a record file"
     post :file do
+      authorize!
+
       record = Record.find_by_uuid(params[:uuid])
       return if record.nil?
 
       record.file = params[:file]
+      record.save!
+
+      RequestNrJob.new.async.perform(record)
+
+      present record, with: APIEntities::Record
+    end
+
+    desc "Post a noise reduced record file url"
+    params do
+      requires :uuid, type: String
+      requires :url, type: String
+    end
+    post :nr do
+      private_api!
+
+      # Example
+      record = Record.find_by_uuid(params[:uuid])
+      record.noise_reduced_file_url = params[:url]
       record.save!
 
       present record, with: APIEntities::Record
@@ -132,6 +154,8 @@ class API < Grape::API
       requires :last_synced_at, type: Integer
     end
     get :pull do
+      authorize!
+
       updated = current_user.bookmarks.with_deleted.where('updated_at > ?', Time.at(params[:last_synced_at]))
       present updated, with: APIEntities::Bookmark
     end
@@ -141,6 +165,8 @@ class API < Grape::API
       requires :entities, type: Array
     end
     post :push do
+      authorize!
+
       # synchronization logic
       bookmarks = params[:entities] || []
 
@@ -171,6 +197,8 @@ class API < Grape::API
       requires :last_synced_at, type: Integer
     end
     get :pull do
+      authorize!
+
       bookmarks = current_user.bookmarks
       updated = BookmarkHistory.with_deleted.where(bookmark: bookmarks).where('updated_at > ?', Time.at(params[:last_synced_at]))
       present updated, with: APIEntities::BookmarkHistory
@@ -181,6 +209,8 @@ class API < Grape::API
       requires :entities, type: Array
     end
     post :push do
+      authorize!
+
       # synchronization logic
       histories = params[:entities] || []
 

@@ -4,13 +4,14 @@ class User < ActiveRecord::Base
   has_many :records, dependent: :destroy
   has_many :bookmarks, dependent: :destroy
 
-  def self.create_with_omniauth(auth)
+  def self.create_with_omniauth(auth, channel)
     user = create! do |user|
       user.provider = auth["provider"]
       user.uid = auth["uid"]
       user.name = auth["info"]["name"]
       user.email = auth["info"]["email"]
       user.image = auth["info"]["image"]
+      user.channel = channel
     end
 
     create_bookmark!(user)

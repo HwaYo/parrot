@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150526073545) do
+ActiveRecord::Schema.define(version: 20150614085101) do
 
   create_table "bookmark_histories", force: :cascade do |t|
     t.float    "start"
@@ -84,13 +84,14 @@ ActiveRecord::Schema.define(version: 20150526073545) do
     t.text     "note"
     t.string   "file"
     t.integer  "user_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
     t.string   "uuid"
     t.datetime "deleted_at"
     t.string   "share_token"
     t.string   "password"
     t.string   "username"
+    t.string   "noise_reduced_file_url"
   end
 
   add_index "records", ["deleted_at"], name: "index_records_on_deleted_at"
@@ -114,6 +115,7 @@ ActiveRecord::Schema.define(version: 20150526073545) do
     t.datetime "oauth_expires_at"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.string   "channel"
   end
 
 end
